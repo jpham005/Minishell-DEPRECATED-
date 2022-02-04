@@ -1,0 +1,19 @@
+echo "\"
+echo "\ "
+echo " \ "
+echo " \"
+echo $PATH
+echo "$PARH"
+echo " $PARH"
+echo "$PARH "
+echo '$PARH'
+echo ' $PARH'
+echo '$PARH '
+echo      asdf
+echo "     asdf"
+echo '    asd2f'
+echo   
+echo    -n
+echo asdf -n
+echo a |> grep a
+echo a |>a grep

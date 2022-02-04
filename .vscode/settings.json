@@ -1,0 +1,18 @@
+{
+	"C_Cpp.default.includePath": [
+		"./readline-master",
+		"srcs/libft",
+		"include"
+	],
+	"files.associations": {
+		"history.h": "c",
+		"readline.h": "c",
+		"string.h": "c",
+		"sstream": "c",
+		"libft.h": "c",
+		"set_terminal_state.h": "c",
+		"exit_manage.h": "c",
+		"start_minishell.h": "c",
+		"convert_exit_status.h": "c"
+	}
+}
