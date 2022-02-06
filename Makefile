@@ -20,7 +20,7 @@ LIBFT := $(LIBFT_DIR)/libft.a
 
 CC := gcc
 CFALGS := -g
-NAME := minshell
+NAME := minishell
 SRCS := $(ENVP_SRCS) $(UTILS_SRCS) $(MAIN_SRCS)
 OBJS := $(SRCS:.c=.o)
 RM := rm
@@ -30,8 +30,7 @@ RMFLAGS := -f
 all	:	$(NAME)
 
 $(NAME)	:	$(OBJS) $(LIBFT)
-	$(CC) $(CFLAGS) $(LIBFT) $^ -L$(READLINE_LIB) -lreadline -lhistory \
-	-lcurses -o $@
+	$(CC) $(CFLAGS) $(LIBFT) $^ -L$(READLINE_LIB) -lreadline -lhistory -o $@
 
 $(LIBFT)	:
 	cd $(LIBFT_DIR); make all

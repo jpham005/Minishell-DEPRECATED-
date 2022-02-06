@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   exit_manage.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 13:56:34 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/04 11:10:22 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/05 20:49:13 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "exit_manage.h"
-#include "libft.h"
+#include "utils.h"
 
 int	print_error(const char *str, int ret)
 {

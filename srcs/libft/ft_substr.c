@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 16:58:05 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/04 11:10:22 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/05 15:33:30 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ char	*ft_substr(const char *str, size_t start, size_t len)
 	char	*ret;
 	size_t	i;
 
-	if (!safe_malloc((void **) &ret, sizeof(char), len + 1))
+	ret = ft_malloc(sizeof(char), len + 1);
+	if (!ret)
 		return (NULL);
 	i = 0;
 	while (i < len)

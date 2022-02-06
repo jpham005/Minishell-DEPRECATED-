@@ -3,20 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 13:46:27 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/04 13:57:48 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/06 15:47:54 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 #include "set_terminal_state.h"
-#include "print_intro.h"
-#include "exit_manage.h"
-#include "manage_envp.h"
-#include "convert_exit_status.h"
-#include "libft.h"
+#include "envp.h"
+#include "utils.h"
 
 //parser part
 static int	parse(const char *str)
@@ -64,6 +61,8 @@ static int	readline_loop(t_envp_list *sh_envp)
 		str = readline(MINISHELL_WITH_COLOR);
 		if (!str)
 			return (exit_with_status(END_TERM));
+		if (*str)
+			add_history(str);
 		set_term_execute();
 		exit_status = exit_status_to_a(parse(str)); // parser here
 		if (!exit_status)

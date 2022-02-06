@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   envp_util.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 17:48:09 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/04 11:10:22 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/05 20:51:56 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "envp_util.h"
-#include "libft.h"
+#include "envp.h"
 
 int	get_key(t_envp_list *curr, const char *envp)
 {
@@ -41,7 +40,7 @@ int	get_value(t_envp_list *curr, const char *envp)
 	return (1);
 }
 
-char	**convert_to_dptr(const t_envp_list *head)
+char	**convert_envp_to_dptr(const t_envp_list *head)
 {
 	char	**ret;
 	char	*temp;
@@ -49,7 +48,7 @@ char	**convert_to_dptr(const t_envp_list *head)
 	size_t	len;
 
 	len = head->list_len;
-	ret = malloc(sizeof(char *) * (head->list_len + 1));
+	ret = ft_malloc(sizeof(char *), head->list_len + 1);
 	if (!ret)
 		return (NULL);
 	i = 0;
@@ -60,11 +59,7 @@ char	**convert_to_dptr(const t_envp_list *head)
 		ret[i] = ft_strjoin(ret[i], head->value);
 		safe_free((void **) &temp);
 		if (!ret[i])
-		{
-			while (i--)
-				safe_free((void **) &ret[i]);
-			return (NULL);
-		}
+			return (free_c_dptr(&ret));
 		head = head->next;
 		i++;
 	}
@@ -72,4 +67,11 @@ char	**convert_to_dptr(const t_envp_list *head)
 	return (ret);
 }
 
-// WIP : find node by key, get_PATH (ft_split?)
+t_envp_list	*find_list_by_key(t_envp_list *head, const char *key)
+{
+	while (head && ft_strncmp(head->key, key, ft_strlen(key) + 1))
+		head = head->next;
+	if (!head)
+		return (NULL);
+	return (head);
+}

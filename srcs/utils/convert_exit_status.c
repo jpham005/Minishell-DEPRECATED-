@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   convert_exit_status.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 21:28:02 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/04 11:16:33 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/05 20:49:02 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "convert_exit_status.h"
-#include "libft.h"
+#include "utils.h"
 
 static size_t	get_len(int n)
 {
@@ -35,7 +34,8 @@ char	*exit_status_to_a(int exit_status)
 	if (exit_status < 0)
 		return (NULL);
 	len = get_len(exit_status);
-	if (!safe_malloc((void **) &ret, sizeof(char), len + 1))
+	ret = ft_malloc(sizeof(char), len + 1);
+	if (!ret)
 		return (NULL);
 	i = 0;
 	while (i < len)

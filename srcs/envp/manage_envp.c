@@ -3,17 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   manage_envp.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 21:20:24 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/04 11:10:22 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/05 20:52:11 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "manage_envp.h"
-#include "envp_util.h"
-#include "exit_manage.h"
-#include "libft.h"
+#include "envp.h"
+#include "utils.h"
 
 void	del_one_envp_list(t_envp_list **head, char *key)
 {
@@ -50,7 +48,8 @@ int	upadate_envp_list(t_envp_list **head, char *key, char *value)
 			return (0);
 		return (1);
 	}
-	if (!safe_malloc((void **) &new, sizeof(t_envp_list), 1))
+	new = ft_malloc(sizeof(t_envp_list), 1);
+	if (!new)
 		return (0);
 	new->key = ft_strdup(key);
 	new->value = ft_strdup(value);
@@ -87,7 +86,7 @@ int	init_envp_list(t_envp_list **head, const char **envp)
 	cnt = 0;
 	while (envp[cnt])
 	{
-		*head = malloc(sizeof(t_envp_list));
+		*head = ft_malloc(sizeof(t_envp_list), 1);
 		if (!*head)
 			return (clear_envp_list(head));
 		(*head)->next = NULL;

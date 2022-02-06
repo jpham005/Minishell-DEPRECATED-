@@ -1,21 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.h                                            :+:      :+:    :+:   */
+/*   ft_malloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/02 01:06:49 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/04 11:16:42 by jaham            ###   ########.fr       */
+/*   Created: 2022/02/05 15:30:06 by jaham             #+#    #+#             */
+/*   Updated: 2022/02/05 19:46:39 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CONVERT_EXIT_STATUS_H
-# define CONVERT_EXIT_STATUS_H
+#include "libft.h"
 
-# include <unistd.h>
-# include <stdlib.h>
+void	*ft_malloc(size_t size, size_t n)
+{
+	void	*ret;
 
-char	*exit_status_to_a(int exit_status);
-
-#endif
+	ret = malloc(size * n);
+	if (!ret)
+	{
+		perror("Malloc");
+		return (NULL);
+	}
+	return (ret);
+}

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   print_intro.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 12:20:11 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/02 01:52:11 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/05 20:49:22 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "print_intro.h"
+#include "utils.h"
 
 int	print_intro(void)
 {

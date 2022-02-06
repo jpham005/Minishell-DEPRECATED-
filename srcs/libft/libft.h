@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 01:06:49 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/04 11:11:43 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/05 21:34:51 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,10 @@ char	*ft_strdup(const char *str);
 char	*ft_substr(const char *str, size_t start, size_t len);
 void	ft_memcpy(void *dest, const void *src, size_t n);
 char	*ft_strjoin(const char *s1, const char *s2);
+char	**ft_split(const char *str, char sep);
+char	*ft_strchr(const char *str, int c);
+char	**free_c_dptr(char ***ptr);
+void	*ft_malloc(size_t size, size_t n);
 void	safe_free(void **ptr);
-int		safe_malloc(void **ptr, size_t size, size_t n);
 
 #endif

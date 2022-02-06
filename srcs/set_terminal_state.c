@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   set_terminal_state.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 12:20:16 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/04 11:10:22 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/05 21:25:35 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "set_terminal_state.h"
-#include "exit_manage.h"
-#include "libft.h"
+#include "utils.h"
 
 void	sig_int_handler_default(int sig)
 {
@@ -48,8 +47,6 @@ int	set_term_default(void)
 
 int	set_term_execute(void)
 {
-	struct termios	term;
-
 	signal(SIGQUIT, sig_quit_handler);
 	signal(SIGINT, sig_int_handler_exec);
 	return (1);

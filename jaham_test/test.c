@@ -41,7 +41,7 @@
 */
 
 /* convert to dptr test
-	char **ex = convert_to_dptr(sh_envp);
+	char **ex = convert_envp_to_dptr(sh_envp);
 	for (int i = 0; ex[i]; i++)
 		printf("%s\n", ex[i]);
 */

@@ -1,23 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_intro.h                                      :+:      :+:    :+:   */
+/*   built_in.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/01 12:20:54 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/02 02:09:50 by jaham            ###   ########.fr       */
+/*   Created: 2022/02/05 20:54:17 by jaham             #+#    #+#             */
+/*   Updated: 2022/02/06 15:52:44 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PRINT_INTRO_H
-# define PRINT_INTRO_H
+#ifndef BUILT_IN_H
+# define BUILT_IN_H
 
-# include <unistd.h>
-# include <fcntl.h>
-
-# define ASCII_ART_PATH "imgs/"
-
-int	print_intro(void);
+int	export(const t_envp_list *head, const char *str);
 
 #endif

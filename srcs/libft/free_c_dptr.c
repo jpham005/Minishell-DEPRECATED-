@@ -1,22 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   envp_util.h                                        :+:      :+:    :+:   */
+/*   free_c_dptr.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/03 17:48:23 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/03 20:36:33 by jaham            ###   ########.fr       */
+/*   Created: 2022/02/04 15:38:30 by jaham             #+#    #+#             */
+/*   Updated: 2022/02/05 17:47:43 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ENVP_UTIL_H
-# define ENVP_UTIL_H
+#include "libft.h"
 
-# include "manage_envp.h"
+char	**free_c_dptr(char ***ptr)
+{
+	size_t	i;
 
-int		get_key(t_envp_list *curr, const char *envp);
-int		get_value(t_envp_list *curr, const char *envp);
-char	**convert_to_dptr(const t_envp_list *head);
-
-#endif
+	i = 0;
+	while ((*ptr)[i])
+	{
+		safe_free((void **) &((*ptr)[i]));
+		i++;
+	}
+	free(*ptr);
+	*ptr = NULL;
+	return (NULL);
+}
