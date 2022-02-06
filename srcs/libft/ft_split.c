@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 15:40:21 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/05 20:36:54 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/06 19:49:00 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ char	**ft_split(const char *str, char sep)
 	size_t	ret_size;
 
 	ret_size = get_size(str, sep);
-	ret = ft_malloc(sizeof(char *), ret_size);
+	ret = ft_malloc(sizeof(char *), ret_size + 1);
 	if (!ret)
 		return (NULL);
 	if (!split_string(ret, str, sep))

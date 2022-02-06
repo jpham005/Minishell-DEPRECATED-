@@ -46,10 +46,29 @@
 		printf("%s\n", ex[i]);
 */
 
-static int	asdf(void)
-{
-	return (0);
-}
+/* export
+// error : start with non_alpha && non _
+//		ex) export 5=3 => `5=3': not a valid identifier
+// error : = with space
+//		ex) export asdf=4 asdf = a = = => export: `=': not a valid identifier * 3, successfully export asdf=4
+// error : start with =
+// non_error : export (display declare -x ), export ex= (export ex with value blank), export name (do nothing)
+// non_error : export # (display declare -x ) 
+
+// export # a=1 -> ignore after # (include a=1 # b=1)
+// export a=1 # -> ignore #
+
+// when error occurred, no matter where is it, returns 1
+*/
+
+/* export test
+	char **test = ft_split("a=", ' ');
+	export(sh_envp, (const char **) test);
+	free_c_dptr(&test);
+	t_envp_list *asdf = sh_envp;
+	for (; asdf; asdf = asdf->next)
+		printf("%s=%s\n", asdf->key, asdf->value);
+*/
 
 int	main(void)
 {

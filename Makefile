@@ -1,4 +1,5 @@
 SRCS_DIR := srcs
+BUILT_IN_DIR := $(SRCS_DIR)/built_in
 ENVP_DIR := $(SRCS_DIR)/envp
 UTILS_DIR := $(SRCS_DIR)/utils
 
@@ -8,6 +9,8 @@ READLINE_DIR := $(shell brew --prefix readline)
 READLINE_INCLUDE := $(READLINE_DIR)/include
 READLINE_LIB := $(READLINE_DIR)/lib
 
+BUILT_IN_SRCS := export.c
+BUILT_IN_SRCS := $(addprefix $(BUILT_IN_DIR)/, $(BUILT_IN_SRCS))
 ENVP_SRCS := manage_envp.c envp_util.c
 ENVP_SRCS := $(addprefix $(ENVP_DIR)/, $(ENVP_SRCS))
 UTILS_SRCS := convert_exit_status.c exit_manage.c print_intro.c
@@ -21,7 +24,7 @@ LIBFT := $(LIBFT_DIR)/libft.a
 CC := gcc
 CFALGS := -g
 NAME := minishell
-SRCS := $(ENVP_SRCS) $(UTILS_SRCS) $(MAIN_SRCS)
+SRCS := $(BUILT_IN_SRCS) $(ENVP_SRCS) $(UTILS_SRCS) $(MAIN_SRCS)
 OBJS := $(SRCS:.c=.o)
 RM := rm
 RMFLAGS := -f

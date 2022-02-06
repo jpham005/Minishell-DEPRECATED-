@@ -1,20 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   built_in.h                                         :+:      :+:    :+:   */
+/*   ft_isalpha.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/05 20:54:17 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/06 19:39:47 by jaham            ###   ########.fr       */
+/*   Created: 2022/02/06 17:54:51 by jaham             #+#    #+#             */
+/*   Updated: 2022/02/06 17:55:33 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILT_IN_H
-# define BUILT_IN_H
+#include "libft.h"
 
-#include "envp.h"
-
-int	export(t_envp_list *head, const char **str);
-
-#endif
+int	ft_isalpha(int c)
+{
+	return (('a' <= c && c <= 'z') || ('A' <= c && c <= 'Z'));
+}
