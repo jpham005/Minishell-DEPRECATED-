@@ -15,13 +15,6 @@ int	main(void)
 	int	i;
 
 	i = 1;
-	while (i < 100000000)
-	{
-		usleep(1000);
-		if (i % 100 == 0)
-		{
-			write(1, "asdf", 4);
-		}
-		i++;
-	}
+	char buf[10];
+	read(0, buf, 10);
 }

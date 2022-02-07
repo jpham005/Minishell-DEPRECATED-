@@ -13,6 +13,10 @@
 		"set_terminal_state.h": "c",
 		"exit_manage.h": "c",
 		"start_minishell.h": "c",
-		"convert_exit_status.h": "c"
+		"convert_exit_status.h": "c",
+		"init_terminal.h": "c",
+		"__node_handle": "c",
+		"main.h": "c",
+		"utils.h": "c"
 	}
 }

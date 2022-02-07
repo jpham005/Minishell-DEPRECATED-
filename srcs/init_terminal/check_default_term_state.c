@@ -1,29 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   set_terminal_state.h                               :+:      :+:    :+:   */
+/*   check_default_term_state.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/02 12:20:54 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/02 17:18:15 by jaham            ###   ########.fr       */
+/*   Created: 2022/02/07 12:06:29 by jaham             #+#    #+#             */
+/*   Updated: 2022/02/07 12:30:27 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SET_TERMINAL_STATE_H
-# define SET_TERMINAL_STATE_H
+#include "init_terminal.h"
+#include "libft.h"
 
-# include <termios.h>
-# include <unistd.h>
-# include <signal.h>
-# include <stdio.h>
-# include <readline/readline.h>
-# include <readline/history.h>
+int	check_arg(int argc, const char **argv)
+{
+	int	i;
 
-# define SIG_QUIT_MESSAGE "Quit: 3\n"
+	i = 1;
+	if (argc != 1)
+	{
+		ft_putstr_fd(TOO_MANY_ARG_ERR_MESSAGE, 2);
+		while (argv[i])
+		{
+			ft_putstr_fd(argv[i++], 2);
+			ft_putstr_fd("\n", 2);
+		}
+		return (0);
+	}
+	return (1);
+}
 
-int		set_term_default(void);
-int		set_term_execute(void);
-void	sig_int_handler_default(int sig);
-
-#endif
+int	check_tty(int stdin, int stdout, int stderr)
+{
+	return (isatty(stdin) && isatty(stdout) && isatty(stderr));
+}

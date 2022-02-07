@@ -50,9 +50,11 @@
 // error : start with non_alpha && non _
 //		ex) export 5=3 => `5=3': not a valid identifier
 // error : = with space
-//		ex) export asdf=4 asdf = a = = => export: `=': not a valid identifier * 3, successfully export asdf=4
+//		ex) export asdf=4 asdf = a = = 
+	=> export: `=': not a valid identifier * 3, successfully export asdf=4
 // error : start with =
-// non_error : export (display declare -x ), export ex= (export ex with value blank), export name (do nothing)
+// non_error : export (display declare -x ), 
+	export ex= (export ex with value blank), export name (do nothing)
 // non_error : export # (display declare -x ) 
 
 // export # a=1 -> ignore after # (include a=1 # b=1)
@@ -69,6 +71,21 @@
 	for (; asdf; asdf = asdf->next)
 		printf("%s=%s\n", asdf->key, asdf->value);
 */
+
+/* export && unset
+	char **test = ft_split("asdf=3 zcxv=3 _DSaf=3 3415=4", ' ');
+	export(sh_envp, NULL);
+	t_envp_list *asdf = sh_envp;
+	for (; asdf; asdf = asdf->next)
+		printf("%s=%s\n", asdf->key, asdf->value);
+	printf("---------------uset-------------------\n");
+	char **test2 = ft_split("# adsf asdf zxcv _DSaf 3415", ' ');
+	unset(sh_envp, (const char **) test2);
+	t_envp_list *zcv = sh_envp;
+	for (; zcv; zcv = zcv->next)
+		printf("%s=%s\n", zcv->key, zcv->value);
+*/
+
 
 int	main(void)
 {

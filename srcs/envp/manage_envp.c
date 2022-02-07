@@ -6,14 +6,14 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 21:20:24 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/05 20:52:11 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/07 15:55:55 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "envp.h"
 #include "utils.h"
 
-void	del_one_envp_list(t_envp_list **head, char *key)
+void	del_one_envp_list(t_envp_list **head, const char *key)
 {
 	t_envp_list	*temp;
 	t_envp_list	*cp;

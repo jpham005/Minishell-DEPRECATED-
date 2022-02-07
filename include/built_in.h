@@ -6,15 +6,22 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 20:54:17 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/06 19:39:47 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/07 15:53:49 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BUILT_IN_H
 # define BUILT_IN_H
 
-#include "envp.h"
+# include "envp.h"
+
+# define SHELL_NAME "minishell: "
+# define EXPORT_ARG_ERR_MESSAGE "not a valid identifier\n"
+# define EXPORT_CMD "export: "
+# define UNSET_ARG_ERR_MESSAGE "not a valid identifier\n"
+# define UNSET_CMD "unset: "
 
 int	export(t_envp_list *head, const char **str);
+int	unset(t_envp_list *head, const char **str);
 
 #endif

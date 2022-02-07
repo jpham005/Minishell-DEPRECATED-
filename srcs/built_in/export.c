@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 20:44:39 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/06 20:33:01 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/07 15:32:28 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,17 @@ static int	print_envp(const t_envp_list *head, int ret)
 	return (ret);
 }
 
-static int	check_valid(char c)
+static int	check_valid(const char *str)
 {
-	return (ft_isalpha(c) || c == '_' || c == '#');
+	if (!ft_isalpha(*str) && *str != '_')
+		return (0);
+	while (*str && *str != '=')
+	{
+		if (!ft_isalpha(*str) && !ft_isnum(*str) && *str != '_')
+			return (0);
+		str++;
+	}
+	return (1);
 }
 
 static int	exec_normal(t_envp_list *head, size_t i, const char *str)
@@ -54,8 +62,6 @@ static int	exec_normal(t_envp_list *head, size_t i, const char *str)
 
 int	export(t_envp_list *head, const char **str)
 {
-	char	*key;
-	char	*value;
 	int		ret_flag;
 	size_t	i;
 
@@ -65,9 +71,9 @@ int	export(t_envp_list *head, const char **str)
 	i = 0;
 	while (str[i])
 	{
-		if (!check_valid(str[i][0]))
+		if (!check_valid(str[i]))
 		{
-			printf("export: `%s': not a valid identifier\n", str[i]);
+			printf(SHELL_NAME EXPORT_CMD"`%s': "EXPORT_ARG_ERR_MESSAGE, str[i]);
 			ret_flag |= 1;
 		}
 		else
@@ -75,13 +81,8 @@ int	export(t_envp_list *head, const char **str)
 			if (!exec_normal(head, i, str[i]))
 				ret_flag |= 1;
 		}
-		if (str[i][0] == '#')
+		if (str[i++][0] == '#')
 			break ;
-		i++;
 	}
-	char temp[2];
-	temp[1] = 0;
-	temp[0] = ret_flag + '0';
-	upadate_envp_list(&head, "exit_status", temp);
 	return (ret_flag);
 }

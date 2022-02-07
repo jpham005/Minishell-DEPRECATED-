@@ -1,22 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   color.h                                            :+:      :+:    :+:   */
+/*   context.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/02 02:06:12 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/07 21:21:26 by jaham            ###   ########.fr       */
+/*   Created: 2022/02/07 20:27:58 by jaham             #+#    #+#             */
+/*   Updated: 2022/02/07 21:40:37 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef COLOR_H
-# define COLOR_H
+#ifndef CONTEXT_H
+# define CONTEXT_H
 
-# define RED "\001\033[38;5;203m\002"
-# define RED_BD "\001\033[1;38;5;203m\002"
-# define RED_BT "\001\033[38;5;210m\002"
-# define YELLOW_BT_BD "\001\033[38;5;221m\002"
-# define DEFAULT_COLOR "\001\033[m\002"
+# include <termios.h>
+# include "envp.h"
+
+typedef struct termios	t_term;
+
+typedef struct s_context
+{
+	int			std_fd[3];
+	int			exit_status;
+	t_term		default_term;
+	t_term		rl_term;
+	t_envp_list	*envp;
+}	t_context;
+
+int	init_context(t_context *context, const char **envp);
 
 #endif
