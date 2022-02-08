@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_terminal_state.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 12:20:16 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/07 21:52:05 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/08 16:37:52 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,16 @@ void	set_term_default(t_context *context)
 
 void	set_term_readline(t_context *context)
 {
-	signal(SIGQUIT, sig_quit_handler);
+	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, sig_int_handler_exec);
-	tcsetattr(STDIN_FILENO, TCSANOW, &(context->default_term));
+	tcsetattr(STDIN_FILENO, TCSANOW, &(context->rl_term));
 }
 
-void	reset_terminal(t_context *context)
+void	set_term_default(t_context *context)
 {
+	signal(SIGQUIT, sig_quit_handler);
+	signal(SIGINT, sig_int_handler_default);
 	tcsetattr(STDIN_FILENO, TCSANOW, &(context->default_term));
-	printf(DEFAULT_COLOR);
 }
 
 char	*ft_readline(t_context *context)

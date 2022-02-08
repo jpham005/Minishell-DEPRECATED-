@@ -17,6 +17,8 @@
 		"init_terminal.h": "c",
 		"__node_handle": "c",
 		"main.h": "c",
-		"utils.h": "c"
+		"utils.h": "c",
+		"color.h": "c",
+		"context.h": "c"
 	}
 }

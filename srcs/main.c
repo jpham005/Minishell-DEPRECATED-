@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 13:46:27 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/07 21:37:40 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/08 16:36:50 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,6 @@ int	main(int argc, char **argv, char **envp)
 	if (readline_loop(&context))
 		return (exit_with_status(EXEC_ERR));
 	clear_envp_list(&(context.envp));
-	reset_terminal(&context);
+	printf(DEFAULT_COLOR);
 	return (context.exit_status);
 }
