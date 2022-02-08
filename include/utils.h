@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 20:46:28 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/08 16:52:26 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/08 21:57:15 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,6 @@ enum	e_exit_status
 	INIT_CONTEXT_ERR
 };
 
-char	*exit_status_to_a(int exit_status);
-int		exit_status_to_i(const char *exit_status);
 int		print_error(const char *str, int ret);
 int		write_error(const char *str, int ret);
 int		exit_with_status(int status);
