@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 20:44:39 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/07 15:32:28 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/08 17:22:36 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,6 @@ static int	exec_normal(t_envp_list *head, size_t i, const char *str)
 	char	*value;
 	int		ret;
 
-	if (*str == '#' && i == 0)
-		return (print_envp(head, 1));
 	is_op = ft_strchr(str, '=');
 	if (!is_op)
 		return (1);
@@ -81,8 +79,7 @@ int	export(t_envp_list *head, const char **str)
 			if (!exec_normal(head, i, str[i]))
 				ret_flag |= 1;
 		}
-		if (str[i++][0] == '#')
-			break ;
+		i++;
 	}
 	return (ret_flag);
 }

@@ -5,6 +5,9 @@ UTILS_DIR := $(SRCS_DIR)/utils
 INIT_TERMINAL_DIR := $(SRCS_DIR)/init_terminal
 
 INCLUDE := include
+INCLUDE_FILES := built_in.h color.h context.h envp.h init_terminal.h main.h \
+				utils.h
+INCLUDE_FILES := $(addprefix $(INCLUDE)/, $(INCLUDE_FILES))
 
 READLINE_DIR := $(shell brew --prefix readline)
 READLINE_INCLUDE := $(READLINE_DIR)/include
@@ -37,8 +40,9 @@ RMFLAGS := -f
 .PHONY	:	all
 all	:	$(NAME)
 
-$(NAME)	:	$(OBJS) $(LIBFT)
-	$(CC) $(CFLAGS) $(LIBFT) $^ -L$(READLINE_LIB) -lreadline -lhistory -o $@
+$(NAME)	:	$(OBJS) $(LIBFT) $(INCLUDE_FILES)
+	$(CC) $(CFLAGS) -o $@ $(LIBFT) $(OBJS) $(LIBFT) \
+		-L$(READLINE_LIB) -lreadline -lhistory
 
 $(LIBFT)	:
 	cd $(LIBFT_DIR); make all

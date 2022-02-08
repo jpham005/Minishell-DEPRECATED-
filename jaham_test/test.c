@@ -86,6 +86,12 @@
 		printf("%s=%s\n", zcv->key, zcv->value);
 */
 
+// unset : non error do nothing
+// unset isenv isenv isenv : all del
+// unset nonenv : return 0 do nothing
+// unset non_alpha isenv : return 1, message, unset env
+// unset # isenv : ignore after #
+// unset # non_alpha : ignore after #, return 0
 
 int	main(void)
 {

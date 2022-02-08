@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 20:46:28 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/07 21:16:51 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/08 16:52:26 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ enum	e_exit_status
 {
 	SUCCESS = 0,
 	PRT_INTRO_ERR = 0,
-	SET_TERM_ERR,
 	EXEC_ERR,
 	END_TERM,
 	ARG_ERR,

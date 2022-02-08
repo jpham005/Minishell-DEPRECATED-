@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 13:46:27 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/08 16:36:50 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/08 21:02:16 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,16 +40,12 @@ static int	readline_loop(t_context *context)
 
 	while (1)
 	{
-
-		str = readline(MINISHELL_WITH_COLOR);
+		str = ft_readline(context);
 		if (!str)
 			return (exit_with_status(END_TERM));
 		if (*str)
 			add_history(str);
-		set_term_execute();
 		context->exit_status = parse(str);
-		signal(SIGINT, sig_int_handler_default);
-		signal(SIGQUIT, SIG_IGN);
 		safe_free((void **) &str);
 	}
 	return (0);
@@ -67,11 +63,8 @@ int	main(int argc, char **argv, char **envp)
 		return (exit_with_status(INIT_CONTEXT_ERR));
 	if (!print_intro())
 		return (exit_with_status(PRT_INTRO_ERR));
-	if (!set_term_default())
-		return (exit_with_status(SET_TERM_ERR));
 	if (readline_loop(&context))
 		return (exit_with_status(EXEC_ERR));
 	clear_envp_list(&(context.envp));
-	printf(DEFAULT_COLOR);
 	return (context.exit_status);
 }

@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 20:41:04 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/07 21:51:27 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/08 19:27:39 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,6 @@ int	init_context(t_context *context, const char **envp)
 	context->rl_term = term;
 	if (!init_envp_list(&sh_envp, (const char **) envp))
 		return (write_error(ENVP_ERR_MESSAGE, 0));
-	if (!upadate_envp_list(&sh_envp, "exit_status", "0"))
-	{
-		clear_envp_list(&sh_envp);
-		return (write_error(ENVP_ERR_MESSAGE, 0));
-	}
 	context->envp = sh_envp;
 	return (1);
 }
