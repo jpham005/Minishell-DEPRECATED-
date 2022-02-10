@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 12:20:11 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/05 20:49:22 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/10 11:38:22 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,3 @@ int	print_intro(void)
 		return (0);
 	return (1);
 }
-//ESC[38:5:⟨n⟩m Select foreground color
-//ESC[48:5:⟨n⟩m Select background color
-//ESC[ 38;2;⟨r⟩;⟨g⟩;⟨b⟩ m Select RGB foreground color
-//ESC[ 48;2;⟨r⟩;⟨g⟩;⟨b⟩ m Select RGB background color
