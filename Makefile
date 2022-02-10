@@ -15,7 +15,7 @@ READLINE_LIB := $(READLINE_DIR)/lib
 
 BUILT_IN_SRCS := export.c unset.c
 BUILT_IN_SRCS := $(addprefix $(BUILT_IN_DIR)/, $(BUILT_IN_SRCS))
-ENVP_SRCS := manage_envp.c envp_util.c
+ENVP_SRCS := manage_envp.c envp_util.c print_envp.c
 ENVP_SRCS := $(addprefix $(ENVP_DIR)/, $(ENVP_SRCS))
 UTILS_SRCS := convert_exit_status.c exit_manage.c print_intro.c
 UTILS_SRCS := $(addprefix $(UTILS_DIR)/, $(UTILS_SRCS))

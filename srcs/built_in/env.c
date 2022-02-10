@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/08 21:51:24 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/09 21:27:14 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/10 14:34:24 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@ static int	print_envp(t_envp_list *head)
 	}
 	return (0);
 }
-
-int	copy_envp()
 
 int	add_to_envp(t_context *context, const char *str)
 {
@@ -58,7 +56,7 @@ int	env(t_context *context, const char **argv)
 	i = 0;
 	if (!argv)
 		return (print_envp(context->envp));
-	if (copy_envp(context, ))
+	// if (copy_envp(context, ))
 	while (argv[i])
 	{
 		if (!ft_strchr(argv[i], '='))

@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 17:48:09 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/06 19:29:15 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/10 14:56:06 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,30 @@ char	**convert_envp_to_dptr(const t_envp_list *head)
 	}
 	ret[i] = NULL;
 	return (ret);
+}
+
+void	sort_envp_dptr(char **envp)
+{
+	size_t	i;
+	size_t	j;
+	char	*temp;
+
+	i = 0;
+	while (envp[i + 1])
+	{
+		j = i + 1;
+		while (envp[j])
+		{
+			if (ft_strncmp(envp[i], envp[j], ft_strlen(envp[j]) + 1) > 0)
+			{
+				temp = envp[i];
+				envp[i] = envp[j];
+				envp[j] = temp;
+			}
+			j++;
+		}
+		i++;
+	}
 }
 
 t_envp_list	*find_list_by_key(t_envp_list *head, const char *key)

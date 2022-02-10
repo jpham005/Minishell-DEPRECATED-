@@ -19,6 +19,7 @@
 		"main.h": "c",
 		"utils.h": "c",
 		"color.h": "c",
-		"context.h": "c"
+		"context.h": "c",
+		"envp.h": "c"
 	}
 }

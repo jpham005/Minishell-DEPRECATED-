@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 13:46:27 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/08 21:02:16 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/10 15:26:51 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,17 @@ static int	parse(const char *str)
 		pid = fork();
 		if (!pid)
 			execve("jaham_test/loop", NULL, NULL);
+		else
+			waitpid(pid, &status, 0);
+	}
+	else if (!ft_strncmp("read", str, 5))
+	{
+		pid = fork();
+		if (!pid)
+		{
+			execve("jaham_test/read", NULL, NULL);
+			write(1, "error\n", 6);
+		}
 		else
 			waitpid(pid, &status, 0);
 	}
