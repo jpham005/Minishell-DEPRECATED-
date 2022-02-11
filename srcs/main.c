@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 13:46:27 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/10 15:26:51 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/11 15:11:03 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,15 +67,14 @@ int	main(int argc, char **argv, char **envp)
 	t_context	context;
 
 	if (!check_arg(argc, (const char **) argv))
-		return (exit_with_status(ARG_ERR));
+		exit_with_status(ARG_ERR);
 	if (!check_tty(STDIN_FILENO, STDOUT_FILENO, STDERR_FILENO))
-		return (exit_with_status(DEFAULT_FD_ERR));
+		exit_with_status(DEFAULT_FD_ERR);
 	if (!init_context(&context, (const char **) envp))
-		return (exit_with_status(INIT_CONTEXT_ERR));
+		exit_with_status(INIT_CONTEXT_ERR);
 	if (!print_intro())
-		return (exit_with_status(PRT_INTRO_ERR));
-	if (readline_loop(&context))
-		return (exit_with_status(EXEC_ERR));
+		exit_with_status(PRT_INTRO_ERR);
+	readline_loop(&context);
 	clear_envp_list(&(context.envp));
 	return (context.exit_status);
 }

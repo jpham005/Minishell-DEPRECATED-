@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   envp_util.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 17:48:09 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/10 14:56:06 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/11 15:18:31 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "envp.h"
 
-int	get_key(t_envp_list *curr, const char *envp)
+void	get_key(t_envp_list *curr, const char *envp)
 {
 	size_t	key_len;
 	size_t	i;
@@ -21,12 +21,9 @@ int	get_key(t_envp_list *curr, const char *envp)
 	while (envp[key_len] && envp[key_len] != '=')
 		key_len++;
 	curr->key = ft_substr(envp, 0, key_len);
-	if (!(curr->key))
-		return (0);
-	return (1);
 }
 
-int	get_value(t_envp_list *curr, const char *envp)
+void	get_value(t_envp_list *curr, const char *envp)
 {
 	size_t	value_len;
 	size_t	i;
@@ -35,9 +32,6 @@ int	get_value(t_envp_list *curr, const char *envp)
 	value_len = ft_strlen(envp) - ft_strlen(curr->key) - 1;
 	start = ft_strlen(curr->key) + 1;
 	curr->value = ft_substr(envp, start, value_len);
-	if (!(curr->value))
-		return (0);
-	return (1);
 }
 
 char	**convert_envp_to_dptr(const t_envp_list *head)
@@ -55,11 +49,9 @@ char	**convert_envp_to_dptr(const t_envp_list *head)
 	while (i < len)
 	{
 		ret[i] = ft_strjoin(head->key, "=");
-		temp = ret[i];
-		ret[i] = ft_strjoin(ret[i], head->value);
-		safe_free((void **) &temp);
-		if (!ret[i])
-			return (free_c_dptr(&ret));
+		temp = ft_strjoin(ret[i], head->value);
+		safe_free(((void **) &ret[i]));
+		ret[i] = temp;
 		head = head->next;
 		i++;
 	}

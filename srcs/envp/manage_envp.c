@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   manage_envp.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 21:20:24 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/07 15:55:55 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/11 15:04:47 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,16 +87,9 @@ int	init_envp_list(t_envp_list **head, const char **envp)
 	while (envp[cnt])
 	{
 		*head = ft_malloc(sizeof(t_envp_list), 1);
-		if (!*head)
-			return (clear_envp_list(head));
 		(*head)->next = NULL;
-		if (!get_key(*head, envp[cnt]))
-			return (clear_envp_list(head));
-		if (!get_value(*head, envp[cnt]))
-		{
-			safe_free((void **) &((*head)->key));
-			return (clear_envp_list(head));
-		}
+		get_key(*head, envp[cnt]);
+		get_value(*head, envp[cnt]);
 		head = &((*head)->next);
 		cnt++;
 	}

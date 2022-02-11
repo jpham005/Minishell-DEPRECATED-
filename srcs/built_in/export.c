@@ -3,26 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 20:44:39 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/08 17:22:36 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/11 15:17:29 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "built_in.h"
 #include "envp.h"
 #include "libft.h"
-
-static int	print_envp(const t_envp_list *head, int ret)
-{
-	while (head)
-	{
-		printf("declare -x %s=\"%s\"\n", head->key, head->value);
-		head = head->next;
-	}
-	return (ret);
-}
 
 static int	check_valid(const char *str)
 {
@@ -64,7 +54,10 @@ int	export(t_envp_list *head, const char **str)
 	size_t	i;
 
 	if (!str)
-		return (print_envp(head, 0));
+	{
+		print_envp(head, SORT);
+		return (0);
+	}
 	ret_flag = 0;
 	i = 0;
 	while (str[i])

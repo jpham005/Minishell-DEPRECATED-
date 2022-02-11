@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 20:46:28 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/08 21:57:15 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/11 15:12:57 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 
 # define PRT_INTRO_ERR_MESSAGE "Print Intro Error\n"
 # define SET_TERM_ERR_MESSAGE "Setting Terminal Error\n"
-# define EXEC_ERR_MESSAGE "Executing Error\n"
 # define ARG_ERR_MESSAGE "Arg Error\n"
 # define DEFAULT_FD_ERR_MESSAGE "Default fd Error\n"
 # define INIT_CONTEXT_ERR_MESSAGE "Init context Error\n"
@@ -31,7 +30,6 @@ enum	e_exit_status
 {
 	SUCCESS = 0,
 	PRT_INTRO_ERR = 0,
-	EXEC_ERR,
 	END_TERM,
 	ARG_ERR,
 	DEFAULT_FD_ERR,

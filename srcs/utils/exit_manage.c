@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_manage.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 13:56:34 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/08 21:02:21 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/11 15:12:42 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,18 +39,16 @@ int	exit_with_status(int status)
 	{
 		print_exit();
 		write(1, DEF_COL, 6);
-		return (0);
+		exit(0);
 	}
-	if (status == PRT_INTRO_ERR)
-		write_error(PRT_INTRO_ERR_MESSAGE, 1);
-	else if (status == EXEC_ERR)
-		write_error(EXEC_ERR_MESSAGE, 1);
-	else if (status == ARG_ERR)
+	if (status == ARG_ERR)
 		write_error(ARG_ERR_MESSAGE, 1);
 	else if (status == DEFAULT_FD_ERR)
 		write_error(DEFAULT_FD_ERR_MESSAGE, 1);
 	else if (status == INIT_CONTEXT_ERR)
 		write_error(INIT_CONTEXT_ERR_MESSAGE, 1);
+	else if (status == PRT_INTRO_ERR)
+		write_error(PRT_INTRO_ERR_MESSAGE, 1);
 	write(1, DEF_COL, 6);
-	return (1);
+	exit(1);
 }

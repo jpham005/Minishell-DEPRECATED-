@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   context_manage.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 20:41:04 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/08 19:27:39 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/11 15:08:49 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,7 @@ int	init_context(t_context *context, const char **envp)
 	context->default_term = term;
 	term.c_lflag &= ~ECHOCTL;
 	context->rl_term = term;
-	if (!init_envp_list(&sh_envp, (const char **) envp))
-		return (write_error(ENVP_ERR_MESSAGE, 0));
+	init_envp_list(&sh_envp, (const char **) envp);
 	context->envp = sh_envp;
 	return (1);
 }

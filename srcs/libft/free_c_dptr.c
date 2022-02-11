@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   free_c_dptr.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 15:38:30 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/05 17:47:43 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/11 15:08:18 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	**free_c_dptr(char ***ptr)
+void	free_c_dptr(char ***ptr)
 {
 	size_t	i;
 
@@ -24,5 +24,4 @@ char	**free_c_dptr(char ***ptr)
 	}
 	free(*ptr);
 	*ptr = NULL;
-	return (NULL);
 }
