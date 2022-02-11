@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 12:34:09 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/08 20:03:09 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/11 20:03:24 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static int	check_valid(const char *key)
 	return (1);
 }
 
-int	unset(t_envp_list *head, const char **str)
+int	unset(t_envp_list *envp, const char **str)
 {
 	int		ret_flag;
 	size_t	i;
@@ -44,7 +44,7 @@ int	unset(t_envp_list *head, const char **str)
 			ret_flag |= 1;
 		}
 		else
-			del_one_envp_list(&head, str[i]);
+			del_one_envp_list(&envp, str[i]);
 		i++;
 	}
 	return (ret_flag);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_manage.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 13:56:34 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/11 15:12:42 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/11 18:52:47 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	exit_with_status(int status)
 	{
 		print_exit();
 		write(1, DEF_COL, 6);
-		exit(0);
+		return (0);
 	}
 	if (status == ARG_ERR)
 		write_error(ARG_ERR_MESSAGE, 1);

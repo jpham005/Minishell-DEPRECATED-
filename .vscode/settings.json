@@ -20,6 +20,7 @@
 		"utils.h": "c",
 		"color.h": "c",
 		"context.h": "c",
-		"envp.h": "c"
+		"envp.h": "c",
+		"built_in.h": "c"
 	}
 }

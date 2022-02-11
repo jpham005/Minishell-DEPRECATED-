@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 20:44:39 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/11 15:17:29 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/11 20:03:19 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,35 +27,30 @@ static int	check_valid(const char *str)
 	return (1);
 }
 
-static int	exec_normal(t_envp_list *head, size_t i, const char *str)
+static void	exec_normal(t_envp_list *envp, size_t i, const char *str)
 {
 	char	*is_op;
 	char	*key;
 	char	*value;
-	int		ret;
 
 	is_op = ft_strchr(str, '=');
 	if (!is_op)
-		return (1);
+		return ;
 	key = ft_substr(str, 0, ft_strlen(str) - ft_strlen(is_op));
 	value = ft_substr(is_op, 1, ft_strlen(is_op) - 1);
-	if (key && value)
-		ret = upadate_envp_list(&head, key, value);
-	else
-		ret = 0;
+	upadate_envp_list(envp, key, value);
 	safe_free((void **) &key);
 	safe_free((void **) &value);
-	return (ret);
 }
 
-int	export(t_envp_list *head, const char **str)
+int	export(t_envp_list *envp, const char **str)
 {
 	int		ret_flag;
 	size_t	i;
 
 	if (!str)
 	{
-		print_envp(head, SORT);
+		print_envp(envp, SORT);
 		return (0);
 	}
 	ret_flag = 0;
@@ -68,10 +63,7 @@ int	export(t_envp_list *head, const char **str)
 			ret_flag |= 1;
 		}
 		else
-		{
-			if (!exec_normal(head, i, str[i]))
-				ret_flag |= 1;
-		}
+			exec_normal(envp, i, str[i]);
 		i++;
 	}
 	return (ret_flag);

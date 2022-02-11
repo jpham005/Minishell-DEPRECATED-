@@ -13,9 +13,9 @@ READLINE_DIR := $(shell brew --prefix readline)
 READLINE_INCLUDE := $(READLINE_DIR)/include
 READLINE_LIB := $(READLINE_DIR)/lib
 
-BUILT_IN_SRCS := export.c unset.c
+BUILT_IN_SRCS := export.c unset.c env.c
 BUILT_IN_SRCS := $(addprefix $(BUILT_IN_DIR)/, $(BUILT_IN_SRCS))
-ENVP_SRCS := manage_envp.c envp_util.c print_envp.c
+ENVP_SRCS := init_destroy.c util.c print.c tool.c
 ENVP_SRCS := $(addprefix $(ENVP_DIR)/, $(ENVP_SRCS))
 UTILS_SRCS := exit_manage.c print_intro.c
 UTILS_SRCS := $(addprefix $(UTILS_DIR)/, $(UTILS_SRCS))

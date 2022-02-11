@@ -6,66 +6,57 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/08 21:51:24 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/10 14:34:24 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/11 21:28:17 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "built_in.h"
-#include "context.h"
 #include "libft.h"
 
-static int	print_envp(t_envp_list *head)
-{
-	while (head)
-	{
-		printf("%s=%s\n", head->key, head->value);
-		head = head->next;
-	}
-	return (0);
-}
-
-int	add_to_envp(t_context *context, const char *str)
+void	add_to_envp(t_envp_list *head, const char *str)
 {
 	char	*key;
 	char	*value;
 	char	*sep;
 	size_t	key_len;
-	int		ret;
 
 	sep = ft_strchr(str, '=');
 	key_len = ft_strlen(str) - ft_strlen(sep);
 	key = ft_substr(str, 0, key_len);
 	value = ft_substr(str, key_len + 1, ft_strlen(sep) - 1);
-	if (!key || !value)
-		ret = 0;
-	else if (!upadate_envp_list(&(context->envp), key, value))
-		ret = 0;
-	else
-		ret = 1;
+	upadate_envp_list(&head, key, value);
+	print_envp(head, UNSORT);
 	safe_free((void **) &key);
 	safe_free((void **) &value);
-	return (ret);
 }
 
-int	env(t_context *context, const char **argv)
+int	env(t_envp_list *envp, const char **argv)
 {
-	size_t	i;
-	char	*key;
-	char	*value;
+	t_envp_list	*cp;
+	size_t		i;
+	char		*key;
+	char		*value;
+	int			ret;
 
-	i = 0;
 	if (!argv)
-		return (print_envp(context->envp));
-	// if (copy_envp(context, ))
+	{
+		print_envp(envp, UNSORT);
+		return (0);
+	}
+	cp = copy_envp_list(envp);
+	i = 0;
 	while (argv[i])
 	{
 		if (!ft_strchr(argv[i], '='))
-			return (execve_path(argv + i, context->envp)); // pass to executer (built_in || execve)
-		if (!add_to_envp(context, argv[i]))
-			return (1);
-		i++;
+		{
+			// ret = execve_path(argv + i, cp);
+			clear_envp_list(&cp);
+			return (ret);
+		}// pass to executer (built_in || execve) return exit_status
+		add_to_envp(cp, argv[i++]);
 	}
-	return (0);
+	// print_envp(cp, UNSORT);
+	return (clear_envp_list(&cp));
 }
 
 /*

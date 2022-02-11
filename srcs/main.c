@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 13:46:27 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/11 15:11:03 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/11 21:25:38 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static int	readline_loop(t_context *context)
 	}
 	return (0);
 }
-
+#include "built_in.h"
 int	main(int argc, char **argv, char **envp)
 {
 	t_context	context;
@@ -75,6 +75,8 @@ int	main(int argc, char **argv, char **envp)
 	if (!print_intro())
 		exit_with_status(PRT_INTRO_ERR);
 	readline_loop(&context);
+	char **temp = ft_split("a=1 b=1", ' ');
+	env(context.envp, (const char **) temp);
 	clear_envp_list(&(context.envp));
-	return (context.exit_status);
+	return (0);
 }

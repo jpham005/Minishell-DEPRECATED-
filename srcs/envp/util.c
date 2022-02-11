@@ -1,45 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_envp.c                                       :+:      :+:    :+:   */
+/*   util.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/10 14:21:18 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/10 14:58:21 by jaham            ###   ########.fr       */
+/*   Created: 2022/02/11 19:08:27 by jaham             #+#    #+#             */
+/*   Updated: 2022/02/11 19:08:41 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "envp.h"
 
-void	print_envp_sort(t_envp_list *head)
+void	get_key(t_envp_list *curr, const char *envp)
 {
-	char	**temp;
+	size_t	key_len;
 	size_t	i;
 
-	temp = convert_envp_to_dptr(head);
-	sort_envp_dptr(temp);
-	i = 0;
-	while (temp[i])
-	{
-		printf("declare -x %s\n", temp[i]);
-		i++;
-	}
+	key_len = 0;
+	while (envp[key_len] && envp[key_len] != '=')
+		key_len++;
+	curr->key = ft_substr(envp, 0, key_len);
 }
 
-void	print_envp_unsort(t_envp_list *head)
+void	get_value(t_envp_list *curr, const char *envp)
 {
-	while (head)
-	{
-		printf("%s=%s\n", head->key, head->value);
-		head = head->next;
-	}
-}
+	size_t	value_len;
+	size_t	i;
+	size_t	start;
 
-void	print_envp(t_envp_list *head, int op)
-{
-	if (op & SORT)
-	 	print_envp_sort(head);
-	else
-		print_envp_unsort(head);
+	value_len = ft_strlen(envp) - ft_strlen(curr->key) - 1;
+	start = ft_strlen(curr->key) + 1;
+	curr->value = ft_substr(envp, start, value_len);
 }

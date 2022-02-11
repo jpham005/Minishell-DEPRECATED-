@@ -1,29 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   ft_fork.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/03 13:22:16 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/11 21:19:09 by jaham            ###   ########.fr       */
+/*   Created: 2022/02/11 19:45:12 by jaham             #+#    #+#             */
+/*   Updated: 2022/02/11 19:46:26 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strdup(const char *str)
+pid_t	ft_fork(void)
 {
-	char	*ret;
-	size_t	i;
+	pid_t	pid;
 
-	ret = ft_malloc(sizeof(char), ft_strlen(str) | 1);
-	i = 0;
-	while (str[i])
+	pid = fork();
+	if (pid == -1)
 	{
-		ret[i] = str[i];
-		i++;
+		perror("Fork");
+		exit (1);
 	}
-	ret[i] = '\0';
-	return (ret);
+	return (pid);
 }

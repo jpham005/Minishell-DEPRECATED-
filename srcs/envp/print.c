@@ -1,29 +1,45 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   print.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/03 13:22:16 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/11 21:19:09 by jaham            ###   ########.fr       */
+/*   Created: 2022/02/10 14:21:18 by jaham             #+#    #+#             */
+/*   Updated: 2022/02/11 19:49:47 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "envp.h"
 
-char	*ft_strdup(const char *str)
+void	print_envp_sort(t_envp_list *head)
 {
-	char	*ret;
+	char	**temp;
 	size_t	i;
 
-	ret = ft_malloc(sizeof(char), ft_strlen(str) | 1);
+	temp = convert_envp_to_dptr(head);
+	sort_envp_dptr(temp);
 	i = 0;
-	while (str[i])
+	while (temp[i])
 	{
-		ret[i] = str[i];
+		printf("declare -x %s\n", temp[i]);
 		i++;
 	}
-	ret[i] = '\0';
-	return (ret);
+}
+
+void	print_envp_unsort(t_envp_list *head)
+{
+	while (head)
+	{
+		printf("%s=%s\n", head->key, head->value);
+		head = head->next;
+	}
+}
+
+void	print_envp(t_envp_list *head, int op)
+{
+	if (op & SORT)
+		print_envp_sort(head);
+	else
+		print_envp_unsort(head);
 }
