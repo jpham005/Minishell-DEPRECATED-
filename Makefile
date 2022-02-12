@@ -2,26 +2,24 @@ SRCS_DIR := srcs
 BUILT_IN_DIR := $(SRCS_DIR)/built_in
 ENVP_DIR := $(SRCS_DIR)/envp
 UTILS_DIR := $(SRCS_DIR)/utils
-INIT_TERMINAL_DIR := $(SRCS_DIR)/init_terminal
+TERMINAL_DIR := $(SRCS_DIR)/terminal
 
 INCLUDE := include
-INCLUDE_FILES := built_in.h color.h context.h envp.h init_terminal.h main.h \
-				utils.h
+INCLUDE_FILES := built_in.h color.h envp.h terminal.h main.h utils.h
 INCLUDE_FILES := $(addprefix $(INCLUDE)/, $(INCLUDE_FILES))
 
 READLINE_DIR := $(shell brew --prefix readline)
 READLINE_INCLUDE := $(READLINE_DIR)/include
 READLINE_LIB := $(READLINE_DIR)/lib
 
-BUILT_IN_SRCS := export.c unset.c env.c
+BUILT_IN_SRCS := export.c unset.c env.c pwd.c
 BUILT_IN_SRCS := $(addprefix $(BUILT_IN_DIR)/, $(BUILT_IN_SRCS))
 ENVP_SRCS := init_destroy.c util.c print.c tool.c
 ENVP_SRCS := $(addprefix $(ENVP_DIR)/, $(ENVP_SRCS))
 UTILS_SRCS := exit_manage.c print_intro.c
 UTILS_SRCS := $(addprefix $(UTILS_DIR)/, $(UTILS_SRCS))
-INIT_TERMINAL_SRCS := check_default_term_state.c set_terminal_state.c \
-						signal_handler.c context_manage.c
-INIT_TERMINAL_SRCS := $(addprefix $(INIT_TERMINAL_DIR)/, $(INIT_TERMINAL_SRCS))
+TERMINAL_SRCS := check_default_state.c set_state.c signal_handler.c init.c
+TERMINAL_SRCS := $(addprefix $(TERMINAL_DIR)/, $(TERMINAL_SRCS))
 MAIN_SRCS := main.c
 MAIN_SRCS := $(addprefix $(SRCS_DIR)/, $(MAIN_SRCS))
 
@@ -29,9 +27,9 @@ LIBFT_DIR := $(SRCS_DIR)/libft
 LIBFT := $(LIBFT_DIR)/libft.a
 
 CC := cc
-CFALGS := -g
+CFLAGS := -g
 NAME := minishell
-SRCS := $(BUILT_IN_SRCS) $(ENVP_SRCS) $(UTILS_SRCS) $(INIT_TERMINAL_SRCS) \
+SRCS := $(BUILT_IN_SRCS) $(ENVP_SRCS) $(UTILS_SRCS) $(TERMINAL_SRCS) \
 		$(MAIN_SRCS)
 OBJS := $(SRCS:.c=.o)
 RM := rm

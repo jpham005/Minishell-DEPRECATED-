@@ -1,37 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_default_term_state.c                         :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/07 12:06:29 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/07 12:30:27 by jaham            ###   ########.fr       */
+/*   Created: 2022/02/12 14:47:50 by jaham             #+#    #+#             */
+/*   Updated: 2022/02/12 15:19:46 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "init_terminal.h"
-#include "libft.h"
+#include "built_in.h"
+#include "envp.h"
 
-int	check_arg(int argc, const char **argv)
+int	pwd(void)
 {
-	int	i;
+	char	*dir;
 
-	i = 1;
-	if (argc != 1)
+	dir = getcwd(NULL, 1);
+	if (!dir)
 	{
-		ft_putstr_fd(TOO_MANY_ARG_ERR_MESSAGE, 2);
-		while (argv[i])
-		{
-			ft_putstr_fd(argv[i++], 2);
-			ft_putstr_fd("\n", 2);
-		}
-		return (0);
+		perror("getcwd");
+		exit(1);
 	}
-	return (1);
-}
-
-int	check_tty(int stdin, int stdout, int stderr)
-{
-	return (isatty(stdin) && isatty(stdout) && isatty(stderr));
+	printf("%s\n", dir);
+	safe_free((void **) &dir);
+	return (0);
 }

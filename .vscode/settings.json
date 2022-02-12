@@ -14,7 +14,7 @@
 		"exit_manage.h": "c",
 		"start_minishell.h": "c",
 		"convert_exit_status.h": "c",
-		"init_terminal.h": "c",
+		"terminal.h": "c",
 		"__node_handle": "c",
 		"main.h": "c",
 		"utils.h": "c",

@@ -12,9 +12,5 @@ void	sig_quit(int sig)
 
 int	main(void)
 {
-	int	i;
-
-	i = 1;
-	char buf[10];
-	read(0, buf, 10);
+	while (1);
 }

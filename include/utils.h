@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 20:46:28 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/11 15:12:57 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/12 17:56:11 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,21 +22,14 @@
 # define SET_TERM_ERR_MESSAGE "Setting Terminal Error\n"
 # define ARG_ERR_MESSAGE "Arg Error\n"
 # define DEFAULT_FD_ERR_MESSAGE "Default fd Error\n"
-# define INIT_CONTEXT_ERR_MESSAGE "Init context Error\n"
 
 # define ASCII_ART_PATH "imgs/"
 
-enum	e_exit_status
-{
-	SUCCESS = 0,
-	PRT_INTRO_ERR = 0,
-	END_TERM,
-	ARG_ERR,
-	DEFAULT_FD_ERR,
-	INIT_CONTEXT_ERR
-};
+#define END_TERM 1 << 0
+#define ARG_ERR 1 << 1
+#define DEFAULT_FD_ERR 1 << 2
+#define PRINT_INTRO_ERR 1 << 3
 
-int		print_error(const char *str, int ret);
 int		write_error(const char *str, int ret);
 int		exit_with_status(int status);
 int		print_intro(void);

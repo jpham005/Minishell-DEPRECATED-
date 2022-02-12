@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/08 21:51:24 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/11 21:28:17 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/12 15:28:21 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	add_to_envp(t_envp_list *head, const char *str)
 	key_len = ft_strlen(str) - ft_strlen(sep);
 	key = ft_substr(str, 0, key_len);
 	value = ft_substr(str, key_len + 1, ft_strlen(sep) - 1);
-	upadate_envp_list(&head, key, value);
+	update_envp_list(&head, key, value);
 	print_envp(head, UNSORT);
 	safe_free((void **) &key);
 	safe_free((void **) &value);

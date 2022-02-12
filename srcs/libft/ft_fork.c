@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/11 19:45:12 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/11 19:46:26 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/12 17:35:02 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ pid_t	ft_fork(void)
 	pid = fork();
 	if (pid == -1)
 	{
-		perror("Fork");
+		perror("fork");
 		exit (1);
 	}
 	return (pid);

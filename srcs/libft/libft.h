@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 01:06:49 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/11 19:46:46 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/12 17:34:11 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,6 @@ void	free_c_dptr(char ***ptr);
 void	*ft_malloc(size_t size, size_t n);
 pid_t	ft_fork(void);
 void	safe_free(void **ptr);
+void	perror_exit(const char *str, unsigned int exit_status);
 
 #endif
