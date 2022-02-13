@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/08 21:51:24 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/12 15:28:21 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/13 12:49:54 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	env(t_envp_list *envp, const char **argv)
 		}// pass to executer (built_in || execve) return exit_status
 		add_to_envp(cp, argv[i++]);
 	}
-	// print_envp(cp, UNSORT);
+	print_envp(cp, UNSORT);
 	return (clear_envp_list(&cp));
 }
 
