@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 20:46:28 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/12 17:56:11 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/13 13:53:33 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@
 #define DEFAULT_FD_ERR 1 << 2
 #define PRINT_INTRO_ERR 1 << 3
 
-int		write_error(const char *str, int ret);
 int		exit_with_status(int status);
 int		print_intro(void);
 
