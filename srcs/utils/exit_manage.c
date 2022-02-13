@@ -6,14 +6,14 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 13:56:34 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/13 13:54:09 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/13 16:59:55 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
 #include "color.h"
 
-static void	write_error(const char *str)
+void	write_error(const char *str)
 {
 	ft_putstr_fd(str, 2);
 }

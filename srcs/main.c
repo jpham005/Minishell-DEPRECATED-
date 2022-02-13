@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 13:46:27 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/12 18:00:06 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/13 21:47:08 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static int	readline_loop(t_context *context, t_term_state *term_state)
 	}
 	return (0);
 }
-
+#include "built_in.h"
 int	main(int argc, char **argv, char **envp)
 {
 	t_context		context;
@@ -74,6 +74,14 @@ int	main(int argc, char **argv, char **envp)
 	if (!print_intro())
 		exit_with_status(PRINT_INTRO_ERR);
 	readline_loop(&context, &term_state);
+	context.exit_status = 5;
+	char *args[] = {
+		"1",
+		"1",
+		NULL
+	};
+	context.exit_status = built_in_exit(&context, (const char **) args);
+	printf("%d\n", context.exit_status);
 	clear_envp_list(&(context.envp));
 	return (context.exit_status);
 }

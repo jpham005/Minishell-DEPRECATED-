@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 12:06:57 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/12 18:01:28 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/13 17:00:31 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ typedef struct termios	t_term;
 typedef struct s_context
 {
 	int				std_fd[3];
-	unsigned int	exit_status;
+	int	exit_status;
 	t_envp_list		*envp;
 }	t_context;
 

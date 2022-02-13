@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 01:06:49 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/12 17:34:11 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/13 21:20:50 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,12 @@
 # include <stdlib.h>
 # include <fcntl.h>
 # include <stdio.h>
+# include <limits.h>
 
 int		ft_isalpha(int c);
 int		ft_isnum(int c);
+int		ft_isnumstr(const char *str);
+int		ft_atoi(const char *str);
 void	ft_putstr_fd(const char *str, int fd);
 size_t	ft_strlen(const char *str);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);

@@ -12,7 +12,7 @@ READLINE_DIR := $(shell brew --prefix readline)
 READLINE_INCLUDE := $(READLINE_DIR)/include
 READLINE_LIB := $(READLINE_DIR)/lib
 
-BUILT_IN_SRCS := export.c unset.c env.c pwd.c
+BUILT_IN_SRCS := export.c unset.c env.c pwd.c exit.c
 BUILT_IN_SRCS := $(addprefix $(BUILT_IN_DIR)/, $(BUILT_IN_SRCS))
 ENVP_SRCS := init_destroy.c util.c print.c tool.c
 ENVP_SRCS := $(addprefix $(ENVP_DIR)/, $(ENVP_SRCS))
