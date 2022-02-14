@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 13:46:27 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/13 21:47:08 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/14 14:35:54 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,9 @@ int	main(int argc, char **argv, char **envp)
 	readline_loop(&context, &term_state);
 	context.exit_status = 5;
 	char *args[] = {
+		"exit",
 		"1",
-		"1",
+		"4",
 		NULL
 	};
 	context.exit_status = built_in_exit(&context, (const char **) args);

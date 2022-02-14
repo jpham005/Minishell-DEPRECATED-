@@ -93,6 +93,18 @@
 // unset # isenv : ignore after #
 // unset # non_alpha : ignore after #, return 0
 
+/*
+exit => exit\n, term terminal with exit status
+exit 4 => exit\n, term terminal with 4
+exit 4 4 => bash: exit: too many arguments, doesnt exit, exit status 1
+exit a => 
+bash-3.2$ exit a
+exit
+bash: exit: a: numeric argument required
+exit with 255
+ignore after a, 
+*/
+
 int	main(void)
 {
 	printf("%s\n", getenv("PATH"));
