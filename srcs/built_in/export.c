@@ -6,13 +6,14 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 20:44:39 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/12 19:32:14 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/14 15:27:30 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "built_in.h"
 #include "envp.h"
 #include "libft.h"
+#include "terminal.h"
 
 static int	check_valid(const char *str)
 {
@@ -43,18 +44,18 @@ static void	exec_normal(t_envp_list *envp, size_t i, const char *str)
 	safe_free((void **) &value);
 }
 
-int	export(t_envp_list *envp, const char **argv)
+int	export(t_context *context, const char **argv)
 {
 	int		ret_flag;
 	size_t	i;
 
-	if (!argv)
+	if (!argv[1])
 	{
-		print_envp(envp, SORT);
+		print_envp(context->envp, SORT);
 		return (0);
 	}
 	ret_flag = 0;
-	i = 0;
+	i = 1;
 	while (argv[i])
 	{
 		if (!check_valid(argv[i]))
@@ -63,7 +64,7 @@ int	export(t_envp_list *envp, const char **argv)
 			ret_flag |= 1;
 		}
 		else
-			exec_normal(envp, i, argv[i]);
+			exec_normal(context->envp, i, argv[i]);
 		i++;
 	}
 	return (ret_flag);
