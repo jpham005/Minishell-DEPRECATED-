@@ -105,6 +105,22 @@ exit with 255
 ignore after a, 
 */
 
+/*
+no arg => $HOME
+additional arg => ignore
+CDPATH => test path
+success CDPATH, - => write(1, "path")
+cd ../srcs
+cd =>go to home
+cd ..
+cd ../
+cd - : display oldpwd+\n, move to oldpwd
+oldpwd
+pwd
+Not a directory
+bash: cd: asdf: Permission denied
+*/
+
 int	main(void)
 {
 	printf("%s\n", getenv("PATH"));

@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 13:46:27 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/14 14:35:54 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/15 21:23:45 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,13 +76,22 @@ int	main(int argc, char **argv, char **envp)
 	readline_loop(&context, &term_state);
 	context.exit_status = 5;
 	char *args[] = {
-		"exit",
-		"1",
-		"4",
+		"cd",
+		"Caches",
 		NULL
 	};
-	context.exit_status = built_in_exit(&context, (const char **) args);
-	printf("%d\n", context.exit_status);
+	char *args2[] = {
+		"export",
+		"CDPATH=/goinfre/jaham",
+		NULL
+	};
+	export(&context, (const char **) args2);
+	context.exit_status = cd(&context, (const char **) args);
+	pwd(&context, (const char **) args);
+	printf("exit with %d\n", context.exit_status);
 	clear_envp_list(&(context.envp));
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
+	while (1);
 	return (context.exit_status);
 }

@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 20:46:28 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/13 17:00:07 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/15 20:18:07 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@
 
 # define ASCII_ART_PATH "imgs/"
 
-#define END_TERM 1 << 0
-#define ARG_ERR 1 << 1
-#define DEFAULT_FD_ERR 1 << 2
-#define PRINT_INTRO_ERR 1 << 3
+# define END_TERM 1 << 0
+# define ARG_ERR 1 << 1
+# define DEFAULT_FD_ERR 1 << 2
+# define PRINT_INTRO_ERR 1 << 3
 
 void	write_error(const char *str);
 int		exit_with_status(int status);

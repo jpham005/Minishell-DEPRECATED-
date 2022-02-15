@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 20:54:17 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/14 21:53:02 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/15 20:31:04 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,9 @@
 
 # include "envp.h"
 # include "terminal.h"
+# include <sys/stat.h>
+# include <unistd.h>
+# include <errno.h>
 
 # define SHELL_NAME "minishell: "
 
@@ -31,13 +34,18 @@
 # define EXIT_TOO_MANY_ARG_ERR_MESSAGE "too many arguments\n"
 # define EXIT_NO_ARG 1 << 3
 
+# define CD_CMD "cd: "
 # define HOME_NOT_SET_ERR_MESSAGE "HOME not set\n"
 # define OLDPWD_NOT_SET_ERR_MESSAGE "OLDPWD not set\n"
 
-int	built_in_exit(t_context *context, const char **argv);
-int	export(t_context *context, const char **argv);
-int	unset(t_context *context, const char **argv);
-int	env(t_context *context, const char **argv);
-int	pwd(t_context *context, const char **argv);
+typedef struct stat	t_stat;
+
+int		built_in_exit(t_context *context, const char **argv);
+int		export(t_context *context, const char **argv);
+int		unset(t_context *context, const char **argv);
+int		env(t_context *context, const char **argv);
+int		pwd(t_context *context, const char **argv);
+int		cd(t_context *context, const char **argv);
+void	free_both_cd(char **curr_dir, char **path);
 
 #endif

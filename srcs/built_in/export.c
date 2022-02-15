@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 20:44:39 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/14 15:27:30 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/15 20:16:58 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,9 @@ int	export(t_context *context, const char **argv)
 	{
 		if (!check_valid(argv[i]))
 		{
-			printf(SHELL_NAME EXPORT_CMD"`%s': "EXPORT_ARG_ERR_MESSAGE, argv[i]);
+			printf(
+				SHELL_NAME EXPORT_CMD"`%s': "EXPORT_ARG_ERR_MESSAGE, argv[i]
+				);
 			ret_flag |= 1;
 		}
 		else

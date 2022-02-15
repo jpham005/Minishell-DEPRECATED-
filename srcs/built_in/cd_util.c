@@ -1,27 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   cd_util.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/12 14:47:50 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/15 19:20:05 by jaham            ###   ########.fr       */
+/*   Created: 2022/02/15 20:28:49 by jaham             #+#    #+#             */
+/*   Updated: 2022/02/15 20:30:54 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "built_in.h"
-#include "envp.h"
+#include "terminal.h"
 #include "libft.h"
 
-int	pwd(t_context *context, const char **argv)
+void	free_both_cd(char **curr_dir, char **path)
 {
-	char	*dir;
-
-	if (!context || !argv)
-		return (1);
-	dir = ft_getcwd(NULL, 1);
-	printf("%s\n", dir);
-	safe_free((void **) &dir);
-	return (0);
+	safe_free((void **) curr_dir);
+	safe_free((void **) path);
 }
