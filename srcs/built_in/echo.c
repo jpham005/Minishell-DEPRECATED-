@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 13:50:39 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/16 17:10:03 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/16 20:03:09 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,14 @@
 #include "terminal.h"
 #include "libft.h"
 
-static char	*make_string(const char **argv)
+static char	*make_string(const char **argv, size_t n_op)
 {
 	size_t	i;
 	char	*ret;
 	char	*temp;
 
 	ret = ft_strdup("");
+	i = n_op;
 	while (argv[i])
 	{
 		temp = ft_strjoin(ret, argv[i]);
@@ -37,10 +38,21 @@ static char	*make_string(const char **argv)
 	return (ret);
 }
 
+static int	write_string(const char *str, size_t n_op)
+{
+	int	ret;
+
+	ret = write(1, str, ft_strlen(str));
+	if (!n_op)
+		ret = write(1, "\n", 1);
+	return (ret == -1);
+}
+
 int	echo(t_context *context, const char **argv)
 {
-	char	*writing;
+	char	*str;
 	int		ret;
+	size_t	n_op;
 
 	if (!context)
 		return (1);
@@ -49,11 +61,9 @@ int	echo(t_context *context, const char **argv)
 		write(1, "\n", 1);
 		return (0);
 	}
-	writing = make_string(argv);
-	if (write(1, writing, ft_strlen(writing)) == -1)
-		ret = 1;
-	else
-		ret = 0;
-	safe_free((void **) &writing);
+	n_op = !ft_strncmp(argv[1], "-n", 3);
+	str = make_string(argv, n_op);
+	ret = write_string(str, n_op);
+	safe_free((void **) &str);
 	return (ret);
 }
