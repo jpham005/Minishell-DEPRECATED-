@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 13:46:27 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/15 21:23:45 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/16 17:10:54 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,9 +85,7 @@ int	main(int argc, char **argv, char **envp)
 		"CDPATH=/goinfre/jaham",
 		NULL
 	};
-	export(&context, (const char **) args2);
-	context.exit_status = cd(&context, (const char **) args);
-	pwd(&context, (const char **) args);
+	context.exit_status = echo(&context, (const char **) args);
 	printf("exit with %d\n", context.exit_status);
 	clear_envp_list(&(context.envp));
 	signal(SIGINT, SIG_DFL);

@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 20:54:17 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/15 20:31:04 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/16 17:10:20 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,5 +47,6 @@ int		env(t_context *context, const char **argv);
 int		pwd(t_context *context, const char **argv);
 int		cd(t_context *context, const char **argv);
 void	free_both_cd(char **curr_dir, char **path);
+int		echo(t_context *context, const char **argv);
 
 #endif
