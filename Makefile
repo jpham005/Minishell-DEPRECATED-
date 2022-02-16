@@ -1,3 +1,15 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: jaham <jaham@student.42.fr>                +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2022/02/16 20:45:33 by jaham             #+#    #+#              #
+#    Updated: 2022/02/16 20:45:56 by jaham            ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 SRCS_DIR := srcs
 BUILT_IN_DIR := $(SRCS_DIR)/built_in
 ENVP_DIR := $(SRCS_DIR)/envp
@@ -5,7 +17,7 @@ UTILS_DIR := $(SRCS_DIR)/utils
 TERMINAL_DIR := $(SRCS_DIR)/terminal
 
 INCLUDE := include
-INCLUDE_FILES := built_in.h color.h envp.h terminal.h main.h utils.h
+INCLUDE_FILES := built_in.h color.h envp.h terminal.h main.h utils.h exec.h
 INCLUDE_FILES := $(addprefix $(INCLUDE)/, $(INCLUDE_FILES))
 
 READLINE_DIR := $(shell brew --prefix readline)
