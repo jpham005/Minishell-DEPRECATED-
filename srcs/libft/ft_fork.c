@@ -1,29 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_substr.c                                        :+:      :+:    :+:   */
+/*   ft_fork.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/03 16:58:05 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/10 15:50:53 by jaham            ###   ########.fr       */
+/*   Created: 2022/02/11 19:45:12 by jaham             #+#    #+#             */
+/*   Updated: 2022/02/12 17:35:02 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_substr(const char *str, size_t start, size_t len)
+pid_t	ft_fork(void)
 {
-	char	*ret;
-	size_t	i;
+	pid_t	pid;
 
-	ret = ft_malloc(sizeof(char), len + 1);
-	i = 0;
-	while (i < len)
+	pid = fork();
+	if (pid == -1)
 	{
-		ret[i] = str[i + start];
-		i++;
+		perror("fork");
+		exit (1);
 	}
-	ret[i] = '\0';
-	return (ret);
+	return (pid);
 }

@@ -6,31 +6,68 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 20:44:39 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/05 21:51:42 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/15 20:16:58 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "built_in.h"
 #include "envp.h"
+#include "libft.h"
+#include "terminal.h"
 
-static int	print_envp(t_envp_list *head)
+static int	check_valid(const char *str)
 {
-	
+	if (!ft_isalpha(*str) && *str != '_')
+		return (0);
+	while (*str && *str != '=')
+	{
+		if (!ft_isalpha(*str) && !ft_isnum(*str) && *str != '_')
+			return (0);
+		str++;
+	}
+	return (1);
 }
 
-int	export(const t_envp_list *head, const char *str)
+static void	exec_normal(t_envp_list *envp, size_t i, const char *str)
 {
+	char	*is_op;
 	char	*key;
 	char	*value;
 
-	if (!str)
-		print_envp(head);
-	if (ft_strchr(str, '='))
-		return (0);
-	
+	is_op = ft_strchr(str, '=');
+	if (!is_op)
+		return ;
+	key = ft_substr(str, 0, ft_strlen(str) - ft_strlen(is_op));
+	value = ft_substr(is_op, 1, ft_strlen(is_op) - 1);
+	update_envp_list(&envp, key, value);
+	safe_free((void **) &key);
+	safe_free((void **) &value);
 }
-// error : start with non_alpha && non _
-//		ex) export 5=3 => `5=3': not a valid identifier
-// error : = with space
-//		ex) export asdf=4 asdf = a = = => export: `=': not a valid identifier * 3, successfully export asdf=4
-// non_error : export (display declare -x ), export ex= (export ex with value blank), export name (do nothing)
+
+int	export(t_context *context, const char **argv)
+{
+	int		ret_flag;
+	size_t	i;
+
+	if (!argv[1])
+	{
+		print_envp(context->envp, SORT);
+		return (0);
+	}
+	ret_flag = 0;
+	i = 1;
+	while (argv[i])
+	{
+		if (!check_valid(argv[i]))
+		{
+			printf(
+				SHELL_NAME EXPORT_CMD"`%s': "EXPORT_ARG_ERR_MESSAGE, argv[i]
+				);
+			ret_flag |= 1;
+		}
+		else
+			exec_normal(context->envp, i, argv[i]);
+		i++;
+	}
+	return (ret_flag);
+}

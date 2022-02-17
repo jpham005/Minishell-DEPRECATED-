@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 15:30:06 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/05 19:46:39 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/12 17:35:05 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ void	*ft_malloc(size_t size, size_t n)
 	ret = malloc(size * n);
 	if (!ret)
 	{
-		perror("Malloc");
-		return (NULL);
+		perror("malloc");
+		exit(1);
 	}
 	return (ret);
 }

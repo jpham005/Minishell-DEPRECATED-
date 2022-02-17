@@ -17,3 +17,19 @@ echo    -n
 echo asdf -n
 echo a |> grep a
 echo a |>a grep
+export 5=3
+export a=4 b=1 c=3 =
+export = a=1
+export # a=1 b=2 =
+export a=1 # b=2
+export =asdf
+export ˜¬ßß=asdf
+export dsf=˜ßø∫ßƒ
+unset
+unset asdf
+unset 1234
+unset _123
+unset ˚ß¬˜
+unset # sdf asdf
+unset asdf # zxcv
+unset *

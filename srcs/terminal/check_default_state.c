@@ -1,29 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_substr.c                                        :+:      :+:    :+:   */
+/*   check_default_state.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/03 16:58:05 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/10 15:50:53 by jaham            ###   ########.fr       */
+/*   Created: 2022/02/07 12:06:29 by jaham             #+#    #+#             */
+/*   Updated: 2022/02/12 18:01:14 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "terminal.h"
 #include "libft.h"
 
-char	*ft_substr(const char *str, size_t start, size_t len)
+int	check_arg(int argc, const char **argv)
 {
-	char	*ret;
-	size_t	i;
+	int	i;
 
-	ret = ft_malloc(sizeof(char), len + 1);
-	i = 0;
-	while (i < len)
+	i = 1;
+	if (argc != 1)
 	{
-		ret[i] = str[i + start];
-		i++;
+		ft_putstr_fd(TOO_MANY_ARG_ERR_MESSAGE, 2);
+		while (argv[i])
+		{
+			ft_putstr_fd(argv[i++], 2);
+			ft_putstr_fd(" ", 1);
+		}
+		ft_putstr_fd("\n", 1);
+		return (0);
 	}
-	ret[i] = '\0';
-	return (ret);
+	return (1);
+}
+
+int	check_tty(int stdin, int stdout, int stderr)
+{
+	return (isatty(stdin) && isatty(stdout) && isatty(stderr));
 }

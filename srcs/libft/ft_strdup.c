@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 13:22:16 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/05 15:34:30 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/11 21:19:09 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,7 @@ char	*ft_strdup(const char *str)
 	char	*ret;
 	size_t	i;
 
-	ret = ft_malloc(sizeof(char), ft_strlen(str));
-	if (!ret)
-		return (NULL);
+	ret = ft_malloc(sizeof(char), ft_strlen(str) | 1);
 	i = 0;
 	while (str[i])
 	{

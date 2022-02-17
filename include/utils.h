@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 20:46:28 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/05 20:48:54 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/15 20:18:07 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,26 +20,17 @@
 
 # define PRT_INTRO_ERR_MESSAGE "Print Intro Error\n"
 # define SET_TERM_ERR_MESSAGE "Setting Terminal Error\n"
-# define EXEC_ERR_MESSAGE "Executing Error\n"
 # define ARG_ERR_MESSAGE "Arg Error\n"
-# define ENVP_ERR_MESSAGE "Envp init Error\n"
+# define DEFAULT_FD_ERR_MESSAGE "Default fd Error\n"
 
 # define ASCII_ART_PATH "imgs/"
 
-enum	e_exit_status
-{
-	SUCCESS = 0,
-	FAIL = 1,
-	PRT_INTRO_ERR = 0,
-	SET_TERM_ERR,
-	EXEC_ERR,
-	END_TERM,
-	ARG_ERR,
-	ENVP_ERR
-};
+# define END_TERM 1 << 0
+# define ARG_ERR 1 << 1
+# define DEFAULT_FD_ERR 1 << 2
+# define PRINT_INTRO_ERR 1 << 3
 
-char	*exit_status_to_a(int exit_status);
-int		print_error(const char *str, int ret);
+void	write_error(const char *str);
 int		exit_with_status(int status);
 int		print_intro(void);
 

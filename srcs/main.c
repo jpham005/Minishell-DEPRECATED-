@@ -6,12 +6,12 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 13:46:27 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/06 15:47:54 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/16 17:10:54 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
-#include "set_terminal_state.h"
+#include "terminal.h"
 #include "envp.h"
 #include "utils.h"
 
@@ -29,73 +29,67 @@ static int	parse(const char *str)
 		else
 			waitpid(pid, &status, 0);
 	}
+	else if (!ft_strncmp("read", str, 5))
+	{
+		pid = fork();
+		if (!pid)
+		{
+			execve("jaham_test/read", NULL, NULL);
+			write(1, "error\n", 6);
+		}
+		else
+			waitpid(pid, &status, 0);
+	}
 	return (123);
 }
 //
 
-static int	check_arg(int argc, const char **argv)
-{
-	int	i;
-
-	i = 1;
-	if (argc != 1)
-	{
-		ft_putstr_fd(TOO_MANY_ARG_ERR_MESSAGE, 2);
-		while (argv[i])
-		{
-			ft_putstr_fd(argv[i++], 2);
-			ft_putstr_fd("\n", 2);
-		}
-		return (0);
-	}
-	return (1);
-}
-
-static int	readline_loop(t_envp_list *sh_envp)
+static int	readline_loop(t_context *context, t_term_state *term_state)
 {
 	char	*str;
-	char	*exit_status;
 
 	while (1)
 	{
-		str = readline(MINISHELL_WITH_COLOR);
+		str = ft_readline(term_state);
 		if (!str)
 			return (exit_with_status(END_TERM));
 		if (*str)
 			add_history(str);
-		set_term_execute();
-		exit_status = exit_status_to_a(parse(str)); // parser here
-		if (!exit_status)
-			return (exit_with_status(EXEC_ERR));
-		if (!upadate_envp_list(&sh_envp, "exit_status", exit_status))
-			return (exit_with_status(EXEC_ERR));
-		safe_free((void **) &exit_status);
-		signal(SIGINT, sig_int_handler_default);
-		signal(SIGQUIT, SIG_IGN);
+		context->exit_status = parse(str);
 		safe_free((void **) &str);
 	}
 	return (0);
 }
-
+#include "built_in.h"
 int	main(int argc, char **argv, char **envp)
 {
-	t_envp_list	*sh_envp;
+	t_context		context;
+	t_term_state	term_state;
 
 	if (!check_arg(argc, (const char **) argv))
-		return (exit_with_status(ARG_ERR));
-	if (!init_envp_list(&sh_envp, (const char **) envp))
-		return (exit_with_status(ENVP_ERR));
-	if (!upadate_envp_list(&sh_envp, "exit_status", "0"))
-	{
-		clear_envp_list(&sh_envp);
-		return (exit_with_status(ENVP_ERR));
-	}
+		exit_with_status(ARG_ERR);
+	if (!check_tty(STDIN_FILENO, STDOUT_FILENO, STDERR_FILENO))
+		exit_with_status(DEFAULT_FD_ERR);
+	init_shell(&context, &term_state, (const char **) envp);
 	if (!print_intro())
-		return (exit_with_status(PRT_INTRO_ERR));
-	if (!set_term_default())
-		return (exit_with_status(SET_TERM_ERR));
-	if (readline_loop(sh_envp))
-		return (exit_with_status(EXEC_ERR));
-	clear_envp_list(&sh_envp);
-	return (SUCCESS);
+		exit_with_status(PRINT_INTRO_ERR);
+	readline_loop(&context, &term_state);
+	context.exit_status = 5;
+	char *args[] = {
+		"cd",
+		"Caches",
+		NULL
+	};
+	char *args2[] = {
+		"export",
+		"CDPATH=/goinfre/jaham",
+		NULL
+	};
+	context.exit_status = echo(&context, (const char **) args);
+	printf("exit with %d\n", context.exit_status);
+	clear_envp_list(&(context.envp));
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
+	while (1);
+	return (context.exit_status);
 }

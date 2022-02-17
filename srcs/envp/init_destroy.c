@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   manage_envp.c                                      :+:      :+:    :+:   */
+/*   init_destroy.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 21:20:24 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/05 20:52:11 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/12 15:31:48 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "envp.h"
 #include "utils.h"
 
-void	del_one_envp_list(t_envp_list **head, char *key)
+void	del_one_envp_list(t_envp_list **head, const char *key)
 {
 	t_envp_list	*temp;
 	t_envp_list	*cp;
@@ -32,7 +32,7 @@ void	del_one_envp_list(t_envp_list **head, char *key)
 	}
 }
 
-int	upadate_envp_list(t_envp_list **head, char *key, char *value)
+void	update_envp_list(t_envp_list **head, const char *key, const char *value)
 {
 	t_envp_list	*new;
 	t_envp_list	*cp;
@@ -44,19 +44,14 @@ int	upadate_envp_list(t_envp_list **head, char *key, char *value)
 	{
 		safe_free((void **) &((*head)->value));
 		(*head)->value = ft_strdup(value);
-		if (!((*head)->value))
-			return (0);
-		return (1);
+		return ;
 	}
 	new = ft_malloc(sizeof(t_envp_list), 1);
-	if (!new)
-		return (0);
 	new->key = ft_strdup(key);
 	new->value = ft_strdup(value);
 	new->next = NULL;
 	*head = new;
 	cp->list_len++;
-	return (1);
 }
 
 int	clear_envp_list(t_envp_list **head)
@@ -80,27 +75,20 @@ int	clear_envp_list(t_envp_list **head)
 int	init_envp_list(t_envp_list **head, const char **envp)
 {
 	t_envp_list	**cp;
-	size_t		cnt;
+	size_t		len;
 
 	cp = head;
-	cnt = 0;
-	while (envp[cnt])
+	len = 0;
+	while (envp[len])
 	{
 		*head = ft_malloc(sizeof(t_envp_list), 1);
-		if (!*head)
-			return (clear_envp_list(head));
 		(*head)->next = NULL;
-		if (!get_key(*head, envp[cnt]))
-			return (clear_envp_list(head));
-		if (!get_value(*head, envp[cnt]))
-		{
-			safe_free((void **) &((*head)->key));
-			return (clear_envp_list(head));
-		}
+		get_key(*head, envp[len]);
+		get_value(*head, envp[len]);
 		head = &((*head)->next);
-		cnt++;
+		len++;
 	}
 	*head = NULL;
-	(*cp)->list_len = cnt;
+	(*cp)->list_len = len;
 	return (1);
 }

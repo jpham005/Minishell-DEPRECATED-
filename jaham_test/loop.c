@@ -12,16 +12,5 @@ void	sig_quit(int sig)
 
 int	main(void)
 {
-	int	i;
-
-	i = 1;
-	while (i < 100000000)
-	{
-		usleep(1000);
-		if (i % 100 == 0)
-		{
-			write(1, "asdf", 4);
-		}
-		i++;
-	}
+	while (1);
 }

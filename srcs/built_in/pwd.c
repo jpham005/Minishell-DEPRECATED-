@@ -1,29 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_substr.c                                        :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/03 16:58:05 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/10 15:50:53 by jaham            ###   ########.fr       */
+/*   Created: 2022/02/12 14:47:50 by jaham             #+#    #+#             */
+/*   Updated: 2022/02/15 19:20:05 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "built_in.h"
+#include "envp.h"
 #include "libft.h"
 
-char	*ft_substr(const char *str, size_t start, size_t len)
+int	pwd(t_context *context, const char **argv)
 {
-	char	*ret;
-	size_t	i;
+	char	*dir;
 
-	ret = ft_malloc(sizeof(char), len + 1);
-	i = 0;
-	while (i < len)
-	{
-		ret[i] = str[i + start];
-		i++;
-	}
-	ret[i] = '\0';
-	return (ret);
+	if (!context || !argv)
+		return (1);
+	dir = ft_getcwd(NULL, 1);
+	printf("%s\n", dir);
+	safe_free((void **) &dir);
+	return (0);
 }
