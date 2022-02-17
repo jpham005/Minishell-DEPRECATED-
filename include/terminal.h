@@ -6,20 +6,16 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 12:06:57 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/15 20:18:01 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/17 15:52:03 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TERMINAL_H
 # define TERMINAL_H
 
-# include <termios.h>
-# include <unistd.h>
-# include <signal.h>
-# include <stdio.h>
-# include <readline/readline.h>
-# include <readline/history.h>
+# include "color.h"
 # include "envp.h"
+# include <termios.h>
 
 # define TOO_MANY_ARG_ERR_MESSAGE "Too many arg: "
 # define SIG_QUIT_MESSAGE "Quit: 3\n"

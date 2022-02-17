@@ -6,12 +6,14 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 13:56:34 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/13 16:59:55 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/17 15:46:43 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "utils.h"
 #include "color.h"
+#include "libft.h"
+#include "utils.h"
+#include <stdlib.h>
 
 void	write_error(const char *str)
 {

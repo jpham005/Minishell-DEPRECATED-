@@ -6,11 +6,12 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 14:21:18 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/11 19:49:47 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/17 15:33:07 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "envp.h"
+#include <stdio.h>
 
 void	print_envp_sort(t_envp_list *head)
 {

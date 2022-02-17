@@ -6,12 +6,12 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 21:20:24 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/12 15:31:48 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/17 15:33:19 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "envp.h"
-#include "utils.h"
+#include "libft.h"
 
 void	del_one_envp_list(t_envp_list **head, const char *key)
 {

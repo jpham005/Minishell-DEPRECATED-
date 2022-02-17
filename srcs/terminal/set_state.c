@@ -6,13 +6,14 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 12:20:16 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/14 21:04:50 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/17 15:59:03 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "terminal.h"
-#include "utils.h"
-#include "color.h"
+#include <stdio.h>
+#include <signal.h>
+#include <readline/readline.h>
 
 void	set_term_readline(t_term_state *term_state)
 {

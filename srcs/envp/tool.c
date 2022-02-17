@@ -6,11 +6,12 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 17:48:09 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/11 19:44:00 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/17 15:33:35 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "envp.h"
+#include "libft.h"
 
 char	**convert_envp_to_dptr(const t_envp_list *head)
 {

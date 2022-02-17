@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 20:50:38 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/12 17:30:39 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/17 15:32:37 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define ENVP_H
 
 # include <unistd.h>
-# include "libft.h"
 
 # define SORT 1 << 0
 # define UNSORT 1 << 1

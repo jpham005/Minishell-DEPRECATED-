@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   safe_free.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 17:28:38 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/04 11:10:22 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/17 15:26:01 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <stdlib.h>
 
 void	safe_free(void **ptr)
 {

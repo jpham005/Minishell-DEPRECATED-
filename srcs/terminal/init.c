@@ -6,13 +6,11 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 20:41:04 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/14 21:04:37 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/17 15:51:23 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "terminal.h"
-#include "utils.h"
-#include "envp.h"
 #include "libft.h"
 
 void	init_shell(t_context *context, t_term_state *t_state, const char **envp)

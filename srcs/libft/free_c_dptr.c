@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   free_c_dptr.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 15:38:30 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/11 15:08:18 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/17 15:23:17 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <stdlib.h>
 
 void	free_c_dptr(char ***ptr)
 {

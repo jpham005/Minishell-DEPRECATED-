@@ -6,14 +6,14 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 20:44:39 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/15 20:16:58 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/17 15:31:14 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "built_in.h"
 #include "envp.h"
 #include "libft.h"
-#include "terminal.h"
+#include <stdio.h>
 
 static int	check_valid(const char *str)
 {

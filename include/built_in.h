@@ -6,18 +6,14 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 20:54:17 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/16 17:10:20 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/17 15:28:56 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BUILT_IN_H
 # define BUILT_IN_H
 
-# include "envp.h"
 # include "terminal.h"
-# include <sys/stat.h>
-# include <unistd.h>
-# include <errno.h>
 
 # define SHELL_NAME "minishell: "
 

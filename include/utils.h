@@ -6,17 +6,12 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 20:46:28 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/15 20:18:07 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/17 15:44:42 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef UTILS_H
 # define UTILS_H
-
-# include <unistd.h>
-# include <stdlib.h>
-# include <stdio.h>
-# include "libft.h"
 
 # define PRT_INTRO_ERR_MESSAGE "Print Intro Error\n"
 # define SET_TERM_ERR_MESSAGE "Setting Terminal Error\n"

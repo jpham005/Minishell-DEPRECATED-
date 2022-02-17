@@ -6,14 +6,14 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/12 16:25:58 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/14 14:36:13 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/17 15:30:50 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "built_in.h"
-#include "terminal.h"
-#include "utils.h"
 #include "libft.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 static int	check_valid(const char **argv)
 {

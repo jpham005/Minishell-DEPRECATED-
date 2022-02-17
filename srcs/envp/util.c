@@ -6,11 +6,12 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/11 19:08:27 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/11 19:08:41 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/17 15:33:45 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "envp.h"
+#include "libft.h"
 
 void	get_key(t_envp_list *curr, const char *envp)
 {

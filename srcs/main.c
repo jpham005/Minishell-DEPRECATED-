@@ -6,15 +6,18 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 13:46:27 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/16 17:10:54 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/17 17:19:16 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "main.h"
+#include "libft.h"
 #include "terminal.h"
-#include "envp.h"
 #include "utils.h"
+#include <signal.h>
+#include <stdio.h>
+#include <readline/history.h>
 
+#include <sys/wait.h> // temp
 //parser part
 static int	parse(const char *str)
 {
@@ -60,7 +63,7 @@ static int	readline_loop(t_context *context, t_term_state *term_state)
 	}
 	return (0);
 }
-#include "built_in.h"
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_context		context;
@@ -74,19 +77,6 @@ int	main(int argc, char **argv, char **envp)
 	if (!print_intro())
 		exit_with_status(PRINT_INTRO_ERR);
 	readline_loop(&context, &term_state);
-	context.exit_status = 5;
-	char *args[] = {
-		"cd",
-		"Caches",
-		NULL
-	};
-	char *args2[] = {
-		"export",
-		"CDPATH=/goinfre/jaham",
-		NULL
-	};
-	context.exit_status = echo(&context, (const char **) args);
-	printf("exit with %d\n", context.exit_status);
 	clear_envp_list(&(context.envp));
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);

@@ -6,13 +6,13 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/12 14:47:50 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/15 19:20:05 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/17 15:31:44 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "built_in.h"
-#include "envp.h"
 #include "libft.h"
+#include <stdio.h>
 
 int	pwd(t_context *context, const char **argv)
 {

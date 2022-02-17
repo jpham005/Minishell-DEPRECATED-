@@ -6,13 +6,18 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 15:41:42 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/15 21:22:16 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/17 15:57:08 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "built_in.h"
-#include "terminal.h"
 #include "libft.h"
+#include "terminal.h"
+#include <errno.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/stat.h>
 
 static char	*try_cdpath(char ***cdpath, const char *arg, t_envp_list *envp)
 {

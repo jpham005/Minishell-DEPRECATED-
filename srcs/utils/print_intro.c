@@ -6,11 +6,13 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 12:20:11 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/10 11:38:22 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/17 15:45:59 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
+#include <fcntl.h>
+#include <unistd.h>
 
 int	print_intro(void)
 {

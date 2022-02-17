@@ -6,11 +6,14 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 21:08:08 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/12 17:09:38 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/17 15:59:25 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include "terminal.h"
+#include <stdio.h>
+#include <readline/readline.h>
 
 void	sig_int_handler_default(int sig)
 {
