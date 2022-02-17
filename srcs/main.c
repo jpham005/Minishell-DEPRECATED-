@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 13:46:27 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/17 17:19:16 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/17 20:59:05 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,5 @@ int	main(int argc, char **argv, char **envp)
 	clear_envp_list(&(context.envp));
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
-	while (1);
 	return (context.exit_status);
 }

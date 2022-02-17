@@ -1,19 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cd_util.c                                          :+:      :+:    :+:   */
+/*   temphead.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/15 20:28:49 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/17 21:00:16 by jaham            ###   ########.fr       */
+/*   Created: 2022/02/17 19:49:29 by jaham             #+#    #+#             */
+/*   Updated: 2022/02/17 19:56:14 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef TEMPHEAD_H
+# define TEMPHEAD_H
 
-void	free_both_cd(char **curr_dir, char **path)
+typedef struct s_command
 {
-	safe_free((void **) curr_dir);
-	safe_free((void **) path);
-}
+	char	**cmd;
+	int		in;
+	int		out;
+	int		pipe[2];
+	int		type;
+}	t_command;
+
+#endif
