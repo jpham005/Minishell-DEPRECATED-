@@ -78,9 +78,14 @@ typedef struct s_pipe
 {
     t_cmd *cmds; // struct 구조체
     size_t num; // pipe의 개수
+}   t_pipe;
+
+typedef struct s_cmd_line
+{
+    t_pipe *pipes; // struct 구조체
+    int type; // 논리 연산자(&&, ||) 타입(0, 1, 2)
+    struct s_cmd_line *next;
 };
-
-
 
 # endif
 
