@@ -58,23 +58,34 @@ typedef struct  s_parse
 
 }   t_parse;
 
+// 하나의 프로세스(s_parse) 단위에서 여러 개의 리다이렉트(파일입출력) 처리가 이루어질 수 있기 때문에 여러 개 보내야 함
+typedef struct s_redirect
+{
+    int type; // <, << / >, >>
+    char *target;
+    struct s_redirect *next;
+}   t_redirect;
+
 typedef struct s_command
 {
-    char *command;
-    char *bin;
-
-    int in;
-    int out;
-    int pipe[2];
-    int type;
-
-    t_token *arguments;
-    t_envp_list *envp_list;
-    
-    struct s_command *next;
+    char **command; // echo -e "helloworld"
+    t_redirect *redir; // 리다이렉트 모음
+    // int pipe[2];
+    // int type;
 }   t_command;
+
+typedef struct s_pipe
+{
+    t_command *cmd; // struct 구조체
+    size_t num; // pipe의 개수
+};
+
+
 
 # endif
 
 // 시작과 파이프 직후에는 명령어가 나오고, command 뒤에는 arg가 나온다.
 // token 매크로 덩어리들의 위치를 구하는 공식을 여러 개 정리한 후 함수로 구현해야 한다.
+
+// redir 다음에는 file이 온다.
+// ㅇ
