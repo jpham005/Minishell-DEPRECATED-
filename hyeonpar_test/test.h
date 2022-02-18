@@ -66,17 +66,17 @@ typedef struct s_redirect
     struct s_redirect *next;
 }   t_redirect;
 
-typedef struct s_command
+typedef struct s_cmd
 {
-    char **command; // echo -e "helloworld"
+    char **cmd; // echo -e "helloworld"
     t_redirect *redir; // 리다이렉트 모음
     // int pipe[2];
     // int type;
-}   t_command;
+}   t_cmd;
 
 typedef struct s_pipe
 {
-    t_command *cmd; // struct 구조체
+    t_cmd *cmds; // struct 구조체
     size_t num; // pipe의 개수
 };
 
