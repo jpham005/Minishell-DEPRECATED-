@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 20:45:13 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/18 19:42:22 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/19 21:12:08 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,6 @@ typedef enum e_pipe_type // will use hyeonpar's
 }	t_pipe_type;
 
 int		is_built_in(const char *cmd);
+int		handle_inpipe(int in[2], t_redirect *redir, int type, char *target);
 
 #endif

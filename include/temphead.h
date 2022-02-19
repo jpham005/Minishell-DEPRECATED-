@@ -6,33 +6,68 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/17 19:49:29 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/18 21:14:10 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/19 21:07:12 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TEMPHEAD_H
 # define TEMPHEAD_H
 
-typedef struct s_redire
+# include <unistd.h>
+
+typedef enum e_built_in
 {
-	int				type; // >, >>, <, <<
-	char			*str; // NULL when stdio
-	struct s_redire *next;
-}	t_redir;
+	SH_CD = 0,
+	SH_ECHO,
+	SH_ENV,
+	SH_EXIT,
+	SH_EXPORT,
+	SH_PWD,
+	SH_UNSET,
+	SH_NONE
+}	t_built_in;
+
+typedef enum e_pipe_type // will use hyeonpar's
+{
+	PIPE = 0,
+	AND,
+	OR
+}	t_pipe_type;
+
+typedef enum e_redir_type
+{
+	REDIR_IN = 0,
+	REDIR_HEREDOC,
+	REDIR_OUT,
+	REDIR_APPEND
+}	t_redir_type;
+// 하나의 프로세스(s_parse) 단위에서 여러 개의 리다이렉트(파일입출력) 처리가 이루어질 수 있기 때문에 여러 개 보내야 함
+typedef struct s_redirect
+{
+    t_redir_type	type; // <, << / >, >>
+    char *target; // if heredoc, limit_string
+    struct s_redirect *next;
+}   t_redirect;
 
 typedef struct s_cmd
 {
-	char	**cmd; // execve(cmd[0], cmd, envp);
-	t_redir	*in; // <, <<, NULL if default
-	t_redir	*out; // > >>, NULL if default
-}	t_cmd;
+    char **cmd; // echo -e "helloworld"
+    t_redirect *redir; // 리다이렉트 모음
+    // int pipe[2];
+    // int type;
+}   t_cmd;
 
-typedef struct s_parse
+typedef struct s_pipe
 {
-	t_cmd cmd;
-	int		type; // default : pipe    &&, ||
-}	t_parse;
+    t_cmd *cmds; // struct 구조체
+    size_t	len; // pipe의 개수
+}   t_pipe;
 
-typedef strcut
+typedef struct s_cmd_line
+{
+    t_pipe				*pipes; // struct 구조체
+    t_pipe_type			type; // 논리 연산자(&&, ||) 타입(0, 1, 2)
+    struct s_cmd_line	*next;
+}	t_cmd_line;
 
 #endif
