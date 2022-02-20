@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 01:06:49 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/19 20:50:02 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/20 15:05:34 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,6 @@
 # define LIBFT_H
 
 # include <unistd.h>
-
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 256
-# endif
-
-typedef struct s_buffer
-{
-	char			buf[BUFFER_SIZE];
-	char			*cur;
-	char			*end;
-	int				fd;
-	struct s_buffer	*next;
-}	t_buffer;
-
-typedef struct s_string
-{
-	char	*str;
-	int		size;
-	int		n;
-}	t_string;
 
 int		ft_isalpha(int c);
 int		ft_isnum(int c);
@@ -55,5 +35,11 @@ pid_t	ft_fork(void);
 void	safe_free(void **ptr);
 void	perror_exit(const char *str, unsigned int exit_status);
 char	*get_next_line(int fd);
+void	ft_waitpid(pid_t pid, int status, int op);
+int		ft_wifexited(int status);
+int		ft_wexitstatus(int status);
+int		ft_wifsignaled(int status);
+int		ft_wtermsig(int status);
+void	exit_by_errno(int errno);
 
 #endif

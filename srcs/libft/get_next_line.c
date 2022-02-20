@@ -6,11 +6,12 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 20:36:26 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/19 20:39:54 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/20 14:18:23 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "get_next_line.h"
 
 int	delall(t_buffer **head, t_string *string, int fd)
 {

@@ -6,11 +6,13 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 20:37:43 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/19 20:48:11 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/20 14:18:45 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "get_next_line.h"
 #include "libft.h"
+#include <stdlib.h>
 
 char	*init_string(t_string *string)
 {

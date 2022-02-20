@@ -1,26 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec.h                                             :+:      :+:    :+:   */
+/*   ft_wtermsig.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/16 20:45:13 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/20 14:56:48 by jaham            ###   ########.fr       */
+/*   Created: 2022/02/20 14:31:32 by jaham             #+#    #+#             */
+/*   Updated: 2022/02/20 14:32:19 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXEC_H
-# define EXEC_H
+#include "libft.h"
 
-typedef enum e_pipe_type // will use hyeonpar's
+int	ft_wtermsig(int status)
 {
-	PIPE = 0,
-	AND,
-	OR
-}	t_pipe_type;
-
-int		is_built_in(const char *cmd);
-int		handle_redirection(t_redirect *redir, int in[2], int *out);
-
-#endif
+	return (status & 0177);
+}

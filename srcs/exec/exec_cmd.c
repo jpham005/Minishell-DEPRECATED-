@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 20:44:57 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/19 21:27:52 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/20 15:15:04 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,43 +15,66 @@
 #include "temphead.h"
 #include "exec.h"
 
-int	handle_redirection(t_redirect *redir, int in[2], int *out)
+int	wait_all(pid_t *pids, size_t i)
 {
-	while (redir)
+	size_t	j;
+	int		status;
+
+	j = 0;
+	while (j < i - 1)
 	{
-		if (redir->type == REDIR_IN || redir->type == REDIR_HEREDOC)
-			if (!handle_inpipe(in, redir, redir->type, redir->target))
-				return (0);
-		else if (redir->type == REDIR_OUT || redir->type == REDIR_APPEND)
-			if (!handle_out(out, redir))
-				return (0);
-		redir = redir->next;
+		ft_waitpid(pids[j], NULL, 0);
+		j++;
 	}
-	return (1);
+	ft_waitpid(pids[j], &status, 0);
+	if (ft_wifexited(status))
+		return (ft_wexitstatus(status));
+	if (ft_wifsignaled(status))
+		return (ft_wtermsig(status) + 128);
+	return (status % 128);
 }
 
+int	exec_single_cmd(t_pipe *pipes, int in[2], int *out, t_context *context)
+{
+	pid_t	*pids;
+	size_t	i;
+
+	pids = ft_malloc(sizeof(pid_t), pipes->len);
+	i = 0;
+	while (i < pipes->len - 1)
+	{
+		if (!handle_redirection(pipes->cmds[i].redir, in, out))
+			return (1);
+		pids[i] = exec_fork_pipe(in, out, pipes->cmds[i].cmd, context->envp);
+		if (pids[i] == -1 && i > 0)
+		{
+			wait_all(pids, i - 1);
+			return (1);
+		}
+		i++;
+	}
+	pids[i] = exec_fork_out(in, out, pipes->cmds[i].cmd, context->envp);
+	return (wait_all(pids, ++i));
+}
+
+// int	exec_parenthesis
 
 int	exec_pipes(t_pipe *pipes, t_context *context)
 {
-	size_t	i;
 	int		in[2];
 	int		out;
 	pid_t	*pids;
 
-	i = 0;
 	in[1] = 0;
 	out = 1;
-	pids = ft_malloc(sizeof(pid_t), pipes->len);
-	while (i < pipes->len)
-	{
-		if (!handle_redirection(pipes->cmds[i].redir, in, &out))
-			return (1);
-		pids[i] = exec_fork(in, out, pipes->cmds[i].cmd, context->envp);
-		// execve
-		i++;
-	}
+	if (pipes->type == SINGLE_CMD)
+		return (exec_single_cmd(pipes, in, out, context));
+	// else if (pipes->type == PARENTHESIS)
+	// 	return (exec_parenthesis(pipes, in, out, context));
 }
 
+// called first when starting executor, returns 1 or 0 to indicate error
+// arg : cmd_line, context(envp)
 int	executer(t_cmd_line *cmd_line, t_context *context)
 {
 	while (cmd_line)
