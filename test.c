@@ -2,39 +2,44 @@
 #include "include/terminal.h"
 #include <unistd.h>
 #include <stdlib.h>
-
-int	exec_pipes(t_pipe *pipes)
-{
-	write(1, "asdf\n", 5);
-	return (0);
-}
-
-int	executer(t_cmd_line *cmd_line, t_context *context)
-{
-	while (cmd_line)
-	{
-		if (cmd_line->type == PIPE)
-			context->exit_status = exec_pipes(cmd_line->pipes);
-		else if ((cmd_line->type == AND) && !context->exit_status)
-			context->exit_status = exec_pipes(cmd_line->pipes);
-		else if ((cmd_line->type == OR) && context->exit_status)
-			context->exit_status = exec_pipes(cmd_line->pipes);
-		cmd_line = cmd_line->next;
-	}
-	return (1);
-}
+#include <fcntl.h>
+#include "srcs/libft/libft.h"
+#include <stdio.h>
 
 int main()
 {
-	t_cmd_line *head;
-	t_context *context;
+	t_context *context = malloc(sizeof(t_context));
+	context->envp = malloc(sizeof(t_envp_list));
+	context->envp->key = "ASDF";
+	context->envp->value = "zxf";
+	context->envp->list_len = 1;
+	context->envp->next = NULL;
 
-	head = malloc(sizeof(t_cmd_line));
-	head->type = PIPE;
-	head->next = malloc(sizeof(t_cmd_line));
-	head->next->type = OR;
-	head->next->next = malloc(sizeof(t_cmd_line));
-	head->next->next->type = AND;
+	t_redirect *head;
+
+	head = malloc(sizeof(t_redirect));
+	head->target = "EOF";
+	head->type = REDIR_HEREDOC;
+	head->next = malloc(sizeof(t_redirect));
+
+	head->next->target = "outfile";
+	head->next->type = REDIR_APPEND;
+	head->next->next = malloc(sizeof(t_redirect));
+
+	head->next->next->target = "infile";
+	head->next->next->type = REDIR_IN;
 	head->next->next->next = NULL;
-	executer(head, context);
+
+	int in[2];
+	int out;
+
+	in[0] = 0;
+	in[1] = 0;
+	out = 1;
+
+	t_pipe	*pipe = malloc(sizeof(t_pipe));
+	pipe->cmds = malloc(sizeof(t_cmd));
+	pipe->len = 1;
+	pipe->type = SINGLE_CMD;
+	exec_single_cmd(pipe, in, out, context);
 }

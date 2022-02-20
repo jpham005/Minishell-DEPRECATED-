@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 11:20:39 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/18 13:52:42 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/20 15:49:23 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,18 @@
 int	is_built_in(const char *cmd)
 {
 	if (ft_strncmp(cmd, "cd", 3))
-		return (CD);
+		return (SH_CD);
 	if (ft_strncmp(cmd, "echo", 5))
-		return (ECHO);
+		return (SH_ECHO);
 	if (ft_strncmp(cmd, "env", 4))
-		return (ENV);
+		return (SH_ENV);
 	if (ft_strncmp(cmd, "exit", 5))
-		return (EXIT);
+		return (SH_EXIT);
 	if (ft_strncmp(cmd, "export", 7))
-		return (EXPORT);
+		return (SH_EXPORT);
 	if (ft_strncmp(cmd, "pwd", 4))
-		return (PWD);
+		return (SH_PWD);
 	if (ft_strncmp(cmd, "unset", 6))
-		return (UNSET);
-	return (NONE);
+		return (SH_UNSET);
+	return (SH_NONE);
 }

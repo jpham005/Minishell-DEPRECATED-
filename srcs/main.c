@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 13:46:27 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/17 20:59:05 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/20 15:41:17 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,8 @@ static int	readline_loop(t_context *context, t_term_state *term_state)
 	}
 	return (0);
 }
-
+#include "temphead.h"
+#include "exec.h"
 int	main(int argc, char **argv, char **envp)
 {
 	t_context		context;
