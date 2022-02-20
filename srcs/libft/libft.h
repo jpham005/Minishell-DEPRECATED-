@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 01:06:49 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/20 20:00:26 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/20 20:21:59 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,6 @@ int		ft_wifexited(int status);
 int		ft_wexitstatus(int status);
 int		ft_wifsignaled(int status);
 int		ft_wtermsig(int status);
-void	exit_by_errno(int errno);
+void	exit_by_errno(int errno, char *cmd);
 
 #endif

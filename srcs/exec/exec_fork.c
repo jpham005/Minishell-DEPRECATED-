@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 14:38:59 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/20 20:09:14 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/20 20:23:58 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,11 @@ void	child(int in[2], t_out *outs, t_cmd cmd, t_envp_list *envp)
 		if (dup2(outs->out, 1) == -1)
 			exit(1);
 	}
-	execve(cmd.cmd[0], cmd.cmd, convert_envp_to_dptr(envp));
-	exit_by_errno(errno);
+	execve(cmd.cmd[0], cmd.cmd, convert_envp_to_dptr(envp)); // concat with path
+	exit_by_errno(errno, cmd.cmd[0]); // put original
 }
 
-pid_t	exec_fork_pipe(int in[2], int *out, t_cmd cmd, t_envp_list *envp)
+pid_t	exec_fork_pipe(int in[2], int *out, t_cmd cmd, t_envp_list *envp) // filedes error
 {
 	t_out	outs;
 	int		pid;

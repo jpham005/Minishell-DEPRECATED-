@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 13:46:27 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/20 20:15:04 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/20 20:17:02 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int	main(int argc, char **argv, char **envp)
 
 	// set pipe struct
 	cmd_line->pipes->type = SINGLE_CMD;
-	cmd_line->pipes->len = 1;
+	cmd_line->pipes->len = 2;
 
 	// set redirection
 	t_redirect *redir = malloc(sizeof(t_redirect));
@@ -109,12 +109,13 @@ int	main(int argc, char **argv, char **envp)
 	t_cmd	*cmds = malloc(sizeof(t_cmd) * 2);
 	cmds[0].redir = redir;
 	cmds[0].cmd = ft_split("/bin/cat", ' ');
-	// cmds[1].cmd = ft_split("/bin/ls", ' ');
-	// cmds[1].redir = NULL;
+	cmds[1].cmd = ft_split("/bin/ls", ' ');
+	cmds[1].redir = NULL;
 	cmd_line->pipes->cmds = cmds;
 
 	executer(cmd_line, &context);
 	// print exit status
+	perror(NULL);
 	printf("%d\n", context.exit_status);
 	// test end
 	clear_envp_list(&(context.envp));
