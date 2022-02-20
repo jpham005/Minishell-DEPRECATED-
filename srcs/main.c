@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 13:46:27 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/20 20:17:02 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/21 03:46:17 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int	main(int argc, char **argv, char **envp)
 
 	// set pipe struct
 	cmd_line->pipes->type = SINGLE_CMD;
-	cmd_line->pipes->len = 2;
+	cmd_line->pipes->len = 3;
 
 	// set redirection
 	t_redirect *redir = malloc(sizeof(t_redirect));
@@ -99,23 +99,31 @@ int	main(int argc, char **argv, char **envp)
 	redir->next->target = "EOF";
 	redir->next->type = REDIR_HEREDOC;
 	// redir->next->next = NULL;
-	redir->next->next = malloc(sizeof(t_redirect));
-
-	redir->next->next->target = "outfile";
-	redir->next->next->type = REDIR_OUT;
-	redir->next->next->next = NULL;
+	redir->next->next = NULL;
+	// outfile test
+	//redir->next->next = malloc(sizeof(t_redirect));
+	//redir->next->next->target = "outfile";
+	//redir->next->next->type = REDIR_OUT;
+	//redir->next->next->next = NULL;
 
 	// set cmds
-	t_cmd	*cmds = malloc(sizeof(t_cmd) * 2);
+	t_cmd	*cmds = malloc(sizeof(t_cmd) * 3);
 	cmds[0].redir = redir;
 	cmds[0].cmd = ft_split("/bin/cat", ' ');
-	cmds[1].cmd = ft_split("/bin/ls", ' ');
-	cmds[1].redir = NULL;
+	cmds[1].cmd = ft_split("/bin/cat", ' ');
+	//cmds[1].redir = NULL;
+	cmds[1].redir = malloc(sizeof(t_redirect));
+	cmds[1].redir->type = REDIR_OUT;
+	cmds[1].redir->target = "outfile2";
+	cmds[1].redir->next = NULL;
+	//cmds[2]
+	cmds[2].redir = NULL;
+	cmds[2].cmd = ft_split("/bin/ls", ' ');
+
 	cmd_line->pipes->cmds = cmds;
 
 	executer(cmd_line, &context);
 	// print exit status
-	perror(NULL);
 	printf("%d\n", context.exit_status);
 	// test end
 	clear_envp_list(&(context.envp));

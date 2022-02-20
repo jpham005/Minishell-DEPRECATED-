@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 20:42:47 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/20 20:07:11 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/21 04:26:54 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include <fcntl.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include "exec.h"
 
 static int	handle_redir_in(int in[2], t_redirect *redir, char *target)
 {
@@ -80,13 +81,15 @@ int	handle_out(int *out, t_redirect *redir)
 	return (*out != -1);
 }
 
-int	handle_redirection(t_redirect *redir, int in[2], int *out)
+int	handle_redirection(t_redirect *redir, t_in_out *in_out)
 {
-	if (redir && pipe(in) == -1)
-	{
-		perror("pipe");
+	int	in[2];
+	int	out;
+
+	if (!redir)
+		return (1); // need initialize in[2], out. decide when to pipe
+	if (!ft_pipe(in))
 		return (0);
-	}
 	while (redir)
 	{
 		if (redir->type == REDIR_IN || redir->type == REDIR_HEREDOC)
@@ -96,11 +99,12 @@ int	handle_redirection(t_redirect *redir, int in[2], int *out)
 		}
 		else if (redir->type == REDIR_OUT || redir->type == REDIR_APPEND)
 		{
-			if (!handle_out(out, redir))
+			if (!handle_out(&out, redir))
 				return (0);
 		}
 		redir = redir->next;
 	}
 	close(in[1]);
+	set_in_out(in, out, in_out);
 	return (1);
 }

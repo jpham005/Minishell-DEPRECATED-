@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 20:45:13 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/20 19:19:13 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/21 02:39:01 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,16 @@
 #include "temphead.h"
 #include "terminal.h"
 
-typedef struct s_out
+typedef struct s_in_out
 {
-	int	outpipe[2];
-	int out;
-}	t_out;
+	int	infile;
+	int	outfile;
+}	t_in_out;
 
 int		is_built_in(const char *cmd);
-int		handle_redirection(t_redirect *redir, int in[2], int *out);
-pid_t	exec_fork_pipe(int in[2], int *out, t_cmd cmd, t_envp_list *envp);
-pid_t	exec_fork_out(int in[2], int *out, t_cmd cmd, t_envp_list *envp);
+int		handle_redirection(t_redirect *redir, t_in_out *in_out);
+pid_t	exec_fork_pipe(t_cmd cmd, t_context *context, t_in_out *in_out);
+pid_t	exec_fork_out(t_cmd cmd, t_context *context, t_in_out *in_out);
 int		executer(t_cmd_line *cmd_line, t_context *context);
 
 #endif

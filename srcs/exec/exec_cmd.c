@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 20:44:57 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/20 20:19:37 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/21 04:21:52 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,18 +46,20 @@ int	wait_all(pid_t *pids, size_t i, int ret)
 	return (status % 128);
 }
 
-int	exec_single_cmd(t_pipe *pipes, int in[2], int *out, t_context *context)
+int	exec_single_cmd(t_in_out *in_out, t_pipe *pipes, t_context *context)
 {
-	pid_t	*pids;
-	size_t	i;
+	pid_t		*pids;
+	size_t		i;
 
 	pids = ft_malloc(sizeof(pid_t), pipes->len);
 	i = 0;
 	while (pipes->len-- > 1)
 	{
-		if (!handle_redirection(pipes->cmds[i].redir, in, out))
+		in_out->outfile = 1;
+		if (!handle_redirection(pipes->cmds[i].redir, in_out))
 			continue ;
-		pids[i] = exec_fork_pipe(in, out, pipes->cmds[i], context->envp);
+		//printf("before exec%d\n", in_out->infile);
+		pids[i] = exec_fork_pipe(pipes->cmds[i], context, in_out);
 		if (pids[i] == -1)
 		{
 			wait_all(pids, i, 1);
@@ -65,7 +67,7 @@ int	exec_single_cmd(t_pipe *pipes, int in[2], int *out, t_context *context)
 		}
 		i++;
 	}
-	pids[i] = exec_fork_out(in, out, pipes->cmds[i], context->envp);
+	pids[i] = exec_fork_out(pipes->cmds[i], context, in_out);
 	if (pids[i] == -1)
 	{
 		wait_all(pids, i, 1);
@@ -78,15 +80,12 @@ int	exec_single_cmd(t_pipe *pipes, int in[2], int *out, t_context *context)
 
 int	exec_pipes(t_pipe *pipes, t_context *context)
 {
-	int		in[2];
-	int		out;
-	pid_t	*pids;
+	t_in_out	in_out;
 
-	in[0] = 0;
-	in[1] = 0;
-	out = 1;
+	in_out.infile = context->std_fd[0];
+	in_out.outfile = context->std_fd[1];
 	if (pipes->type == SINGLE_CMD)
-		return (exec_single_cmd(pipes, in, &out, context));
+		return (exec_single_cmd(&in_out, pipes, context));
 	// else if (pipes->type == PARENTHESIS)
 	// 	return (exec_parenthesis(pipes, in, out, context));
 	return (5);

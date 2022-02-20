@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_fork.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 14:38:59 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/20 20:23:58 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/21 04:22:05 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,72 +17,82 @@
 #include <errno.h>
 #include <stdlib.h>
 #include <stdio.h> // test
-void	child(int in[2], t_out *outs, t_cmd cmd, t_envp_list *envp)
+#include <fcntl.h>
+void	child(t_cmd cmd, t_context *context, t_in_out *in_out, int outpipe[2])
 {
-// printf("%d\n", in[0]);
-// printf("%d\n", fcntl(4, F_GETFD));
-// perror(NULL);
-	if (in[0] == -1)
+	if (in_out->infile == -1)
 		exit(1);
-	if (in[0] != 0 && dup2(in[0], 0) == -1)
+	if (!ft_dup2(in_out->infile, 0))
 		exit(1);
-	if (in[0] != 0)
-		close(in[0]);
-	if (outs->out != 1)
+	close(in_out->infile);
+	if (in_out->outfile == 1)
 	{
-		if (dup2(outs->outpipe[1], 1) == -1)
+		if (!ft_dup2(outpipe[1], 1))
 			exit(1);
-		close(outs->outpipe[1]);
-		close(outs->outpipe[0]);
+		close(outpipe[1]);
+		close(outpipe[0]);
 	}
 	else
 	{
-		if (dup2(outs->out, 1) == -1)
+		if (!ft_dup2(in_out->outfile, 1))
 			exit(1);
+		close(in_out->outfile);
 	}
-	execve(cmd.cmd[0], cmd.cmd, convert_envp_to_dptr(envp)); // concat with path
-	exit_by_errno(errno, cmd.cmd[0]); // put original
+	execve(cmd.cmd[0], cmd.cmd, convert_envp_to_dptr(context->envp)); // concat with path
+	exit_by_errno(errno, cmd.cmd[0]);
 }
 
-pid_t	exec_fork_pipe(int in[2], int *out, t_cmd cmd, t_envp_list *envp) // filedes error
+pid_t	exec_fork_pipe(t_cmd cmd, t_context *context, t_in_out *in_out)
 {
-	t_out	outs;
-	int		pid;
+	pid_t	pid;
+	int		outpipe[2];
 
-	if (*out == 1)
+	if (in_out->outfile == 1)
 	{
-		if (pipe(outs.outpipe) == -1)
+		if (!ft_pipe(outpipe))
 			return (-1);
 	}
-	outs.out = *out;
 	pid = fork();
 	if (pid == -1)
-		return (-1);
+		return (pid);
 	if (!pid)
-		child(in, &outs, cmd, envp);
-	if (outs.outpipe[1] != 1)
-		close(outs.outpipe[1]);
-	if (in[0] != 0)
-		close(in[0]);
-	in[0] = outs.outpipe[0];
+		child(cmd, context, in_out, outpipe);
+	close(outpipe[1]);
+	close(in_out->infile);
+	if (in_out->outfile == 1)
+	{
+		in_out->infile = outpipe[0];
+		//printf("%d\n", in_out->infile);
+		printf("byme %s", get_next_line(in_out->infile));
+	}
+	else
+		in_out->infile = 0;
 	return (pid);
 }
 
-pid_t	exec_fork_out(int in[2], int *out, t_cmd cmd, t_envp_list *envp)
+pid_t	exec_fork_out(t_cmd cmd, t_context *context, t_in_out *in_out)
 {
-	t_out	outs;
 	pid_t	pid;
 
-	if (!handle_redirection(cmd.redir, in, out))
+	in_out->outfile = 1;
+	if (!handle_redirection(cmd.redir, in_out))
 		return (-1);
-	outs.out = *out;
-	outs.outpipe[1] = *out;
 	pid = fork();
 	if (pid == -1)
-		return (-1);
+		return (pid);
 	if (!pid)
-		child(in, &outs, cmd, envp);
-	if (in[0] != 0)
-		close(in[0]);
+	{
+		if (!ft_dup2(in_out->infile, 0))
+			exit(1);
+		close(in_out->infile);
+		if (!ft_dup2(in_out->outfile, 1))
+			exit(1);
+		if (in_out->outfile != 1)
+			close(in_out->outfile);
+		execve(cmd.cmd[0], cmd.cmd, convert_envp_to_dptr(context->envp));
+		exit_by_errno(errno, cmd.cmd[0]);
+	}
+	close(in_out->infile);
+	close(in_out->outfile);
 	return (pid);
 }

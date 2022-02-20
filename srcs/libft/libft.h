@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 01:06:49 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/20 20:21:59 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/21 02:48:00 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,7 @@ int		ft_wexitstatus(int status);
 int		ft_wifsignaled(int status);
 int		ft_wtermsig(int status);
 void	exit_by_errno(int errno, char *cmd);
+int		ft_pipe(int pipefd[2]);
+int		ft_dup2(int fd1, int fd2);
 
 #endif
