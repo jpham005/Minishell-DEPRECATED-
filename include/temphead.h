@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/17 19:49:29 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/20 15:22:11 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/20 15:25:42 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include <unistd.h>
 
-typedef enum e_built_in
+typedef enum e_built_in // builtin macro
 {
 	SH_CD = 0,
 	SH_ECHO,
@@ -29,30 +29,30 @@ typedef enum e_built_in
 
 typedef enum e_pipe_type // will use hyeonpar's
 {
-	PIPE = 0,
-	AND,
-	OR
+	PIPE = 0, // | or none
+	AND, // &&
+	OR // ||
 }	t_pipe_type;
 
 typedef enum e_redir_type
 {
-	REDIR_IN = 0,
-	REDIR_HEREDOC,
-	REDIR_OUT,
-	REDIR_APPEND
+	REDIR_IN = 0, // <
+	REDIR_HEREDOC, // <<
+	REDIR_OUT, // >
+	REDIR_APPEND // >>
 }	t_redir_type;
 
 typedef enum e_cmd_type
 {
-	SINGLE_CMD = 0,
-	PARENTHESIS
+	SINGLE_CMD = 0, // without parenthesis
+	PARENTHESIS // with ex. (ls || ls)
 }	t_cmd_type;
 // 하나의 프로세스(s_parse) 단위에서 여러 개의 리다이렉트(파일입출력) 처리가 이루어질 수 있기 때문에 여러 개 보내야 함
 typedef struct s_redirect
 {
     t_redir_type	type; // <, << / >, >>
     char *target; // if heredoc, limit_string
-    struct s_redirect *next;
+    struct s_redirect *next; // NULL if none
 }   t_redirect;
 
 typedef struct s_cmd
