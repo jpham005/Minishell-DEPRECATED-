@@ -6,13 +6,15 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 20:42:47 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/20 17:11:32 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/20 20:07:11 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "temphead.h"
 #include "libft.h"
 #include <fcntl.h>
+#include <stdlib.h>
+#include <stdio.h>
 
 static int	handle_redir_in(int in[2], t_redirect *redir, char *target)
 {

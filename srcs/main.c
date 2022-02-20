@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 13:46:27 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/20 15:41:17 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/20 20:15:04 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ static int	readline_loop(t_context *context, t_term_state *term_state)
 }
 #include "temphead.h"
 #include "exec.h"
+#include <stdlib.h>
 int	main(int argc, char **argv, char **envp)
 {
 	t_context		context;
@@ -78,6 +79,44 @@ int	main(int argc, char **argv, char **envp)
 	if (!print_intro())
 		exit_with_status(PRINT_INTRO_ERR);
 	readline_loop(&context, &term_state);
+
+	// make cmd_line for test. (length 1)
+	t_cmd_line	*cmd_line = malloc(sizeof(t_cmd_line));
+	cmd_line->type = PIPE;
+	cmd_line->pipes = malloc(sizeof(t_pipe));
+	cmd_line->next = NULL;
+
+	// set pipe struct
+	cmd_line->pipes->type = SINGLE_CMD;
+	cmd_line->pipes->len = 1;
+
+	// set redirection
+	t_redirect *redir = malloc(sizeof(t_redirect));
+	redir->target = "infile";
+	redir->type = REDIR_IN;
+	redir->next = malloc(sizeof(t_redirect));
+
+	redir->next->target = "EOF";
+	redir->next->type = REDIR_HEREDOC;
+	// redir->next->next = NULL;
+	redir->next->next = malloc(sizeof(t_redirect));
+
+	redir->next->next->target = "outfile";
+	redir->next->next->type = REDIR_OUT;
+	redir->next->next->next = NULL;
+
+	// set cmds
+	t_cmd	*cmds = malloc(sizeof(t_cmd) * 2);
+	cmds[0].redir = redir;
+	cmds[0].cmd = ft_split("/bin/cat", ' ');
+	// cmds[1].cmd = ft_split("/bin/ls", ' ');
+	// cmds[1].redir = NULL;
+	cmd_line->pipes->cmds = cmds;
+
+	executer(cmd_line, &context);
+	// print exit status
+	printf("%d\n", context.exit_status);
+	// test end
 	clear_envp_list(&(context.envp));
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);

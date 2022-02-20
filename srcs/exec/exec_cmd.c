@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 20:44:57 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/20 17:03:24 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/20 20:01:07 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 #include "libft.h"
 #include "temphead.h"
 #include "exec.h"
-
+#include <stdlib.h>
+#include <stdio.h> // test
 int	wait_all(pid_t *pids, size_t i, int ret)
 {
 	size_t	j;
@@ -24,18 +25,24 @@ int	wait_all(pid_t *pids, size_t i, int ret)
 	while (i-- > 1)
 	{
 		if (pids[j] != -1)
-			ft_waitpid(pids[j], 0, 0);
+			ft_waitpid(pids[j], NULL, 0);
 		j++;
 	}
 	if (pids[j] != -1)
-		ft_waitpid(pids[j], status, 0);
+		ft_waitpid(pids[j], &status, 0);
 	free(pids);
 	if (ret)
 		return (ret);
 	if (ft_wifexited(status))
+	{
+		// printf(" exited %d\n", status);
 		return (ft_wexitstatus(status));
+	}
 	if (ft_wifsignaled(status))
+	{
+		// printf("signaled %d\n", status);
 		return (ft_wtermsig(status) + 128);
+	}
 	return (status % 128);
 }
 

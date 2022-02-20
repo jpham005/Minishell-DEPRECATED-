@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 14:38:59 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/20 18:07:26 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/20 20:09:14 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,13 @@
 #include "libft.h"
 #include "envp.h"
 #include <errno.h>
-
+#include <stdlib.h>
+#include <stdio.h> // test
 void	child(int in[2], t_out *outs, t_cmd cmd, t_envp_list *envp)
 {
+// printf("%d\n", in[0]);
+// printf("%d\n", fcntl(4, F_GETFD));
+// perror(NULL);
 	if (in[0] == -1)
 		exit(1);
 	if (in[0] != 0 && dup2(in[0], 0) == -1)
@@ -72,9 +76,13 @@ pid_t	exec_fork_out(int in[2], int *out, t_cmd cmd, t_envp_list *envp)
 	if (!handle_redirection(cmd.redir, in, out))
 		return (-1);
 	outs.out = *out;
+	outs.outpipe[1] = *out;
 	pid = fork();
 	if (pid == -1)
 		return (-1);
 	if (!pid)
 		child(in, &outs, cmd, envp);
+	if (in[0] != 0)
+		close(in[0]);
+	return (pid);
 }
