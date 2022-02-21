@@ -1,34 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal_handler.c                                   :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/07 21:08:08 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/21 21:15:07 by jaham            ###   ########.fr       */
+/*   Created: 2022/02/21 14:11:22 by jaham             #+#    #+#             */
+/*   Updated: 2022/02/21 15:03:13 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "terminal.h"
-#include <stdio.h>
-#include <readline/readline.h>
 
-void	sig_int_handler_default(int sig)
+int	ft_strcmp(const char *s1, const char *s2)
 {
-	ft_putstr_fd("\n", STDOUT_FILENO);
-	rl_on_new_line();
-	rl_replace_line("", 1);
-	rl_redisplay();
-}
-
-void	sig_int_handler_exec(int sig)
-{
-	ft_putstr_fd("\n", STDOUT_FILENO);
-}
-
-void	sig_quit_handler(int sig)
-{
-	ft_putstr_fd(SIG_QUIT_MESSAGE, 2);
+	while (*s1)
+	{
+		if (*s1 != *s2)
+			return (*s1 - *s2);
+		s1++;
+		s2++;
+	}
+	return (*s1 - *s2);
 }

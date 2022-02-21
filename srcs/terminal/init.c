@@ -6,14 +6,14 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 20:41:04 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/17 15:51:23 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/21 20:36:05 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "terminal.h"
 #include "libft.h"
 
-void	init_shell(t_context *context, t_term_state *t_state, const char **envp)
+void	init_shell(t_context *context, const char **envp)
 {
 	t_term		term;
 	t_envp_list	*shlvl;
@@ -24,9 +24,9 @@ void	init_shell(t_context *context, t_term_state *t_state, const char **envp)
 	if (tcgetattr(STDOUT_FILENO, &term))
 		perror_exit("tcgetattr", 1);
 	context->exit_status = 0;
-	t_state->default_term = term;
+	context->term_state.default_term = term;
 	term.c_lflag &= ~ECHOCTL;
-	t_state->rl_term = term;
+	context->term_state.rl_term = term;
 	init_envp_list(&(context->envp), (const char **) envp);
 	shlvl = find_list_by_key(context->envp, "SHLVL");
 	update_envp_list(&(context->envp), "SHLVL", shlvl->value + 1);

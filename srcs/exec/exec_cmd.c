@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 20:44:57 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/21 04:21:52 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/21 20:37:14 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	exec_single_cmd(t_in_out *in_out, t_pipe *pipes, t_context *context)
 	while (pipes->len-- > 1)
 	{
 		in_out->outfile = 1;
-		if (!handle_redirection(pipes->cmds[i].redir, in_out))
+		if (!handle_redirection(pipes->cmds[i].redir, in_out, context))
 			continue ;
 		//printf("before exec%d\n", in_out->infile);
 		pids[i] = exec_fork_pipe(pipes->cmds[i], context, in_out);

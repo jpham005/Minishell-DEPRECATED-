@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 01:06:49 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/21 02:48:00 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/21 14:37:00 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,7 @@ int		ft_wtermsig(int status);
 void	exit_by_errno(int errno, char *cmd);
 int		ft_pipe(int pipefd[2]);
 int		ft_dup2(int fd1, int fd2);
+int		ft_strcmp(const char *s1, const char *s2);
+void	ft_strdup_err(char *s1, char *s2);
 
 #endif

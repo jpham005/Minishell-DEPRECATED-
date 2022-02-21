@@ -5,9 +5,13 @@
 #include <fcntl.h>
 #include "srcs/libft/libft.h"
 #include <stdio.h>
+#include <string.h>
 
 int main()
 {
-	close(0);
-	printf("%d\n", fcntl(0, F_GETFD));
+	char *args[] = {
+		"/bin/echo",
+		NULL
+	};
+	execve("/bin/echo", args, NULL);
 }

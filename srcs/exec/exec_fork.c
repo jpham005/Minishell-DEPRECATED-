@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_fork.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 14:38:59 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/21 04:22:05 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/21 20:37:05 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ pid_t	exec_fork_pipe(t_cmd cmd, t_context *context, t_in_out *in_out)
 	{
 		in_out->infile = outpipe[0];
 		//printf("%d\n", in_out->infile);
-		printf("byme %s", get_next_line(in_out->infile));
+		// printf("byme %s", get_next_line(in_out->infile));
 	}
 	else
 		in_out->infile = 0;
@@ -75,7 +75,7 @@ pid_t	exec_fork_out(t_cmd cmd, t_context *context, t_in_out *in_out)
 	pid_t	pid;
 
 	in_out->outfile = 1;
-	if (!handle_redirection(cmd.redir, in_out))
+	if (!handle_redirection(cmd.redir, in_out, context))
 		return (-1);
 	pid = fork();
 	if (pid == -1)

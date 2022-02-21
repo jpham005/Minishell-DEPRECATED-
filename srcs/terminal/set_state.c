@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 12:20:16 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/17 15:59:03 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/21 21:18:19 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,28 @@ void	set_term_default(t_term_state *term_state)
 	tcsetattr(STDOUT_FILENO, TCSANOW, &(term_state->default_term));
 }
 
-char	*ft_readline(t_term_state *term_state)
+void	execute_handler(int sig)
+{
+	if (sig == SIGINT)
+	{
+		rl_on_new_line();
+		rl_replace_line("", 1);
+		rl_redisplay();
+	}
+}
+
+char	*ft_readline(t_context *context, char *str)
 {
 	char	*ret;
 
-	set_term_readline(term_state);
-	ret = readline(MINISHELL_WITH_COLOR);
-	set_term_default(term_state);
+	set_term_readline(&(context->term_state));
+	if (!str)
+		ret = readline(MINISHELL_WITH_COLOR);
+	else
+	{
+		signal(SIGINT, execute_handler);
+		ret = readline(str);
+	}
+	set_term_default(&(context->term_state));
 	return (ret);
 }

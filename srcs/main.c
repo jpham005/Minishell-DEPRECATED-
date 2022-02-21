@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 13:46:27 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/21 03:46:17 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/21 20:46:17 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,13 @@ static int	parse(const char *str)
 }
 //
 
-static int	readline_loop(t_context *context, t_term_state *term_state)
+static int	readline_loop(t_context *context)
 {
 	char	*str;
 
 	while (1)
 	{
-		str = ft_readline(term_state);
+		str = ft_readline(context, NULL);
 		if (!str)
 			return (exit_with_status(END_TERM));
 		if (*str)
@@ -69,16 +69,15 @@ static int	readline_loop(t_context *context, t_term_state *term_state)
 int	main(int argc, char **argv, char **envp)
 {
 	t_context		context;
-	t_term_state	term_state;
 
 	if (!check_arg(argc, (const char **) argv))
 		exit_with_status(ARG_ERR);
 	if (!check_tty(STDIN_FILENO, STDOUT_FILENO, STDERR_FILENO))
 		exit_with_status(DEFAULT_FD_ERR);
-	init_shell(&context, &term_state, (const char **) envp);
+	init_shell(&context, (const char **) envp);
 	if (!print_intro())
 		exit_with_status(PRINT_INTRO_ERR);
-	readline_loop(&context, &term_state);
+	readline_loop(&context);
 
 	// make cmd_line for test. (length 1)
 	t_cmd_line	*cmd_line = malloc(sizeof(t_cmd_line));
@@ -98,7 +97,6 @@ int	main(int argc, char **argv, char **envp)
 
 	redir->next->target = "EOF";
 	redir->next->type = REDIR_HEREDOC;
-	// redir->next->next = NULL;
 	redir->next->next = NULL;
 	// outfile test
 	//redir->next->next = malloc(sizeof(t_redirect));
@@ -111,17 +109,21 @@ int	main(int argc, char **argv, char **envp)
 	cmds[0].redir = redir;
 	cmds[0].cmd = ft_split("/bin/cat", ' ');
 	cmds[1].cmd = ft_split("/bin/cat", ' ');
-	//cmds[1].redir = NULL;
+	// cmds[1].redir = NULL;
 	cmds[1].redir = malloc(sizeof(t_redirect));
 	cmds[1].redir->type = REDIR_OUT;
 	cmds[1].redir->target = "outfile2";
 	cmds[1].redir->next = NULL;
 	//cmds[2]
 	cmds[2].redir = NULL;
+	// cmds[2].redir = malloc(sizeof(t_redirect));
+	// cmds[2].redir->next = NULL;
+	// cmds[2].redir->target = "infile";
+	// cmds[2].redir->type = REDIR_IN;
 	cmds[2].cmd = ft_split("/bin/ls", ' ');
 
 	cmd_line->pipes->cmds = cmds;
-
+	// cmd : cat < infile << EOF | cat > outfile2 | ls
 	executer(cmd_line, &context);
 	// print exit status
 	printf("%d\n", context.exit_status);
