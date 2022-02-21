@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 14:38:59 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/21 20:37:05 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/21 21:57:04 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,36 @@
 #include <errno.h>
 #include <stdlib.h>
 #include <stdio.h> // test
+#include <sys/stat.h>
 #include <fcntl.h>
+void	try_cmd(t_cmd *cmd, t_context *context)
+{
+	char		**path;
+	char		*temp;
+	size_t		i;
+	struct stat	status;
+
+	path = ft_split(find_list_by_key(context->envp, "PATH")->value, ':');
+	i = 0;
+	while (path[i])
+	{
+		fprintf(stderr, "%s\n", path[i]);
+		temp = ft_strjoin(path[i], cmd->cmd[0]);
+		if (lstat(temp, &status) != -1)
+		{
+			fprintf(stderr, "%s\n", temp);
+			break ;
+		}
+		safe_free((void **) &temp);
+		i++;
+	}
+	if (temp)
+	{
+		free(cmd->cmd[0]);
+		cmd->cmd[0] = temp;
+	}
+}
+
 void	child(t_cmd cmd, t_context *context, t_in_out *in_out, int outpipe[2])
 {
 	if (in_out->infile == -1)
@@ -38,6 +67,7 @@ void	child(t_cmd cmd, t_context *context, t_in_out *in_out, int outpipe[2])
 			exit(1);
 		close(in_out->outfile);
 	}
+	try_cmd(&cmd, context);
 	execve(cmd.cmd[0], cmd.cmd, convert_envp_to_dptr(context->envp)); // concat with path
 	exit_by_errno(errno, cmd.cmd[0]);
 }
@@ -89,6 +119,7 @@ pid_t	exec_fork_out(t_cmd cmd, t_context *context, t_in_out *in_out)
 			exit(1);
 		if (in_out->outfile != 1)
 			close(in_out->outfile);
+		try_cmd(&cmd, context);
 		execve(cmd.cmd[0], cmd.cmd, convert_envp_to_dptr(context->envp));
 		exit_by_errno(errno, cmd.cmd[0]);
 	}

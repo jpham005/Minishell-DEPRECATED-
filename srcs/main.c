@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 13:46:27 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/21 20:46:17 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/21 21:55:26 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,14 +113,17 @@ int	main(int argc, char **argv, char **envp)
 	cmds[1].redir = malloc(sizeof(t_redirect));
 	cmds[1].redir->type = REDIR_OUT;
 	cmds[1].redir->target = "outfile2";
-	cmds[1].redir->next = NULL;
+	cmds[1].redir->next = malloc(sizeof(t_redirect));
+	cmds[1].redir->next->next = NULL;
+	cmds[1].redir->next->target = "outfile3";
+	cmds[1].redir->next->type = REDIR_APPEND;
 	//cmds[2]
 	cmds[2].redir = NULL;
 	// cmds[2].redir = malloc(sizeof(t_redirect));
 	// cmds[2].redir->next = NULL;
 	// cmds[2].redir->target = "infile";
 	// cmds[2].redir->type = REDIR_IN;
-	cmds[2].cmd = ft_split("/bin/ls", ' ');
+	cmds[2].cmd = ft_split("ls", ' ');
 
 	cmd_line->pipes->cmds = cmds;
 	// cmd : cat < infile << EOF | cat > outfile2 | ls
