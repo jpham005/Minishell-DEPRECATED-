@@ -88,3 +88,42 @@ char	**ft_split(char const *s, char c)
 	ptr[i] = 0;
 	return (ptr);
 }
+
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
+{
+	while (n--)
+	{
+		if (*s1++ != *s2++)
+			return (*(unsigned char *)(s1 - 1) - *(unsigned char *)(s2 - 1));
+		if (*(s1 - 1) == '\0')
+			break ;
+	}
+	return (0);
+}
+
+int ft_strlen(const char *s)
+{
+	if (s == NULL)
+		return (0);
+	return (strlen(s));
+}
+
+char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
+{
+	const size_t	needle_len = ft_strlen(needle);
+
+	if (*needle)
+	{
+		if (len == 0)
+			return (NULL);
+		while (len-- && ft_strncmp(haystack, needle, needle_len) != 0)
+		{
+			if (len < needle_len)
+				return (NULL);
+			if (*haystack == '\0')
+				return (NULL);
+			haystack++;
+		}
+	}
+	return ((char *)haystack);
+}
