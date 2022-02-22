@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 13:46:27 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/22 21:23:21 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/22 21:32:02 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ int	main(int argc, char **argv, char **envp)
 	cmds[0].type = SINGLE_CMD;
 	cmds[1].cmd = ft_split("/bin/cat", ' ');
 	cmds[1].redir = NULL;
-	cmds[1].type = SINGLE_CMD;
+	cmds[1].type = PARENTHESIS;
 	// cmds[1].redir = malloc(sizeof(t_redirect));
 	// cmds[1].redir->type = REDIR_OUT;
 	// cmds[1].redir->target = "outfile2";
@@ -119,21 +119,21 @@ int	main(int argc, char **argv, char **envp)
 	// cmds[1].redir->next->target = "outfile3";
 	// cmds[1].redir->next->type = REDIR_OUT;
 	//cmds[2]
-	cmds[2].redir = NULL;
-	// cmds[2].redir = malloc(sizeof(t_redirect));
+	// cmds[2].redir = NULL;
+	cmds[2].redir = malloc(sizeof(t_redirect));
 	// cmds[2].redir->next = malloc(sizeof(t_redirect));
 	// cmds[2].redir->target = "EOF";
 	// cmds[2].redir->type = REDIR_HEREDOC;
-	// cmds[2].redir->next->next = NULL;
-	// cmds[2].redir->next->target = "outfile4";
-	// cmds[2].redir->next->type = REDIR_OUT;
+	cmds[2].redir->next = NULL;
+	cmds[2].redir->target = "outfile4";
+	cmds[2].redir->type = REDIR_OUT;
 	cmds[2].cmd = ft_split("cat", ' ');
 	cmds[2].type = SINGLE_CMD;
 
 	cmd_line->pipes->cmds = cmds;
 
 	cmd_line->next->next = NULL;
-	cmd_line->next->type = OR;
+	cmd_line->next->type = AND;
 	cmd_line->next->pipes = malloc(sizeof(t_pipe));
 	cmd_line->next->pipes->len = 1;
 	cmd_line->next->pipes->cmds = malloc(sizeof(t_cmd));

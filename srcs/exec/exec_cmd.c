@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 20:44:57 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/22 21:11:41 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/22 21:55:07 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,13 @@ static int	exec_pipes(t_pipe *pipes, t_context *context, t_in_out *in_out)
 {
 	t_in_out	new;
 
-	if (!in_out)
-	{
+	// if (!in_out)
+	// {
 		new.infile = context->std_fd[0];
 		new.outfile = context->std_fd[1];
 		return (exec_cmd(&new, pipes, context));
-	}
-	return (exec_cmd(in_out, pipes, context));
+	// }
+	// return (exec_cmd(in_out, pipes, context));
 }
 
 // called first when starting executor, returns 1 or 0 to indicate error
