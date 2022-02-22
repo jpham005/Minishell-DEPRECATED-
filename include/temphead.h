@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/17 19:49:29 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/20 15:25:42 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/22 16:53:47 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,6 @@
 # define TEMPHEAD_H
 
 # include <unistd.h>
-
-typedef enum e_built_in // builtin macro
-{
-	SH_CD = 0,
-	SH_ECHO,
-	SH_ENV,
-	SH_EXIT,
-	SH_EXPORT,
-	SH_PWD,
-	SH_UNSET,
-	SH_NONE
-}	t_built_in;
 
 typedef enum e_pipe_type // will use hyeonpar's
 {
@@ -59,6 +47,7 @@ typedef struct s_cmd
 {
     char **cmd; // echo -e "helloworld"
     t_redirect *redir; // 리다이렉트 모음
+	t_cmd_type	type; // normal || parenthesis ()
     // int pipe[2];
 }   t_cmd;
 
@@ -66,7 +55,6 @@ typedef struct s_pipe
 {
     t_cmd *cmds; // struct 구조체
     size_t	len; // cmd의 개수
-    t_cmd_type	type; // is parenthesis or not
 }   t_pipe;
 
 typedef struct s_cmd_line

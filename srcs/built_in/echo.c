@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 13:50:39 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/17 15:57:17 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/22 17:04:18 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static char	*make_string(const char **argv, size_t n_op)
 	char	*temp;
 
 	ret = ft_strdup("");
-	i = n_op;
+	i = n_op + 1;
 	while (argv[i])
 	{
 		temp = ft_strjoin(ret, argv[i]);

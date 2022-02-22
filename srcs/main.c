@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 13:46:27 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/22 13:53:42 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/22 21:23:21 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,10 +83,9 @@ int	main(int argc, char **argv, char **envp)
 	t_cmd_line	*cmd_line = malloc(sizeof(t_cmd_line));
 	cmd_line->type = PIPE;
 	cmd_line->pipes = malloc(sizeof(t_pipe));
-	cmd_line->next = NULL;
+	cmd_line->next = malloc(sizeof(t_cmd_line));
 
 	// set pipe struct
-	cmd_line->pipes->type = SINGLE_CMD;
 	cmd_line->pipes->len = 3;
 
 	// set redirection
@@ -108,8 +107,10 @@ int	main(int argc, char **argv, char **envp)
 	t_cmd	*cmds = malloc(sizeof(t_cmd) * 3);
 	cmds[0].redir = redir;
 	cmds[0].cmd = ft_split("/bin/cat", ' ');
+	cmds[0].type = SINGLE_CMD;
 	cmds[1].cmd = ft_split("/bin/cat", ' ');
 	cmds[1].redir = NULL;
+	cmds[1].type = SINGLE_CMD;
 	// cmds[1].redir = malloc(sizeof(t_redirect));
 	// cmds[1].redir->type = REDIR_OUT;
 	// cmds[1].redir->target = "outfile2";
@@ -127,10 +128,26 @@ int	main(int argc, char **argv, char **envp)
 	// cmds[2].redir->next->target = "outfile4";
 	// cmds[2].redir->next->type = REDIR_OUT;
 	cmds[2].cmd = ft_split("cat", ' ');
+	cmds[2].type = SINGLE_CMD;
 
 	cmd_line->pipes->cmds = cmds;
-	// cmd : cat < infile << EOF | cat > outfile2 | ls
-	executer(cmd_line, &context);
+
+	cmd_line->next->next = NULL;
+	cmd_line->next->type = OR;
+	cmd_line->next->pipes = malloc(sizeof(t_pipe));
+	cmd_line->next->pipes->len = 1;
+	cmd_line->next->pipes->cmds = malloc(sizeof(t_cmd));
+	cmd_line->next->pipes->cmds->type = SINGLE_CMD;
+	cmd_line->next->pipes->cmds->redir = malloc(sizeof(t_redirect));
+	cmd_line->next->pipes->cmds->redir->type = REDIR_IN;
+	cmd_line->next->pipes->cmds->redir->target = "infile2";
+	cmd_line->next->pipes->cmds->redir->next = NULL;
+	cmd_line->next->pipes->cmds->cmd = malloc(sizeof(t_cmd));
+	cmd_line->next->pipes->cmds->cmd = ft_split("ls", ' ');
+	// cmd : cat < infile << EOF | cat > outfile2 > outfile3 | cat
+	// ls && (ls | ls)
+	// ls | (ls | ls)
+	executer(cmd_line, &context, NULL);
 	// print exit status
 	fprintf(stdout, "%d\n", context.exit_status);
 	// test end
@@ -139,3 +156,5 @@ int	main(int argc, char **argv, char **envp)
 	signal(SIGQUIT, SIG_DFL);
 	return (context.exit_status);
 }
+
+//  cat < infile | cat | echo -n asdf print logic
