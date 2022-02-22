@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 14:38:59 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/21 21:57:04 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/22 13:52:39 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	try_cmd(t_cmd *cmd, t_context *context)
 {
 	char		**path;
 	char		*temp;
+	char		*new;
 	size_t		i;
 	struct stat	status;
 
@@ -30,27 +31,23 @@ void	try_cmd(t_cmd *cmd, t_context *context)
 	i = 0;
 	while (path[i])
 	{
-		fprintf(stderr, "%s\n", path[i]);
-		temp = ft_strjoin(path[i], cmd->cmd[0]);
-		if (lstat(temp, &status) != -1)
-		{
-			fprintf(stderr, "%s\n", temp);
+		temp = ft_strjoin(path[i], "/");
+		new = ft_strjoin(temp, cmd->cmd[0]);
+		if (lstat(new, &status) != -1)
 			break ;
-		}
 		safe_free((void **) &temp);
+		safe_free((void **) &new);
 		i++;
 	}
-	if (temp)
+	if (new)
 	{
 		free(cmd->cmd[0]);
-		cmd->cmd[0] = temp;
+		cmd->cmd[0] = new;
 	}
 }
 
 void	child(t_cmd cmd, t_context *context, t_in_out *in_out, int outpipe[2])
 {
-	if (in_out->infile == -1)
-		exit(1);
 	if (!ft_dup2(in_out->infile, 0))
 		exit(1);
 	close(in_out->infile);
@@ -58,8 +55,6 @@ void	child(t_cmd cmd, t_context *context, t_in_out *in_out, int outpipe[2])
 	{
 		if (!ft_dup2(outpipe[1], 1))
 			exit(1);
-		close(outpipe[1]);
-		close(outpipe[0]);
 	}
 	else
 	{
@@ -67,6 +62,8 @@ void	child(t_cmd cmd, t_context *context, t_in_out *in_out, int outpipe[2])
 			exit(1);
 		close(in_out->outfile);
 	}
+	close(outpipe[0]);
+	close(outpipe[1]);
 	try_cmd(&cmd, context);
 	execve(cmd.cmd[0], cmd.cmd, convert_envp_to_dptr(context->envp)); // concat with path
 	exit_by_errno(errno, cmd.cmd[0]);
@@ -77,11 +74,8 @@ pid_t	exec_fork_pipe(t_cmd cmd, t_context *context, t_in_out *in_out)
 	pid_t	pid;
 	int		outpipe[2];
 
-	if (in_out->outfile == 1)
-	{
-		if (!ft_pipe(outpipe))
-			return (-1);
-	}
+	if (!ft_pipe(outpipe))
+		return (-1);
 	pid = fork();
 	if (pid == -1)
 		return (pid);
@@ -89,14 +83,7 @@ pid_t	exec_fork_pipe(t_cmd cmd, t_context *context, t_in_out *in_out)
 		child(cmd, context, in_out, outpipe);
 	close(outpipe[1]);
 	close(in_out->infile);
-	if (in_out->outfile == 1)
-	{
-		in_out->infile = outpipe[0];
-		//printf("%d\n", in_out->infile);
-		// printf("byme %s", get_next_line(in_out->infile));
-	}
-	else
-		in_out->infile = 0;
+	in_out->infile = outpipe[0];
 	return (pid);
 }
 

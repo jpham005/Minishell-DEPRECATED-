@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 20:44:57 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/21 20:37:14 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/22 13:53:15 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ int	exec_single_cmd(t_in_out *in_out, t_pipe *pipes, t_context *context)
 		in_out->outfile = 1;
 		if (!handle_redirection(pipes->cmds[i].redir, in_out, context))
 			continue ;
-		//printf("before exec%d\n", in_out->infile);
 		pids[i] = exec_fork_pipe(pipes->cmds[i], context, in_out);
 		if (pids[i] == -1)
 		{
@@ -104,6 +103,9 @@ int	executer(t_cmd_line *cmd_line, t_context *context)
 		else if ((cmd_line->type == OR) && context->exit_status)
 			context->exit_status = exec_pipes(cmd_line->pipes, context);
 		cmd_line = cmd_line->next;
+		dup2(context->std_fd[0], 0);
+		dup2(context->std_fd[1], 1);
+		dup2(context->std_fd[2], 2);
 	}
 	return (1);
 }

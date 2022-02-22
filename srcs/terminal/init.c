@@ -6,21 +6,21 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 20:41:04 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/21 20:36:05 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/22 12:37:30 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "terminal.h"
 #include "libft.h"
-
+#include <stdio.h>
 void	init_shell(t_context *context, const char **envp)
 {
 	t_term		term;
 	t_envp_list	*shlvl;
 
-	context->std_fd[0] = STDIN_FILENO;
-	context->std_fd[1] = STDOUT_FILENO;
-	context->std_fd[2] = STDERR_FILENO;
+	context->std_fd[0] = dup(STDIN_FILENO);
+	context->std_fd[1] = dup(STDOUT_FILENO);
+	context->std_fd[2] = dup(STDERR_FILENO);
 	if (tcgetattr(STDOUT_FILENO, &term))
 		perror_exit("tcgetattr", 1);
 	context->exit_status = 0;
