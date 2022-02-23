@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 20:44:57 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/22 21:55:07 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/23 21:37:57 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,20 +44,14 @@ int	exec_cmd(t_in_out *in_out, t_pipe *pipes, t_context *context)
 		return (wait_all(pids, i, 1));
 	return (wait_all(pids, ++i, 0));
 }
-
-// int	exec_parenthesis
-
+#include <stdio.h>
+#include <fcntl.h>
 static int	exec_pipes(t_pipe *pipes, t_context *context, t_in_out *in_out)
 {
 	t_in_out	new;
 
-	// if (!in_out)
-	// {
-		new.infile = context->std_fd[0];
-		new.outfile = context->std_fd[1];
-		return (exec_cmd(&new, pipes, context));
-	// }
-	// return (exec_cmd(in_out, pipes, context));
+	new.infile = 0;
+	return (exec_cmd(&new, pipes, context));
 }
 
 // called first when starting executor, returns 1 or 0 to indicate error
@@ -73,9 +67,9 @@ int	executer(t_cmd_line *cmd_line, t_context *context, t_in_out *in_out)
 		else if ((cmd_line->type == OR) && context->exit_status)
 			context->exit_status = exec_pipes(cmd_line->pipes, context, in_out);
 		cmd_line = cmd_line->next;
-		dup2(context->std_fd[0], 0);
-		dup2(context->std_fd[1], 1);
-		dup2(context->std_fd[2], 2);
+		// dup2(context->std_fd[0], 0);
+		// dup2(context->std_fd[1], 1);
+		// dup2(context->std_fd[2], 2);
 	}
 	return (1);
 }

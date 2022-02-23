@@ -9,9 +9,6 @@
 
 int main()
 {
-	char *args[] = {
-		"/bin/echo",
-		NULL
-	};
-	execve("/bin/echo", args, NULL);
+	open("infile", 0);
+	printf("%d\n", fcntl(3, F_GETFD));
 }

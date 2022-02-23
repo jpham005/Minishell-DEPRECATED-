@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 13:46:27 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/22 21:32:02 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/23 21:08:53 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,10 +140,12 @@ int	main(int argc, char **argv, char **envp)
 	cmd_line->next->pipes->cmds->type = SINGLE_CMD;
 	cmd_line->next->pipes->cmds->redir = malloc(sizeof(t_redirect));
 	cmd_line->next->pipes->cmds->redir->type = REDIR_IN;
-	cmd_line->next->pipes->cmds->redir->target = "infile2";
-	cmd_line->next->pipes->cmds->redir->next = NULL;
-	cmd_line->next->pipes->cmds->cmd = malloc(sizeof(t_cmd));
-	cmd_line->next->pipes->cmds->cmd = ft_split("ls", ' ');
+	cmd_line->next->pipes->cmds->redir->target = "outfile4";
+	cmd_line->next->pipes->cmds->redir->next = malloc(sizeof(t_redirect));
+	cmd_line->next->pipes->cmds->redir->next->next = NULL;
+	cmd_line->next->pipes->cmds->redir->next->type = REDIR_OUT;
+	cmd_line->next->pipes->cmds->redir->next->target = "fin";
+	cmd_line->next->pipes->cmds->cmd = ft_split("cat", ' ');
 	// cmd : cat < infile << EOF | cat > outfile2 > outfile3 | cat
 	// ls && (ls | ls)
 	// ls | (ls | ls)

@@ -5,7 +5,7 @@ SRCS = ft_strlen.c ft_strncmp.c ft_putstr_fd.c safe_free.c ft_malloc.c \
 	ft_wifexited.c ft_wexitstatus.c ft_wifsignaled.c ft_wtermsig.c \
 	exit_by_errno.c ft_pipe.c ft_dup2.c ft_strcmp.c ft_strdup_err.c
 OBJS = $(SRCS:.c=.o)
-CC = gcc
+CC = cc
 CFLAGS = -Wall -Wextra -Werror -g
 AR = ar
 ARFLAGS = rcs
