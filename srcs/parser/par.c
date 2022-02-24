@@ -6,7 +6,7 @@
 /*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 17:23:31 by hyeonpar          #+#    #+#             */
-/*   Updated: 2022/02/24 18:10:32 by hyeonpar         ###   ########.fr       */
+/*   Updated: 2022/02/25 00:05:21 by hyeonpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,15 @@ void    del_q(char *str, char c)
 char    **find_path(char *str, char **envp)
 {
 	char **path;
+	char **cmd_str;
+	char *tmp;
+	char *cmd_path;
 	int i;
 	
 	/* path_list */
 	i = 0;
 	while (*(envp + i) != NULL)
 	{
-		// printf("%s\n", *(envp + i));
 		if (envp[i][0] == 'P' && envp[i][1] == 'A' &&
 		envp[i][2] == 'T' && envp[i][3] == 'H' && envp[i][4] == '=')
 		{
@@ -44,12 +46,10 @@ char    **find_path(char *str, char **envp)
 	}
 
 	/* split str (readline) */
-	char **cmd_str = ft_split(str, ' ');
+	cmd_str = ft_split(str, ' ');
 
 	// [/usr/bin + / + cmd]
 	i = 0;
-	char *tmp;
-	char *cmd_path;
 	while (*(path + i) != NULL)
 	{
 		tmp = ft_strjoin(path[i], "/");
@@ -80,6 +80,7 @@ int is_asterisk(char *str)
 }
 
 // ., ..을 제외한 현재 경로의 파일, 폴더 리스트 리턴
+// .으로 시작하는 파일, 폴더는 스킵하도록 수정해야 함
 char **current_path_ls(void)
 {
 	DIR *dp;
@@ -93,18 +94,15 @@ char **current_path_ls(void)
 	while (1)
 	{
 		dirp = readdir(dp);
-		if ((dirp != NULL))
-			arr[i] = ft_strdup(dirp->d_name);
-		else
+		if (dirp == NULL)
 			break;
-		i++;
+		if (dirp->d_name[0] != '.')
+			arr[i++] = ft_strdup(dirp->d_name);
 	}
-	res = (char **)ft_calloc(sizeof(char *), i);
-	while (i > 1)
-	{
-		*(res + i - 2) = arr[i];
-		i--;
-	}
+	res = (char **)ft_calloc(sizeof(char *), i + 1);
+	*(res + i) = NULL;
+	while (--i > -1)
+		*(res + i) = arr[i];
 	closedir(dp);
 	return (res);
 }
@@ -146,7 +144,6 @@ void	check_str(char **list, char **str, int *arr)
 		while (1)
 		{
 			tmp = ft_strnstr(tmp, str[j], ft_strlen(tmp));
-			// printf("tmp now: %s\n", tmp);
 			if (tmp != NULL)
 			{
 				if (str[j + 1] != NULL)
@@ -192,7 +189,6 @@ char *expand_asterisk(char *arg)
 	// printf ("===========last============\n");
 	k = -1;
 	char *tmp;
-	// char *tmp2 = "";
 	char *tmp2 = NULL;
 	cnt = 0;
 	while (arr[++k] != -1)
@@ -243,9 +239,8 @@ char **par4(char **pars_str, char **envp, char *env_val, int ss_idx)
 	ex_str = NULL;
 	if (ft_strcmp(list_key, env_val) == 0)
 		value = ft_strdup("/bin/bash"); // strdup() == list_value
-
 	// "$SHELL-123" --> /bin/bash-123
-	len = ft_strlen(pars_str[ss_idx]) - ft_strlen(env_val) + 1 + ft_strlen(value);
+	len = ft_strlen(pars_str[ss_idx]) - (1 + ft_strlen(env_val)) + ft_strlen(value);
 	ex_str = ft_malloc(sizeof(char), len + 1);
 	i = -1;
 	j = 0;
@@ -260,9 +255,9 @@ char **par4(char **pars_str, char **envp, char *env_val, int ss_idx)
 				ex_str[i++] = value[j++];
 			while (pars_str[ss_idx][++idx] != '\0')
 				ex_str[i++] = pars_str[ss_idx][idx];
-			printf("ex-str :: %s\n", ex_str);
 		}
 		ex_str[i] = '\0';
+		printf("ex-str :: %s\n", ex_str);
 		safe_free((void **) &pars_str[ss_idx]);
 		pars_str[ss_idx] = ex_str;
 	}
@@ -391,7 +386,6 @@ void	parse_main(char *str, char **envp)
 	
 	readline_to_cmd = par(str, envp);
 	ft_exec(readline_to_cmd);
-	safe_free((void **) &str);
 }
 
 // 처음에 파이프 개수만 세서 cl->pipes->num에 저장한 다음 그 크기 - 1만큼 next를 붙인 구조체 완성

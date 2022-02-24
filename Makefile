@@ -6,7 +6,7 @@
 #    By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/16 20:45:33 by jaham             #+#    #+#              #
-#    Updated: 2022/02/24 16:40:14 by hyeonpar         ###   ########.fr        #
+#    Updated: 2022/02/24 21:34:49 by hyeonpar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,7 +42,7 @@ LIBFT_DIR := $(SRCS_DIR)/libft
 LIBFT := $(LIBFT_DIR)/libft.a
 
 CC := cc
-CFLAGS := -g
+CFLAGS := -g -fsanitize=address
 NAME := minishell
 SRCS := $(BUILT_IN_SRCS) $(ENVP_SRCS) $(UTILS_SRCS) $(TERMINAL_SRCS) \
 		$(PARSER_SRCS) $(MAIN_SRCS)

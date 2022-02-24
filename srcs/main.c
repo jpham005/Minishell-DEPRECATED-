@@ -6,7 +6,7 @@
 /*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 13:46:27 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/24 18:06:10 by hyeonpar         ###   ########.fr       */
+/*   Updated: 2022/02/24 22:44:25 by hyeonpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static int	readline_loop(t_context *context, t_term_state *term_state, char **en
 			return (exit_with_status(END_TERM));
 		if (*str)
 			add_history(str);
-		parse_main(str); // 기존 구현부 연결
+		parse_main(str, envp); // 기존 구현부 연결
 		context->exit_status = parse(str);
 		// 파싱 결과(구조체)를 실행부로 넘김
 		safe_free((void **) &str);
