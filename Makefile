@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jaham <jaham@student.42.fr>                +#+  +:+       +#+         #
+#    By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/16 20:45:33 by jaham             #+#    #+#              #
-#    Updated: 2022/02/17 17:19:30 by jaham            ###   ########.fr        #
+#    Updated: 2022/02/24 16:40:14 by hyeonpar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,9 +15,10 @@ BUILT_IN_DIR := $(SRCS_DIR)/built_in
 ENVP_DIR := $(SRCS_DIR)/envp
 UTILS_DIR := $(SRCS_DIR)/utils
 TERMINAL_DIR := $(SRCS_DIR)/terminal
+PARSER_DIR := $(SRCS_DIR)/parser
 
 INCLUDE := include
-INCLUDE_FILES := built_in.h color.h envp.h terminal.h utils.h exec.h
+INCLUDE_FILES := built_in.h color.h envp.h terminal.h utils.h exec.h parser.h
 INCLUDE_FILES := $(addprefix $(INCLUDE)/, $(INCLUDE_FILES))
 
 READLINE_DIR := $(shell brew --prefix readline)
@@ -30,6 +31,8 @@ ENVP_SRCS := init_destroy.c util.c print.c tool.c
 ENVP_SRCS := $(addprefix $(ENVP_DIR)/, $(ENVP_SRCS))
 UTILS_SRCS := exit_manage.c print_intro.c
 UTILS_SRCS := $(addprefix $(UTILS_DIR)/, $(UTILS_SRCS))
+PARSER_SRCS := par.c
+PARSER_SRCS := $(addprefix $(PARSER_DIR)/, $(PARSER_SRCS))
 TERMINAL_SRCS := check_default_state.c set_state.c signal_handler.c init.c
 TERMINAL_SRCS := $(addprefix $(TERMINAL_DIR)/, $(TERMINAL_SRCS))
 MAIN_SRCS := main.c
@@ -42,7 +45,7 @@ CC := cc
 CFLAGS := -g
 NAME := minishell
 SRCS := $(BUILT_IN_SRCS) $(ENVP_SRCS) $(UTILS_SRCS) $(TERMINAL_SRCS) \
-		$(MAIN_SRCS)
+		$(PARSER_SRCS) $(MAIN_SRCS)
 OBJS := $(SRCS:.c=.o)
 RM := rm
 RMFLAGS := -f

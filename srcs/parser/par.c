@@ -1,50 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   par.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/02/24 17:23:31 by hyeonpar          #+#    #+#             */
+/*   Updated: 2022/02/24 18:10:32 by hyeonpar         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "parser.h"
+#include "libft.h"
 #include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <ctype.h>
-#include <dirent.h>
-#include "../test.h"
-
-extern char	**ft_split(char const *s, char c); // 
-extern size_t ft_strlcpy(char *dst, const char *src, size_t dstsize); // 
-int	ft_strncmp(const char *s1, const char *s2, size_t n); // 
-char	*ft_strnstr(const char *haystack, const char *needle, size_t len); // 
-int ft_strlen(char *s); //
-
-typedef struct s_env
-{
-	char **env_path;
-}   t_env;
-
-char *ft_strjoin(char *s1, char *s2) //
-{
-	char *str = (char *)malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
-	int i = 0;
-
-	if (s1 == NULL)
-		return s2;
-	if (s2 == NULL)
-		return s1;
-
-	while (*s1 != NULL)
-	{
-		str[i++] = *s1++;
-	}
-	while (*s2 != NULL)
-	{
-		str[i++] = *s2++;
-	}
-	str[i] = '\0';
-	return (str);
-}
-
-int ft_strcmp(char *s1, char *s2)
-{
-	if (s1 == NULL || s2 == NULL)
-		return (1);
-	return (strcmp(s1, s2));
-}
 
 void    del_q(char *str, char c)
 {
@@ -58,7 +26,6 @@ void    del_q(char *str, char c)
 
 char    **find_path(char *str, char **envp)
 {
-	// char *p = "PATH=";
 	char **path;
 	int i;
 	
@@ -91,10 +58,10 @@ char    **find_path(char *str, char **envp)
 			break;
 		i++;
 	}
-	free(tmp);
+	safe_free((void **) &tmp);
 	tmp = cmd_str[0];
 	cmd_str[0] = cmd_path;
-	free(tmp);
+	safe_free((void **) &tmp);
 	return (cmd_str); // /ooo/ooo/cmd
 }
 
@@ -127,12 +94,12 @@ char **current_path_ls(void)
 	{
 		dirp = readdir(dp);
 		if ((dirp != NULL))
-			arr[i] = strdup(dirp->d_name);
+			arr[i] = ft_strdup(dirp->d_name);
 		else
 			break;
 		i++;
 	}
-	res = (char **)calloc(sizeof(char *), i);
+	res = (char **)ft_calloc(sizeof(char *), i);
 	while (i > 1)
 	{
 		*(res + i - 2) = arr[i];
@@ -209,7 +176,7 @@ char *expand_asterisk(char *arg)
 	int i;
 	int k;
 
-	memset(arr, -1, sizeof(int) * 256); // 이것도 -1 초기화 안 돼서 그냥 넣은 임시 초기화 코드
+	ft_memset(arr, -1, sizeof(int) * 256); // 이것도 -1 초기화 안 돼서 그냥 넣은 임시 초기화 코드
 	
 	str = ft_split(arg, '*');
 	list = current_path_ls();
@@ -268,18 +235,18 @@ char **par4(char **pars_str, char **envp, char *env_val, int ss_idx)
 	int i;
 	int j;
 	int len;
-	char *list_key = "SHELL";
+	char *list_key = "SHELL"; // env들 구조체로 바꿔야됨
 	char *value;
 	char *ex_str;
 
 	value = NULL;
 	ex_str = NULL;
 	if (ft_strcmp(list_key, env_val) == 0)
-		value = strdup("/bin/bash"); // strdup() == list_value
+		value = ft_strdup("/bin/bash"); // strdup() == list_value
 
 	// "$SHELL-123" --> /bin/bash-123
 	len = ft_strlen(pars_str[ss_idx]) - ft_strlen(env_val) + 1 + ft_strlen(value);
-	ex_str = (char *)malloc(len + 1);
+	ex_str = ft_malloc(sizeof(char), len + 1);
 	i = -1;
 	j = 0;
 	if (ss_idx != 0)
@@ -288,7 +255,7 @@ char **par4(char **pars_str, char **envp, char *env_val, int ss_idx)
 			ex_str[i] = pars_str[ss_idx][i];
 		if (value != NULL)
 		{
-			int idx = i + strlen(env_val);
+			int idx = i + ft_strlen(env_val);
 			while (value[j] != '\0')
 				ex_str[i++] = value[j++];
 			while (pars_str[ss_idx][++idx] != '\0')
@@ -296,7 +263,7 @@ char **par4(char **pars_str, char **envp, char *env_val, int ss_idx)
 			printf("ex-str :: %s\n", ex_str);
 		}
 		ex_str[i] = '\0';
-		free(pars_str[ss_idx]);
+		safe_free((void **) &pars_str[ss_idx]);
 		pars_str[ss_idx] = ex_str;
 	}
 
@@ -334,9 +301,9 @@ char **par3(char **pars_str, char **envp, int flag_q)
 					ss_idx = i;
 					s_idx = j + 1;
 					k = 1;
-					while (pars_str[i][j + k] == '_' || isdigit(pars_str[i][j + k]) || isalpha(pars_str[i][j + k]))
+					while (pars_str[i][j + k] == '_' || ft_isdigit(pars_str[i][j + k]) || ft_isalpha(pars_str[i][j + k]))
 						k++;
-					env_val = (char *)malloc(k);
+					env_val = ft_malloc(sizeof(char), k);
 					ft_strlcpy(env_val, &pars_str[i][j + 1], k);
 				}
 				j++;
@@ -418,38 +385,36 @@ void    ft_exec(char **rtc)
 	printf("\n================\n"); // 하단
 }
 
-int main(int argc, char **argv, char **envp)
+void	parse_main(char *str, char **envp)
 {
-	char *str = strdup("ls -al"); // << readline 입력한 문자열
-
-	char **readline_to_cmd = par(str, envp);
+	char **readline_to_cmd;
+	
+	readline_to_cmd = par(str, envp);
 	ft_exec(readline_to_cmd);
-
-	free(str);
-	return (0);
+	safe_free((void **) &str);
 }
 
 // 처음에 파이프 개수만 세서 cl->pipes->num에 저장한 다음 그 크기 - 1만큼 next를 붙인 구조체 완성
 // next가 null일 때까지 type과 cmds->cmd를 채운다는 느낌으로 작성해야 함
 // 각각의 cmds->cmd는 par()를 통해 명령어와 환경 변수 등이 확장 처리됨
-void	check_pipe(char **str, t_cmd_line *cl)
-{
-	char **temp;
-	int i;
+// void	check_pipe(char **str, t_cmd_line *cl)
+// {
+// 	char **temp;
+// 	int i;
 
-	i = 0;
-	temp = str; // ft_strdup 2차원 고려하여 복사
-	while (*(str + i) != NULL)
-	{
-		if (str[0][0] == '|' && str[0][1] == '|' && str[0][2] == '\0')
-			cl->pipes->type = OR;
-		else if (str[0][0] == '|' && str[0][1] == '\0')
-			cl->pipes->type = PIPE;
-		else if (str[0][0] == '&' && str[0][1] == '&' && str[0][2] == '\0')
-			cl->pipes->type = AND;
-		// cl->pipes->cmds->cmd = 이전 파이프 다음 인덱스부터 현재 파이프 이전 인덱스까지
-		i++;
-	}
-	// num++, s_cmd_line 쪼개기
-}
+// 	i = 0;
+// 	temp = str; // ft_strdup 2차원 고려하여 복사
+// 	while (*(str + i) != NULL)
+// 	{
+// 		if (str[0][0] == '|' && str[0][1] == '|' && str[0][2] == '\0')
+// 			cl->pipes->type = OR;
+// 		else if (str[0][0] == '|' && str[0][1] == '\0')
+// 			cl->pipes->type = PIPE;
+// 		else if (str[0][0] == '&' && str[0][1] == '&' && str[0][2] == '\0')
+// 			cl->pipes->type = AND;
+// 		// cl->pipes->cmds->cmd = 이전 파이프 다음 인덱스부터 현재 파이프 이전 인덱스까지
+// 		i++;
+// 	}
+// 	// num++, s_cmd_line 쪼개기
+// }
 

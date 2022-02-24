@@ -6,7 +6,7 @@
 /*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 13:46:27 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/24 09:28:59 by hyeonpar         ###   ########.fr       */
+/*   Updated: 2022/02/24 18:06:10 by hyeonpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static int	parse(const char *str)
 }
 //
 
-static int	readline_loop(t_context *context, t_term_state *term_state)
+static int	readline_loop(t_context *context, t_term_state *term_state, char **envp)
 {
 	char	*str;
 
@@ -59,10 +59,8 @@ static int	readline_loop(t_context *context, t_term_state *term_state)
 		if (!str)
 			return (exit_with_status(END_TERM));
 		if (*str)
-		{
 			add_history(str);
-			printf("input: %s\n", str); // str 확인
-		}
+		parse_main(str); // 기존 구현부 연결
 		context->exit_status = parse(str);
 		// 파싱 결과(구조체)를 실행부로 넘김
 		safe_free((void **) &str);
@@ -82,7 +80,7 @@ int	main(int argc, char **argv, char **envp)
 	init_shell(&context, &term_state, (const char **) envp);
 	if (!print_intro())
 		exit_with_status(PRINT_INTRO_ERR);
-	readline_loop(&context, &term_state);
+	readline_loop(&context, &term_state, envp); // 임시방편
 	clear_envp_list(&(context.envp));
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);

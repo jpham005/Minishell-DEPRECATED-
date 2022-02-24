@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 01:06:49 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/17 15:22:56 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/24 18:01:46 by hyeonpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,12 @@ void	*ft_malloc(size_t size, size_t n);
 pid_t	ft_fork(void);
 void	safe_free(void **ptr);
 void	perror_exit(const char *str, unsigned int exit_status);
+void	ft_bzero(void *s, size_t n);
+void	*ft_calloc(size_t count, size_t size);
+void	*ft_memset(void *b, int c, size_t len);
+int		ft_strcmp(const char *s1, const char *s2);
+size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
+char	*ft_strnstr(const char *haystack, const char *needle, size_t len);
+int		ft_isdigit(int c);
 
 #endif
