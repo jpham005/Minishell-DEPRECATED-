@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 20:45:13 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/22 20:28:21 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/24 15:47:50 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,14 @@
 #include "envp.h"
 #include "temphead.h"
 #include "terminal.h"
+
+#define NOT_BUILT_IN -1
+
+typedef enum e_isexit
+{
+	RETURN,
+	EXIT
+}	t_isexit;
 
 typedef struct s_in_out
 {
@@ -40,7 +48,9 @@ void	init_in_out(int in[2], int *out);
 int		is_heredoc_str(char *s1, char *s2);
 void	dup_errs(t_err_info *err_info, char *target, int status);
 int		wait_all(pid_t *pids, size_t i, int ret);
-void	exec_built_in(t_cmd *cmd, t_context *context);
+int		exec_built_in(t_cmd cmd, t_context *context, t_isexit isexit);
 void	exec_parenthesis(t_cmd *cmd, t_context *context, t_in_out *in_out);
+void	check_cmd_type(t_cmd *cmd, t_context *context, \
+											t_in_out *in_out, int *outpipe);
 
 #endif

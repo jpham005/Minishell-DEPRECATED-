@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 13:46:27 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/23 21:08:53 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/24 21:45:48 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ static int	readline_loop(t_context *context)
 #include "temphead.h"
 #include "exec.h"
 #include <stdlib.h>
+#include "built_in.h"
 int	main(int argc, char **argv, char **envp)
 {
 	t_context		context;
@@ -79,79 +80,28 @@ int	main(int argc, char **argv, char **envp)
 		exit_with_status(PRINT_INTRO_ERR);
 	readline_loop(&context);
 
-	// make cmd_line for test. (length 1)
-	t_cmd_line	*cmd_line = malloc(sizeof(t_cmd_line));
+	t_cmd_line	*cmd_line;
+
+	cmd_line = malloc(sizeof(t_cmd_line));
+	cmd_line->next = NULL;
 	cmd_line->type = PIPE;
 	cmd_line->pipes = malloc(sizeof(t_pipe));
-	cmd_line->next = malloc(sizeof(t_cmd_line));
+	cmd_line->pipes->cmds = malloc(sizeof(t_cmd) * 2);
+	cmd_line->pipes->len = 1;
+	cmd_line->pipes->cmds[0].redir = NULL;
+	cmd_line->pipes->cmds[0].type = PARENTHESIS;
+	cmd_line->pipes->cmds[1].type = SINGLE_CMD;
+	cmd_line->pipes->cmds[1].redir = &(t_redirect){
+		REDIR_OUT,
+		"fin",
+		NULL
+	};
+	cmd_line->pipes->cmds[1].cmd = ft_split("cat", ' ');
 
-	// set pipe struct
-	cmd_line->pipes->len = 3;
-
-	// set redirection
-	t_redirect *redir = malloc(sizeof(t_redirect));
-	redir->target = "infile";
-	redir->type = REDIR_IN;
-	redir->next = malloc(sizeof(t_redirect));
-
-	redir->next->target = "EOF";
-	redir->next->type = REDIR_HEREDOC;
-	redir->next->next = NULL;
-	// outfile test
-	//redir->next->next = malloc(sizeof(t_redirect));
-	//redir->next->next->target = "outfile";
-	//redir->next->next->type = REDIR_OUT;
-	//redir->next->next->next = NULL;
-
-	// set cmds
-	t_cmd	*cmds = malloc(sizeof(t_cmd) * 3);
-	cmds[0].redir = redir;
-	cmds[0].cmd = ft_split("/bin/cat", ' ');
-	cmds[0].type = SINGLE_CMD;
-	cmds[1].cmd = ft_split("/bin/cat", ' ');
-	cmds[1].redir = NULL;
-	cmds[1].type = PARENTHESIS;
-	// cmds[1].redir = malloc(sizeof(t_redirect));
-	// cmds[1].redir->type = REDIR_OUT;
-	// cmds[1].redir->target = "outfile2";
-	// cmds[1].redir->next = malloc(sizeof(t_redirect));
-	// cmds[1].redir->next->next = NULL;
-	// cmds[1].redir->next->target = "outfile3";
-	// cmds[1].redir->next->type = REDIR_OUT;
-	//cmds[2]
-	// cmds[2].redir = NULL;
-	cmds[2].redir = malloc(sizeof(t_redirect));
-	// cmds[2].redir->next = malloc(sizeof(t_redirect));
-	// cmds[2].redir->target = "EOF";
-	// cmds[2].redir->type = REDIR_HEREDOC;
-	cmds[2].redir->next = NULL;
-	cmds[2].redir->target = "outfile4";
-	cmds[2].redir->type = REDIR_OUT;
-	cmds[2].cmd = ft_split("cat", ' ');
-	cmds[2].type = SINGLE_CMD;
-
-	cmd_line->pipes->cmds = cmds;
-
-	cmd_line->next->next = NULL;
-	cmd_line->next->type = AND;
-	cmd_line->next->pipes = malloc(sizeof(t_pipe));
-	cmd_line->next->pipes->len = 1;
-	cmd_line->next->pipes->cmds = malloc(sizeof(t_cmd));
-	cmd_line->next->pipes->cmds->type = SINGLE_CMD;
-	cmd_line->next->pipes->cmds->redir = malloc(sizeof(t_redirect));
-	cmd_line->next->pipes->cmds->redir->type = REDIR_IN;
-	cmd_line->next->pipes->cmds->redir->target = "outfile4";
-	cmd_line->next->pipes->cmds->redir->next = malloc(sizeof(t_redirect));
-	cmd_line->next->pipes->cmds->redir->next->next = NULL;
-	cmd_line->next->pipes->cmds->redir->next->type = REDIR_OUT;
-	cmd_line->next->pipes->cmds->redir->next->target = "fin";
-	cmd_line->next->pipes->cmds->cmd = ft_split("cat", ' ');
-	// cmd : cat < infile << EOF | cat > outfile2 > outfile3 | cat
-	// ls && (ls | ls)
-	// ls | (ls | ls)
 	executer(cmd_line, &context, NULL);
 	// print exit status
-	fprintf(stdout, "%d\n", context.exit_status);
+	// pwd(&context, (const char **) ft_split("pwd", ' '));
+	fprintf(stdout, "exit status %d\n", context.exit_status);
 	// test end
 	clear_envp_list(&(context.envp));
 	signal(SIGINT, SIG_DFL);

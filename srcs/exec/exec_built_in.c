@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 11:20:39 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/22 17:02:14 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/24 15:40:40 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,24 +16,29 @@
 #include "built_in.h"
 #include <stdlib.h>
 
-void	exec_built_in(t_cmd *cmd, t_context *context)
+int	exec_built_in(t_cmd cmd, t_context *context, t_isexit isexit)
 {
 	char	*cmd_str;
+	int		ret;
 
-	cmd_str = cmd->cmd[0];
+	cmd_str = cmd.cmd[0];
 	if (!ft_strncmp(cmd_str, "cd", 3))
-		exit(cd(context, (const char **) cmd->cmd));
-	if (!ft_strncmp(cmd_str, "echo", 5))
-		exit(echo(context, (const char **) cmd->cmd));
-	if (!ft_strncmp(cmd_str, "env", 4))
-		exit(env(context, (const char **) cmd->cmd));
-	if (!ft_strncmp(cmd_str, "exit", 5))
-		exit(built_in_exit(context, (const char **) cmd->cmd));
-	if (!ft_strncmp(cmd_str, "export", 7))
-		exit(export(context, (const char **) cmd->cmd));
-	if (!ft_strncmp(cmd_str, "pwd", 4))
-		exit(pwd(context, (const char **) cmd->cmd));
-	if (!ft_strncmp(cmd_str, "unset", 6))
-		exit(unset(context, (const char **) cmd->cmd));
-	return ;
+		ret = cd(context, (const char **) cmd.cmd);
+	else if (!ft_strncmp(cmd_str, "echo", 5))
+		ret = echo(context, (const char **) cmd.cmd);
+	else if (!ft_strncmp(cmd_str, "env", 4))
+		ret = env(context, (const char **) cmd.cmd);
+	else if (!ft_strncmp(cmd_str, "exit", 5))
+		ret = built_in_exit(context, (const char **) cmd.cmd);
+	else if (!ft_strncmp(cmd_str, "export", 7))
+		ret = export(context, (const char **) cmd.cmd);
+	else if (!ft_strncmp(cmd_str, "pwd", 4))
+		ret = pwd(context, (const char **) cmd.cmd);
+	else if (!ft_strncmp(cmd_str, "unset", 6))
+		ret = unset(context, (const char **) cmd.cmd);
+	else
+		return (NOT_BUILT_IN);
+	if (isexit == RETURN)
+		return (ret);
+	exit (ret);
 }

@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 20:44:57 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/23 21:37:57 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/24 21:47:53 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "temphead.h"
 #include "exec.h"
 #include <stdlib.h>
+#include <errno.h>
 
 int	exec_cmd(t_in_out *in_out, t_pipe *pipes, t_context *context)
 {
@@ -44,13 +45,63 @@ int	exec_cmd(t_in_out *in_out, t_pipe *pipes, t_context *context)
 		return (wait_all(pids, i, 1));
 	return (wait_all(pids, ++i, 0));
 }
+
+static void	child_single_cmd(t_cmd cmd, t_context *context, t_in_out *in_out)
+{
+	if (!ft_dup2(in_out->infile, 0))
+		exit(1);
+	ft_close(in_out->infile);
+	if (!ft_dup2(in_out->outfile, 1))
+		exit(1);
+	ft_close(in_out->outfile);
+	check_cmd_type(&cmd, context, in_out, NULL);
+	execve(cmd.cmd[0], cmd.cmd, convert_envp_to_dptr(context->envp));
+	exit_by_errno(errno, cmd.cmd[0]);
+}
+
+static int	exec_cmd_one(t_in_out *in_out, t_pipe *pipes, t_context *context)
+{
+	int	ret;
+	int	pid;
+
+	if (pipes->cmds[0].type == PARENTHESIS)
+		return (exec_parenthesis(pipes->cmds, context, in_out));
+	if (!handle_redirection(pipes->cmds[0].redir, in_out, context))
+		return (1);
+	if (!ft_dup2(in_out->outfile, 1))
+		return (1);
+	ret = exec_built_in(pipes->cmds[0], context, RETURN);
+	if (!ft_dup2(context->std_fd[1], 1))
+		return (1);
+	if (ret != NOT_BUILT_IN)
+		return (ret);
+	pid = fork();
+	if (pid == -1)
+		return (-1);
+	if (!pid)
+		child_single_cmd(pipes->cmds[0], context, in_out);
+	waitpid(pid, &ret, 0);
+	if (ft_wifexited(ret))
+		return (ft_wexitstatus(ret));
+	if (ft_wifsignaled(ret))
+		return (ft_wtermsig(ret) + 128);
+	return (ret % 128);
+}
 #include <stdio.h>
-#include <fcntl.h>
 static int	exec_pipes(t_pipe *pipes, t_context *context, t_in_out *in_out)
 {
 	t_in_out	new;
 
 	new.infile = 0;
+	new.outfile = 1;
+	if (in_out)
+	{
+		new.infile = in_out->infile;
+		new.outfile = in_out->outfile;
+		fprintf(stderr, "%d %d\n", new.infile, new.outfile);
+	}
+	if (pipes->len == 1)
+		return (exec_cmd_one(&new, pipes, context));
 	return (exec_cmd(&new, pipes, context));
 }
 

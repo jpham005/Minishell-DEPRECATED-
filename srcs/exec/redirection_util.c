@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 04:23:55 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/21 20:52:52 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/24 18:29:31 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ void	set_in_out(int in[2], int out, t_in_out *in_out)
 
 int	close_and_pipe(int in[2])
 {
-	close(in[0]);
-	close(in[1]);
+	ft_close(in[0]);
+	ft_close(in[1]);
 	return (ft_pipe(in));
 }
 

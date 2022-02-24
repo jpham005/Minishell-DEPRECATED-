@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 01:06:49 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/21 14:37:00 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/24 18:27:20 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,5 +45,6 @@ int		ft_pipe(int pipefd[2]);
 int		ft_dup2(int fd1, int fd2);
 int		ft_strcmp(const char *s1, const char *s2);
 void	ft_strdup_err(char *s1, char *s2);
+void	ft_close(int fd);
 
 #endif
