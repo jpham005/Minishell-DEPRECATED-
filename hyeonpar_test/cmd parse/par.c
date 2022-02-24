@@ -4,19 +4,20 @@
 #include <unistd.h>
 #include <ctype.h>
 #include <dirent.h>
+#include "../test.h"
 
-extern char	**ft_split(char const *s, char c);
-extern size_t ft_strlcpy(char *dst, const char *src, size_t dstsize);
-int	ft_strncmp(const char *s1, const char *s2, size_t n);
-char	*ft_strnstr(const char *haystack, const char *needle, size_t len);
-int ft_strlen(char *s);
+extern char	**ft_split(char const *s, char c); // 
+extern size_t ft_strlcpy(char *dst, const char *src, size_t dstsize); // 
+int	ft_strncmp(const char *s1, const char *s2, size_t n); // 
+char	*ft_strnstr(const char *haystack, const char *needle, size_t len); // 
+int ft_strlen(char *s); //
 
 typedef struct s_env
 {
 	char **env_path;
 }   t_env;
 
-char *ft_strjoin(char *s1, char *s2)
+char *ft_strjoin(char *s1, char *s2) //
 {
 	char *str = (char *)malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
 	int i = 0;
@@ -262,112 +263,25 @@ char *expand_asterisk(char *arg)
 	// 같은 놈만 살려놓고 틀린 놈은 날려버리기
 	// **all에는 멀쩡한 것만 남을 것이고 만약에 all이 null이면 그냥 문자열로 생각하고 출력한다
 }
-
-char **par(char *str, char **envp)
+char **par4(char **pars_str, char **envp, char *env_val, int ss_idx)
 {
-	// check str, check_readline(); == false
-	char **pars_str = find_path(str, envp);
 	int i;
-
-	// asterisk expand
-	i = 0;
-	while (*(pars_str + i) != NULL)
-	{
-		if (is_asterisk(pars_str[i]))
-		{
-			*(pars_str + i) = expand_asterisk(*(pars_str + i));
-			break;
-		}
-		i++;
-	}
-
-	i = 0;
-	while (*(pars_str + i) != NULL)
-	{
-		printf("%s\n", *(pars_str + i));
-		i++;
-	}
-
-	printf("==========================\n");
-	// char *echo[] = {"/bin/ls", "err", "*", NULL};
-	// char **cmd[] = {echo, NULL};
-	// execve("/bin/ls", cmd[0], envp);
-	// execve(pars_str[0], pars_str, envp);
-
-	/* del q */
-	i = 0;
-	int flag_q = 0;
-	int flag_qq = 0;
-
-	while (*(pars_str + i) != NULL)
-	{
-		if (pars_str[i][0] == '\'')
-		{
-			del_q(pars_str[i], '\''); // 'err\0 --> err\0\0     ||      err'\0 --> err\0\0
-			flag_q = 1;
-		}
-		else if (pars_str[i][0] == '\"')
-		{
-			del_q(pars_str[i], '\"');
-			flag_qq = 1;
-		}
-		if (pars_str[i + 1] == NULL && (flag_q || flag_qq))
-		{
-			int j = 0;
-			while (pars_str[i][j] != '\0')
-			{
-				if (pars_str[i][j + 1] == '\0')
-					pars_str[i][j] = '\0';
-				j++;
-			}
-		}
-		i++;
-	}
-
-	/* env 환경변수명 찾는 부분 " 포함해야 함 */
-	i = 0;
-	char *env_val = NULL;
-	int ss_idx = 0;
-	if (flag_q != 1)
-	{
-		while (pars_str[i] != NULL)
-		{
-			int j = 0;
-			while (pars_str[i][j] != '\0')
-			{
-				if (pars_str[i][j] == '$')
-				{
-					ss_idx = i;
-					int s_idx = j + 1;
-					int k = 1;
-					while (pars_str[i][j + k] == '_' || isdigit(pars_str[i][j + k]) || isalpha(pars_str[i][j + k]))
-					{
-						k++;
-					}
-					env_val = (char *)malloc(k);
-					ft_strlcpy(env_val, &pars_str[i][j + 1], k);
-				}
-				j++;
-			}
-			i++;
-		}
-	} // return (env_val);
-	printf("env_val :: %s\n", env_val);
-
-	/* env_list key:value */
-	/* env_list cmp(env_val == list_key) : list_value ? loop */
-	/*  */
+	int j;
+	int len;
 	char *list_key = "SHELL";
-	char *value = NULL;
+	char *value;
+	char *ex_str;
+
+	value = NULL;
+	ex_str = NULL;
 	if (ft_strcmp(list_key, env_val) == 0)
 		value = strdup("/bin/bash"); // strdup() == list_value
-	char *ex_str = NULL;
 
 	// "$SHELL-123" --> /bin/bash-123
-	int len = ft_strlen(pars_str[ss_idx]) - ft_strlen(env_val) + 1 + ft_strlen(value);
+	len = ft_strlen(pars_str[ss_idx]) - ft_strlen(env_val) + 1 + ft_strlen(value);
 	ex_str = (char *)malloc(len + 1);
 	i = -1;
-	int j = 0;
+	j = 0;
 	if (ss_idx != 0)
 	{
 		while (pars_str[ss_idx][++i] != '$')
@@ -395,6 +309,107 @@ char **par(char *str, char **envp)
 	return (pars_str);
 }
 
+/* env 환경변수명 찾는 부분 " 포함해야 함 */
+char **par3(char **pars_str, char **envp, int flag_q)
+{
+	int i;
+	int j;
+	int k;
+	char *env_val;
+	int ss_idx;
+	int s_idx;
+
+	i = 0;
+	env_val = NULL;
+	ss_idx = 0;
+	if (flag_q != 1)
+	{
+		while (pars_str[i] != NULL)
+		{
+			j = 0;
+			while (pars_str[i][j] != '\0')
+			{
+				if (pars_str[i][j] == '$')
+				{
+					ss_idx = i;
+					s_idx = j + 1;
+					k = 1;
+					while (pars_str[i][j + k] == '_' || isdigit(pars_str[i][j + k]) || isalpha(pars_str[i][j + k]))
+						k++;
+					env_val = (char *)malloc(k);
+					ft_strlcpy(env_val, &pars_str[i][j + 1], k);
+				}
+				j++;
+			}
+			i++;
+		}
+	} // return (env_val);
+	printf("env_val :: %s\n", env_val);
+
+	/* env_list key:value */
+	/* env_list cmp(env_val == list_key) : list_value ? loop */
+	/*  */
+
+	return (par4(pars_str, envp, env_val, ss_idx));
+}
+
+char **par2(char **pars_str, char **envp)
+{
+	int i;
+	int flag_q;
+	int flag_qq;
+
+	i = 0;
+	flag_q = 0;
+	flag_qq = 0;
+
+	/* del q */
+	while (*(pars_str + i) != NULL)
+	{
+		if (pars_str[i][0] == '\'')
+		{
+			del_q(pars_str[i], '\''); // 'err\0 --> err\0\0 || err'\0 --> err\0\0
+			flag_q = 1;
+		}
+		else if (pars_str[i][0] == '\"')
+		{
+			del_q(pars_str[i], '\"');
+			flag_qq = 1;
+		}
+		if (pars_str[i + 1] == NULL && (flag_q || flag_qq))
+		{
+			int j = 0;
+			while (pars_str[i][j] != '\0')
+			{
+				if (pars_str[i][j + 1] == '\0')
+					pars_str[i][j] = '\0';
+				j++;
+			}
+		}
+		i++;
+	}
+	return (par3(pars_str, envp, flag_q));
+}
+
+char **par(char *str, char **envp)
+{
+	char **pars_str = find_path(str, envp);
+	int i;
+
+	// asterisk expand
+	i = 0;
+	while (*(pars_str + i) != NULL)
+	{
+		if (is_asterisk(pars_str[i]))
+		{
+			*(pars_str + i) = expand_asterisk(*(pars_str + i));
+			break;
+		}
+		i++;
+	}
+	return (par2(pars_str, envp));
+}
+
 void    ft_exec(char **rtc)
 {
 	// fork()
@@ -403,16 +418,38 @@ void    ft_exec(char **rtc)
 	printf("\n================\n"); // 하단
 }
 
-int main(int argc, char *argv[], char *envp[])
+int main(int argc, char **argv, char **envp)
 {
-	// char *str = strdup("echo -n $SHELL"); // << readline 입력한 문자열
-	// char *str = strdup("echo $SHELL"); // << readline 입력한 문자열
-	char *str = strdup("echo -n *"); // << readline 입력한 문자열
+	char *str = strdup("ls -al"); // << readline 입력한 문자열
 
-	// check str, check_readline(); == false
 	char **readline_to_cmd = par(str, envp);
 	ft_exec(readline_to_cmd);
-	
+
 	free(str);
 	return (0);
 }
+
+// 처음에 파이프 개수만 세서 cl->pipes->num에 저장한 다음 그 크기 - 1만큼 next를 붙인 구조체 완성
+// next가 null일 때까지 type과 cmds->cmd를 채운다는 느낌으로 작성해야 함
+// 각각의 cmds->cmd는 par()를 통해 명령어와 환경 변수 등이 확장 처리됨
+void	check_pipe(char **str, t_cmd_line *cl)
+{
+	char **temp;
+	int i;
+
+	i = 0;
+	temp = str; // ft_strdup 2차원 고려하여 복사
+	while (*(str + i) != NULL)
+	{
+		if (str[0][0] == '|' && str[0][1] == '|' && str[0][2] == '\0')
+			cl->pipes->type = OR;
+		else if (str[0][0] == '|' && str[0][1] == '\0')
+			cl->pipes->type = PIPE;
+		else if (str[0][0] == '&' && str[0][1] == '&' && str[0][2] == '\0')
+			cl->pipes->type = AND;
+		// cl->pipes->cmds->cmd = 이전 파이프 다음 인덱스부터 현재 파이프 이전 인덱스까지
+		i++;
+	}
+	// num++, s_cmd_line 쪼개기
+}
+

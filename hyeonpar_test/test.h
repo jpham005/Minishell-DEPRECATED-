@@ -26,13 +26,6 @@
 // #include <sys/types.h>
 // #include <sys/wait.h>
 
-// # define ARG 101 // 내부에서 환경변수 expand, 와일드카드(*) 처리
-// # define COMMAND 102 // echo, cd, pwd, export, unset, env, exit
-// # define OPTION 103 // echo의 -m, cd 옵션 필요한가?(심볼릭링크), ...
-// # define PIPE 104 // |(control operator), &&(앞선 파서 동작시에만 뒤 파서 동작), ||
-// # define REDIR 105 // <, >, >>, (<<)
-// # define FILE 106 // a.txt, ...
-
 // 귀찮아서 다른 헤더에서 가져온 부분
 typedef struct s_envp_list
 {
@@ -42,27 +35,11 @@ typedef struct s_envp_list
 	struct s_envp_list	*next;
 }	t_envp_list;
 
-// //
-
-// typedef struct  s_token
-// {
-//     char *str;
-//     int type;
-//     struct s_token *next;
-// }   t_token;
-
-// typedef struct  s_parse
-// {
-//     t_token *head;
-//     t_token *tail;
-
-// }   t_parse;
-
 typedef enum e_pipe_type // will use hyeonpar's
 {
-    PIPE = 0,
-    AND,
-    OR
+    PIPE = 0, // |
+    AND, // 1 &&
+    OR // 2 ||
 }   t_pipe_type;
 
 typedef enum e_redir_type
@@ -76,7 +53,7 @@ typedef enum e_redir_type
 // 하나의 프로세스(s_parse) 단위에서 여러 개의 리다이렉트(파일입출력) 처리가 이루어질 수 있기 때문에 여러 개 보내야 함
 typedef struct s_redirect
 {
-    int type; // <, << / >, >>
+    t_redir_type type;
     char *target; // if heredog, limit_string
     struct s_redirect *next;
 }   t_redirect;
@@ -85,22 +62,20 @@ typedef struct s_cmd
 {
     char **cmd; // echo -e "helloworld"
     t_redirect *redir; // 리다이렉트 모음
-    // int pipe[2];
-    // int type;
 }   t_cmd;
 
 typedef struct s_pipe
 {
     t_cmd *cmds; // struct 구조체
     size_t num; // pipe의 개수
+    t_pipe_type type;
 }   t_pipe;
 
 typedef struct s_cmd_line
 {
     t_pipe *pipes; // struct 구조체
-    int type; // 논리 연산자(&&, ||) 타입(0, 1, 2)
     struct s_cmd_line *next;
-};
+}   t_cmd_line;
 
 # endif
 
