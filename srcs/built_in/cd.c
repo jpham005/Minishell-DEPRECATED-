@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 15:41:42 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/17 15:57:08 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/25 20:36:19 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@
 
 static char	*try_cdpath(char ***cdpath, const char *arg, t_envp_list *envp)
 {
-	size_t	i;
-	t_stat	stat;
-	char	*temp;
-	char	*path;
+	size_t		i;
+	struct stat	stat;
+	char		*temp;
+	char		*path;
 
 	if (!*cdpath)
 		return (NULL);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 16:09:27 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/25 17:57:45 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/25 20:42:32 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 #include "temphead.h"
 #include "libft.h"
 #include <errno.h>
+#include <string.h>
+#include <stdlib.h>
 
 char	*try_cmd(char **cmd, t_context *context)
 {
@@ -35,24 +37,24 @@ char	*try_cmd(char **cmd, t_context *context)
 			safe_free((void **) &temp);
 			break ;
 		}
-		safe_free((void **) temp);
-		safe_free((void **) ret);
+		safe_free((void **) &temp);
+		safe_free((void **) &ret);
 		i++;
 	}
 	return (ret);
 }
-//not found 127  
+
 int	check_cmd(char *cmd)
 {
 	t_stat	stat;
 
 	if (lstat(cmd, &stat) == -1)
-	{
-		ft_putstr_fd(SHELL_NAME, 2);
-		ft_putstr_fd(cmd, 2);
-		ft_putstr_fd(": command not found\n", 2);
-		return (127);
-	}
+		return (NOT_FOUND);
+	if (stat.st_mode & S_IFDIR)
+		return (IS_DIR);
+	if (stat.st_mode & S_IXUSR)
+		return (NO_PERMISSION);
+	return (-1);
 }
 
 void	exit_with_cmd_err(char *cmd, int stat)
@@ -85,18 +87,16 @@ void	exec_cmd(char **cmd, t_context *context)
 	{
 		stat = check_cmd(cmd[0]);
 		if (stat == NOT_FOUND || IS_DIR || NO_PERMISSION)
-			exit_with_cmd_err(cmd, stat);
+			exit_with_cmd_err(cmd[0], stat);
 		execve(cmd[0], cmd, convert_envp_to_dptr(context->envp));
 		exit_by_errno(errno, cmd[0]);
 	}
 	if (cmd[0][0] == '\0')
-	{
-		ft_putstr_fd(SHELL_NAME);
-		ft_putstr_fd(cmd[0], 2);
-	}
+		exit_with_msg(cmd[0], CMD_NOT_FOUND_ERR_MSG, 127);
 	cmd_exec = try_cmd(cmd, context);
 	if (!cmd_exec)
-		execve(cmd[0], cmd, convert_envp_to_dptr(context->envp));
+		exit_with_msg(cmd[0], CMD_NOT_FOUND_ERR_MSG, 127);
 	else
 		execve(cmd_exec, cmd, convert_envp_to_dptr(context->envp));
+	exit_with_msg(cmd[0], strerror(errno), 126);
 }

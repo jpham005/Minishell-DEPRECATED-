@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 13:46:27 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/25 15:57:38 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/25 20:54:05 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,13 +105,13 @@ int	main(int argc, char **argv, char **envp)
 	cmd_line->pipes->len = 1;
 	cmd_line->pipes->cmds = malloc(sizeof(t_cmd));
 	cmd_line->pipes->cmds->type = SINGLE_CMD;
-	cmd_line->pipes->cmds->cmd = ft_split("exit", ' ');
+	cmd_line->pipes->cmds->cmd = ft_split("cat -e", ' ');
 	cmd_line->pipes->cmds->redir = malloc(sizeof(t_redir));
 	cmd_line->pipes->cmds->redir->type = REDIR_IN;
 	cmd_line->pipes->cmds->redir->target = "infile";
 	cmd_line->pipes->cmds->redir->next = NULL;
 
-	executor(cmd_line, &context, NULL);
+	executor(cmd_line, &context);
 	// print exit status
 	fprintf(stdout, "exit status %d\n", context.exit_status);
 	// test end

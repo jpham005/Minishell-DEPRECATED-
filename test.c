@@ -9,6 +9,5 @@
 
 int main()
 {
-	open("infile", 0);
-	printf("%d\n", fcntl(3, F_GETFD));
+
 }
