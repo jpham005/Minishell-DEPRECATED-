@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 20:54:17 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/17 15:28:56 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/25 16:43:49 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,17 @@
 # define HOME_NOT_SET_ERR_MESSAGE "HOME not set\n"
 # define OLDPWD_NOT_SET_ERR_MESSAGE "OLDPWD not set\n"
 
-typedef struct stat	t_stat;
+typedef enum e_sh_built_in
+{
+	SH_NOT_BUILT_IN = 0,
+	SH_CD,
+	SH_ECHO,
+	SH_ENV,
+	SH_EXIT,
+	SH_EXPORT,
+	SH_PWD,
+	SH_UNSET
+}	t_sh_built_in;
 
 int		built_in_exit(t_context *context, const char **argv);
 int		export(t_context *context, const char **argv);

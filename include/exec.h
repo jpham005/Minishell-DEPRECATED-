@@ -3,21 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 20:45:13 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/24 15:47:50 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/25 17:36:41 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXEC_H
 # define EXEC_H
 
-#include "envp.h"
-#include "temphead.h"
-#include "terminal.h"
+# include "envp.h"
+# include "temphead.h"
+# include "terminal.h"
+# include "built_in.h"
+# include <sys/stat.h>
 
-#define NOT_BUILT_IN -1
+# define PERMISSION_ERR_MSG ": Permission denied\n"
+# define NOT_FOUND_ERR_MSG ": No such file or directory\n"
+# define CMD_NOT_FOUND_ERR_MSG ": command not found\n"
+# define IS_DIR_ERR_MSG ": is a directory\n"
+
+typedef struct stat	t_stat;
+
+typedef enum e_file_stat
+{
+	NOT_FOUND = 0,
+	IS_DIR,
+	NO_PERMISSION
+}	t_file_stat;
 
 typedef enum e_isexit
 {
@@ -37,20 +51,9 @@ typedef struct s_err_info
 	char	*err_target;
 }	t_err_info;
 
-
-int		handle_redirection(t_redirect *redir, t_in_out *in_out, t_context *ctx);
-pid_t	exec_fork_pipe(t_cmd cmd, t_context *context, t_in_out *in_out);
-pid_t	exec_fork_out(t_cmd cmd, t_context *context, t_in_out *in_out);
-int		executer(t_cmd_line *cmd_line, t_context *context, t_in_out *in_out);
-int		close_and_pipe(int in[2]);
-void	set_in_out(int in[2], int out, t_in_out *in_out);
-void	init_in_out(int in[2], int *out);
-int		is_heredoc_str(char *s1, char *s2);
-void	dup_errs(t_err_info *err_info, char *target, int status);
-int		wait_all(pid_t *pids, size_t i, int ret);
-int		exec_built_in(t_cmd cmd, t_context *context, t_isexit isexit);
-void	exec_parenthesis(t_cmd *cmd, t_context *context, t_in_out *in_out);
-void	check_cmd_type(t_cmd *cmd, t_context *context, \
-											t_in_out *in_out, int *outpipe);
+void			executor(t_cmd_line *c_line, t_context *ctx, t_in_out *in_out);
+int				exec_built_in(char **cmd, t_context *ctx, t_sh_built_in type);
+int				handle_redir(t_redir *redir, t_context *context);
+t_sh_built_in	is_built_in(char *cmd);
 
 #endif

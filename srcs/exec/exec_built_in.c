@@ -3,42 +3,52 @@
 /*                                                        :::      ::::::::   */
 /*   exec_built_in.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/18 11:20:39 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/24 15:40:40 by jaham            ###   ########.fr       */
+/*   Created: 2022/02/25 15:17:17 by jaham             #+#    #+#             */
+/*   Updated: 2022/02/25 15:50:24 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include "exec.h"
 #include "temphead.h"
+#include "exec.h"
 #include "built_in.h"
-#include <stdlib.h>
+#include "libft.h"
 
-int	exec_built_in(t_cmd cmd, t_context *context, t_isexit isexit)
+t_sh_built_in	is_built_in(char *cmd)
 {
-	char	*cmd_str;
-	int		ret;
+	if (!ft_strncmp(cmd, "cd", ft_strlen("cd") + 1))
+		return (SH_CD);
+	if (!ft_strncmp(cmd, "echo", ft_strlen("echo") + 1))
+		return (SH_ECHO);
+	if (!ft_strncmp(cmd, "env", ft_strlen("env") + 1))
+		return (SH_ENV);
+	if (!ft_strncmp(cmd, "exit", ft_strlen("exit") + 1))
+		return (SH_EXIT);
+	if (!ft_strncmp(cmd, "export", ft_strlen("export") + 1))
+		return (SH_EXPORT);
+	if (!ft_strncmp(cmd, "pwd", ft_strlen("pwd") + 1))
+		return (SH_PWD);
+	if (!ft_strncmp(cmd, "unset", ft_strlen("unset") + 1))
+		return (SH_UNSET);
+	return (SH_NOT_BUILT_IN);
+}
 
-	cmd_str = cmd.cmd[0];
-	if (!ft_strncmp(cmd_str, "cd", 3))
-		ret = cd(context, (const char **) cmd.cmd);
-	else if (!ft_strncmp(cmd_str, "echo", 5))
-		ret = echo(context, (const char **) cmd.cmd);
-	else if (!ft_strncmp(cmd_str, "env", 4))
-		ret = env(context, (const char **) cmd.cmd);
-	else if (!ft_strncmp(cmd_str, "exit", 5))
-		ret = built_in_exit(context, (const char **) cmd.cmd);
-	else if (!ft_strncmp(cmd_str, "export", 7))
-		ret = export(context, (const char **) cmd.cmd);
-	else if (!ft_strncmp(cmd_str, "pwd", 4))
-		ret = pwd(context, (const char **) cmd.cmd);
-	else if (!ft_strncmp(cmd_str, "unset", 6))
-		ret = unset(context, (const char **) cmd.cmd);
-	else
-		return (NOT_BUILT_IN);
-	if (isexit == RETURN)
-		return (ret);
-	exit (ret);
+int	exec_built_in(char **cmd, t_context *context, t_sh_built_in type)
+{
+	if (type == SH_CD)
+		return (cd(context, (const char **) cmd));
+	if (type == SH_ECHO)
+		return (echo(context, (const char **) cmd));
+	if (type == SH_ENV)
+		return (env(context, (const char **) cmd));
+	if (type == SH_EXIT)
+		return (built_in_exit(context, (const char **) cmd));
+	if (type == SH_EXPORT)
+		return (export(context, (const char **) cmd));
+	if (type == SH_PWD)
+		return (pwd(context, (const char **) cmd));
+	if (type == SH_UNSET)
+		return (unset(context, (const char **) cmd));
+	return (1);
 }

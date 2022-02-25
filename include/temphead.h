@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   temphead.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/17 19:49:29 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/22 16:53:47 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/25 11:38:31 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,17 +36,17 @@ typedef enum e_cmd_type
 	PARENTHESIS // with ex. (ls || ls)
 }	t_cmd_type;
 // 하나의 프로세스(s_parse) 단위에서 여러 개의 리다이렉트(파일입출력) 처리가 이루어질 수 있기 때문에 여러 개 보내야 함
-typedef struct s_redirect
+typedef struct s_redir
 {
     t_redir_type	type; // <, << / >, >>
     char *target; // if heredoc, limit_string
-    struct s_redirect *next; // NULL if none
-}   t_redirect;
+    struct s_redir *next; // NULL if none
+}   t_redir;
 
 typedef struct s_cmd
 {
-    char **cmd; // echo -e "helloworld"
-    t_redirect *redir; // 리다이렉트 모음
+    char		**cmd; // echo -e "helloworld"
+    t_redir		*redir; // 리다이렉트 모음
 	t_cmd_type	type; // normal || parenthesis ()
     // int pipe[2];
 }   t_cmd;

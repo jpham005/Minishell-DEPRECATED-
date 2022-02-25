@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 13:46:27 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/24 21:45:48 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/25 15:57:38 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,27 +80,39 @@ int	main(int argc, char **argv, char **envp)
 		exit_with_status(PRINT_INTRO_ERR);
 	readline_loop(&context);
 
-	t_cmd_line	*cmd_line;
+	//t_cmd_line	*cmd_line;
 
-	cmd_line = malloc(sizeof(t_cmd_line));
+	//cmd_line = malloc(sizeof(t_cmd_line));
+	//cmd_line->next = NULL;
+	//cmd_line->type = PIPE;
+	//cmd_line->pipes = malloc(sizeof(t_pipe));
+	//cmd_line->pipes->cmds = malloc(sizeof(t_cmd) * 2);
+	//cmd_line->pipes->len = 1;
+	//cmd_line->pipes->cmds[0].redir = NULL;
+	//cmd_line->pipes->cmds[0].type = PARENTHESIS;
+	//cmd_line->pipes->cmds[1].type = SINGLE_CMD;
+	//cmd_line->pipes->cmds[1].redir = &(t_redir){
+	//	REDIR_OUT,
+	//	"fin",
+	//	NULL
+	//};
+	//cmd_line->pipes->cmds[1].cmd = ft_split("cat", ' ');
+
+	t_cmd_line	*cmd_line = malloc(sizeof(t_cmd_line));
 	cmd_line->next = NULL;
 	cmd_line->type = PIPE;
 	cmd_line->pipes = malloc(sizeof(t_pipe));
-	cmd_line->pipes->cmds = malloc(sizeof(t_cmd) * 2);
 	cmd_line->pipes->len = 1;
-	cmd_line->pipes->cmds[0].redir = NULL;
-	cmd_line->pipes->cmds[0].type = PARENTHESIS;
-	cmd_line->pipes->cmds[1].type = SINGLE_CMD;
-	cmd_line->pipes->cmds[1].redir = &(t_redirect){
-		REDIR_OUT,
-		"fin",
-		NULL
-	};
-	cmd_line->pipes->cmds[1].cmd = ft_split("cat", ' ');
+	cmd_line->pipes->cmds = malloc(sizeof(t_cmd));
+	cmd_line->pipes->cmds->type = SINGLE_CMD;
+	cmd_line->pipes->cmds->cmd = ft_split("exit", ' ');
+	cmd_line->pipes->cmds->redir = malloc(sizeof(t_redir));
+	cmd_line->pipes->cmds->redir->type = REDIR_IN;
+	cmd_line->pipes->cmds->redir->target = "infile";
+	cmd_line->pipes->cmds->redir->next = NULL;
 
-	executer(cmd_line, &context, NULL);
+	executor(cmd_line, &context, NULL);
 	// print exit status
-	// pwd(&context, (const char **) ft_split("pwd", ' '));
 	fprintf(stdout, "exit status %d\n", context.exit_status);
 	// test end
 	clear_envp_list(&(context.envp));
