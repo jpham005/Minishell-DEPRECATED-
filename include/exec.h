@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 20:45:13 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/26 21:01:34 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/27 07:54:04 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,17 @@ typedef enum e_isexit
 	EXIT
 }	t_isexit;
 
+typedef enum e_pipe_len_status
+{
+	IS_PIPE_CONTINUE = 0,
+	IS_PIPE_END
+}	t_pipe_len_status;
+
 typedef struct s_in_out
 {
 	int	prev[2];
 	int	curr[2];
+	int	pipeline[2];
 }	t_in_out;
 
 typedef struct s_err_info
@@ -61,5 +68,7 @@ void			init_in_out(t_in_out *in_out);
 pid_t			exec_out(t_cmd *cmd, t_context *context, t_in_out *in_out);
 void			child(t_cmd *cmd, t_context *context, t_in_out *in_out);
 void			exec_parenthesis(char *str, t_context *context);
+void			close_pipes(int pipes[2]);
+int				handle_pipe(t_in_out *io, t_pipe_len_status st, t_context *ctx);
 
 #endif

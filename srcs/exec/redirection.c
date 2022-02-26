@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 11:36:44 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/26 21:56:24 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/27 03:09:20 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ static int	handle_heredoc(char *limit, t_context *context)
 		return (0);
 	ft_close(hpipe[1]);
 	ft_close(hpipe[0]);
-	return (!restore_fd(context, backup));
+	return (restore_fd(context, backup));
 }
 
 static int	handle_out(t_redir *redir)
