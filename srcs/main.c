@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 13:46:27 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/26 13:05:06 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/26 17:17:01 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,35 +99,48 @@ int	main(int argc, char **argv, char **envp)
 	//cmd_line->pipes->cmds[1].cmd = ft_split("cat", ' ');
 
 	t_cmd_line	*cmd_line = malloc(sizeof(t_cmd_line));
-	cmd_line->next = NULL;
 	cmd_line->type = PIPE;
 	cmd_line->pipes = malloc(sizeof(t_pipe));
-	cmd_line->pipes->len = 3;
+	cmd_line->pipes->len = 1;
 	cmd_line->pipes->cmds = malloc(sizeof(t_cmd) * cmd_line->pipes->len);
-	
 	cmd_line->pipes->cmds[0].type = SINGLE_CMD;
-	cmd_line->pipes->cmds[0].cmd = ft_split("cat -e", ' ');
 	cmd_line->pipes->cmds[0].redir = malloc(sizeof(t_redir));
-	cmd_line->pipes->cmds[0].redir->type = REDIR_IN;
-	cmd_line->pipes->cmds[0].redir->target = "infile";
 	cmd_line->pipes->cmds[0].redir->next = NULL;
+	cmd_line->pipes->cmds[0].redir->target = "EOF";
+	cmd_line->pipes->cmds[0].redir->type = REDIR_HEREDOC;
+	cmd_line->pipes->cmds[0].cmd = ft_split("cat", ' ');
+	cmd_line->next = NULL;
+/*
+	cmd_line->next = malloc(sizeof(t_cmd_line));
+	cmd_line->next->type = AND;
+	cmd_line->next->pipes = malloc(sizeof(t_pipe));
+	cmd_line->next->pipes->len = 3;
+	cmd_line->next->pipes->cmds = malloc(sizeof(t_cmd) * cmd_line->next->pipes->len);
+	
+	cmd_line->next->pipes->cmds[0].type = SINGLE_CMD;
+	cmd_line->next->pipes->cmds[0].cmd = ft_split("ls", ' ');
+	cmd_line->next->pipes->cmds[0].redir = NULL;
+	// cmd_line->next->pipes->cmds[0].redir = malloc(sizeof(t_redir));
+	// cmd_line->next->pipes->cmds[0].redir->type = REDIR_IN;
+	// cmd_line->next->pipes->cmds[0].redir->target = "infile";
+	// cmd_line->next->pipes->cmds[0].redir->next = NULL;
 
-	cmd_line->pipes->cmds[1].type = SINGLE_CMD;
-	cmd_line->pipes->cmds[1].cmd = ft_split("cat -e", ' ');
-	// cmd_line->pipes->cmds[1].redir = NULL;
-	cmd_line->pipes->cmds[1].redir = malloc(sizeof(t_redir));
-	cmd_line->pipes->cmds[1].redir->type = REDIR_OUT;
-	cmd_line->pipes->cmds[1].redir->target = "outfile";
-	cmd_line->pipes->cmds[1].redir->next = NULL;
+	cmd_line->next->pipes->cmds[1].type = SINGLE_CMD;
+	cmd_line->next->pipes->cmds[1].cmd = ft_split("cat -e", ' ');
+	// cmd_line->next->pipes->cmds[1].redir = NULL;
+	cmd_line->next->pipes->cmds[1].redir = malloc(sizeof(t_redir));
+	cmd_line->next->pipes->cmds[1].redir->type = REDIR_OUT;
+	cmd_line->next->pipes->cmds[1].redir->target = "outfile";
+	cmd_line->next->pipes->cmds[1].redir->next = NULL;
 
-	cmd_line->pipes->cmds[2].type = SINGLE_CMD;
-	cmd_line->pipes->cmds[2].cmd = ft_split("cat -e", ' ');
-	cmd_line->pipes->cmds[2].redir = NULL;
-	// cmd_line->pipes->cmds[2].redir = malloc(sizeof(t_redir));
-	// cmd_line->pipes->cmds[2].redir->type = REDIR_IN;
-	// cmd_line->pipes->cmds[2].redir->target = "infile";
-	// cmd_line->pipes->cmds[2].redir->next = NULL;
-
+	cmd_line->next->pipes->cmds[2].type = SINGLE_CMD;
+	cmd_line->next->pipes->cmds[2].cmd = ft_split("cat -e", ' ');
+	cmd_line->next->pipes->cmds[2].redir = NULL;
+	// cmd_line->next->pipes->cmds[2].redir = malloc(sizeof(t_redir));
+	// cmd_line->next->pipes->cmds[2].redir->type = REDIR_IN;
+	// cmd_line->next->pipes->cmds[2].redir->target = "infile";
+	// cmd_line->next->pipes->cmds[2].redir->next = NULL;
+*/
 	executor(cmd_line, &context);
 	// print exit status
 	fprintf(stdout, "exit status %d\n", context.exit_status);
@@ -135,6 +148,7 @@ int	main(int argc, char **argv, char **envp)
 	clear_envp_list(&(context.envp));
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
+	while (1);
 	return (context.exit_status);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 11:36:44 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/25 15:43:49 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/26 17:45:22 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 #include "libft.h"
 #include <fcntl.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <signal.h>
 
 static int	handle_in(const char *target)
 {
@@ -33,32 +35,30 @@ static int	handle_in(const char *target)
 	return (1);
 }
 
-static int	handle_heredoc(const char *target)
+static int handle_heredoc(char *limit, t_context *context)
 {
-	int		heredoc[2];
+	int		hpipe[2];
 	char	*buf;
+	char	*temp;
 
-	if (!ft_pipe(heredoc))
+	if (!ft_pipe(hpipe))
 		return (0);
 	while (1)
 	{
-		buf = get_next_line(0);
-		if (!buf)
-			return (0);
-		if (!*buf)
+		buf = ft_readline(context, "> ");
+		if (!buf || !ft_strncmp(buf, limit, ft_strlen(limit) + 1))
 			break ;
-		if (ft_putstr_fd(buf, heredoc[1]) == -1)
-		{
-			safe_free((void **) &buf);
-			return (0);
-		}
-		safe_free((void **) &buf);
+		temp = ft_strjoin(buf, "\n");
+		free(buf);
+		buf = temp;
+		write(hpipe[1], buf, ft_strlen(buf));
+		free(buf);
 	}
 	safe_free((void **) &buf);
-	if (!ft_dup2(heredoc[0], 0))
+	if (!ft_dup2(hpipe[0], 0))
 		return (0);
-	ft_close(heredoc[0]);
-	ft_close(heredoc[1]);
+	ft_close(hpipe[1]);
+	ft_close(hpipe[0]);
 	return (1);
 }
 
@@ -94,7 +94,7 @@ int	handle_redir(t_redir *redir, t_context *context)
 		}
 		if (redir->type == REDIR_HEREDOC)
 		{
-			if (!handle_heredoc(redir->target))
+			if (!handle_heredoc(redir->target, context))
 				return (0);
 		}
 		if (redir->type == REDIR_OUT || redir->type == REDIR_APPEND)
