@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 13:46:27 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/26 17:17:01 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/26 21:56:35 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,15 +101,23 @@ int	main(int argc, char **argv, char **envp)
 	t_cmd_line	*cmd_line = malloc(sizeof(t_cmd_line));
 	cmd_line->type = PIPE;
 	cmd_line->pipes = malloc(sizeof(t_pipe));
-	cmd_line->pipes->len = 1;
-	cmd_line->pipes->cmds = malloc(sizeof(t_cmd) * cmd_line->pipes->len);
+	cmd_line->pipes->len = 3 ;
+	cmd_line->pipes->cmds = malloc(sizeof(t_cmd) * 4);
 	cmd_line->pipes->cmds[0].type = SINGLE_CMD;
 	cmd_line->pipes->cmds[0].redir = malloc(sizeof(t_redir));
 	cmd_line->pipes->cmds[0].redir->next = NULL;
-	cmd_line->pipes->cmds[0].redir->target = "EOF";
+	cmd_line->pipes->cmds[0].redir->target = "infile";
 	cmd_line->pipes->cmds[0].redir->type = REDIR_HEREDOC;
 	cmd_line->pipes->cmds[0].cmd = ft_split("cat", ' ');
+	cmd_line->pipes->cmds[1].type = SINGLE_CMD;
+	cmd_line->pipes->cmds[1].redir = NULL;
+	cmd_line->pipes->cmds[1].cmd = ft_split("ls", ' ');
+	cmd_line->pipes->cmds[2].type = SINGLE_CMD;
+	cmd_line->pipes->cmds[2].redir = NULL;
+	cmd_line->pipes->cmds[2].cmd = ft_split("cat -e", ' ');
+
 	cmd_line->next = NULL;
+
 /*
 	cmd_line->next = malloc(sizeof(t_cmd_line));
 	cmd_line->next->type = AND;
@@ -148,7 +156,6 @@ int	main(int argc, char **argv, char **envp)
 	clear_envp_list(&(context.envp));
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
-	while (1);
 	return (context.exit_status);
 }
 

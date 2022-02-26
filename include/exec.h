@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 20:45:13 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/26 12:53:33 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/26 21:01:34 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,5 +60,6 @@ int				wait_all(pid_t *pids, size_t i, int ret);
 void			init_in_out(t_in_out *in_out);
 pid_t			exec_out(t_cmd *cmd, t_context *context, t_in_out *in_out);
 void			child(t_cmd *cmd, t_context *context, t_in_out *in_out);
+void			exec_parenthesis(char *str, t_context *context);
 
 #endif

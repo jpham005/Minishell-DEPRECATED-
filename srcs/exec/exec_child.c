@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 12:51:36 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/26 13:01:23 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/26 21:02:07 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,9 @@ void	child(t_cmd *cmd, t_context *context, t_in_out *in_out)
 	ft_close(in_out->curr[1]);
 	if (!handle_redir(cmd->redir, context))
 		exit(1);
-	exec_cmd(cmd->cmd, context);
+	if (cmd->type == SINGLE_CMD)
+		exec_cmd(cmd->cmd, context);
+	exec_parenthesis(cmd->cmd[0], context);
 }
 
 pid_t	exec_out(t_cmd *cmd, t_context *context, t_in_out *in_out)
@@ -52,7 +54,10 @@ pid_t	exec_out(t_cmd *cmd, t_context *context, t_in_out *in_out)
 		built_in_type = is_built_in(cmd->cmd[0]);
 		if (built_in_type != SH_NOT_BUILT_IN)
 			exit(exec_built_in(cmd->cmd, context, built_in_type));
-		exec_cmd(cmd->cmd, context);
+		if (cmd->type == SINGLE_CMD)
+			exec_cmd(cmd->cmd, context);
+		else
+			exec_parenthesis(cmd->cmd[0], context);
 		exit_by_errno(errno, cmd->cmd[0]);
 	}
 	ft_close(in_out->prev[0]);

@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 11:24:03 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/26 12:52:29 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/26 21:26:13 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,7 @@ static int	exec_single_cmd(t_cmd *cmd, t_context *context)
 	{
 		if (cmd->type == SINGLE_CMD)
 			exec_cmd(cmd->cmd, context);
-		//else if (cmd->type == PARENTHESIS)
-		//	exec_parenthesis();
+		exec_parenthesis(cmd->cmd[0], context);
 	}
 	return (wait_all(pid, 1, 0));
 }
@@ -85,21 +84,21 @@ void	executor(t_cmd_line *cmd_line, t_context *context)
 {
 	while (cmd_line)
 	{
-		if (cmd_line->type == PIPE)
-			context->exit_status = exec_line(cmd_line, context);
-		else if((cmd_line->type == AND) && (context->exit_status == 0))
-			context->exit_status = exec_line(cmd_line, context);
-		else if ((cmd_line->type == OR) && (context->exit_status != 0))
-			context->exit_status = exec_line(cmd_line, context);
 		if (
-			!ft_dup2(context->std_fd[0], 0)
-			|| !ft_dup2(context->std_fd[1], 1)
-			|| !ft_dup2(context->std_fd[2], 2)
+			!ft_dup2(context->curr_fd[0], 0)
+			|| !ft_dup2(context->curr_fd[1], 1)
+			|| !ft_dup2(context->curr_fd[2], 2)
 		)
 		{
 			context->exit_status = 1;
 			return ;
 		}
+		if (cmd_line->type == PIPE)
+			context->exit_status = exec_line(cmd_line, context);
+		else if ((cmd_line->type == AND) && (context->exit_status == 0))
+			context->exit_status = exec_line(cmd_line, context);
+		else if ((cmd_line->type == OR) && (context->exit_status != 0))
+			context->exit_status = exec_line(cmd_line, context);
 		cmd_line = cmd_line->next;
 	}
 }

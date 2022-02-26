@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 12:06:57 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/26 15:40:49 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/26 20:42:53 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef struct s_term_state
 typedef struct s_context
 {
 	int				std_fd[3];
+	int				curr_fd[3];
 	int				exit_status;
 	t_envp_list		*envp;
 	t_term_state	term_state;

@@ -6,13 +6,14 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 12:20:16 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/26 17:46:46 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/26 19:21:00 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "terminal.h"
 #include <stdio.h>
 #include <signal.h>
+#include <stdlib.h>
 #include <readline/readline.h>
 
 void	set_term_readline(t_term_state *term_state)
@@ -29,6 +30,11 @@ void	set_term_default(t_term_state *term_state)
 	tcsetattr(STDOUT_FILENO, TCSANOW, &(term_state->default_term));
 }
 
+void	heredoc(int sig)
+{
+	exit(1);
+}
+
 char	*ft_readline(t_context *context, char *str)
 {
 	char	*ret;
@@ -38,7 +44,7 @@ char	*ft_readline(t_context *context, char *str)
 		ret = readline(MINISHELL_WITH_COLOR);
 	else
 	{
-		signal(SIGINT, SIG_DFL);
+		signal(SIGINT, heredoc);
 		ret = readline(str);
 	}
 	set_term_default(&(context->term_state));
