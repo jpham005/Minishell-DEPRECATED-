@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 13:46:27 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/25 20:54:05 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/26 13:05:06 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,14 +102,31 @@ int	main(int argc, char **argv, char **envp)
 	cmd_line->next = NULL;
 	cmd_line->type = PIPE;
 	cmd_line->pipes = malloc(sizeof(t_pipe));
-	cmd_line->pipes->len = 1;
-	cmd_line->pipes->cmds = malloc(sizeof(t_cmd));
-	cmd_line->pipes->cmds->type = SINGLE_CMD;
-	cmd_line->pipes->cmds->cmd = ft_split("cat -e", ' ');
-	cmd_line->pipes->cmds->redir = malloc(sizeof(t_redir));
-	cmd_line->pipes->cmds->redir->type = REDIR_IN;
-	cmd_line->pipes->cmds->redir->target = "infile";
-	cmd_line->pipes->cmds->redir->next = NULL;
+	cmd_line->pipes->len = 3;
+	cmd_line->pipes->cmds = malloc(sizeof(t_cmd) * cmd_line->pipes->len);
+	
+	cmd_line->pipes->cmds[0].type = SINGLE_CMD;
+	cmd_line->pipes->cmds[0].cmd = ft_split("cat -e", ' ');
+	cmd_line->pipes->cmds[0].redir = malloc(sizeof(t_redir));
+	cmd_line->pipes->cmds[0].redir->type = REDIR_IN;
+	cmd_line->pipes->cmds[0].redir->target = "infile";
+	cmd_line->pipes->cmds[0].redir->next = NULL;
+
+	cmd_line->pipes->cmds[1].type = SINGLE_CMD;
+	cmd_line->pipes->cmds[1].cmd = ft_split("cat -e", ' ');
+	// cmd_line->pipes->cmds[1].redir = NULL;
+	cmd_line->pipes->cmds[1].redir = malloc(sizeof(t_redir));
+	cmd_line->pipes->cmds[1].redir->type = REDIR_OUT;
+	cmd_line->pipes->cmds[1].redir->target = "outfile";
+	cmd_line->pipes->cmds[1].redir->next = NULL;
+
+	cmd_line->pipes->cmds[2].type = SINGLE_CMD;
+	cmd_line->pipes->cmds[2].cmd = ft_split("cat -e", ' ');
+	cmd_line->pipes->cmds[2].redir = NULL;
+	// cmd_line->pipes->cmds[2].redir = malloc(sizeof(t_redir));
+	// cmd_line->pipes->cmds[2].redir->type = REDIR_IN;
+	// cmd_line->pipes->cmds[2].redir->target = "infile";
+	// cmd_line->pipes->cmds[2].redir->next = NULL;
 
 	executor(cmd_line, &context);
 	// print exit status

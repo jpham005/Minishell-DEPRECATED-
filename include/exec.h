@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 20:45:13 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/25 21:31:59 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/26 12:53:33 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,5 +57,8 @@ int				handle_redir(t_redir *redir, t_context *context);
 t_sh_built_in	is_built_in(char *cmd);
 void			exec_cmd(char **cmd, t_context *context);
 int				wait_all(pid_t *pids, size_t i, int ret);
+void			init_in_out(t_in_out *in_out);
+pid_t			exec_out(t_cmd *cmd, t_context *context, t_in_out *in_out);
+void			child(t_cmd *cmd, t_context *context, t_in_out *in_out);
 
 #endif

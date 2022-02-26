@@ -6,7 +6,7 @@
 #    By: jaham <jaham@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/16 20:45:33 by jaham             #+#    #+#              #
-#    Updated: 2022/02/25 20:40:52 by jaham            ###   ########.fr        #
+#    Updated: 2022/02/26 13:02:18 by jaham            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,8 @@ UTILS_SRCS := exit_manage.c print_intro.c
 UTILS_SRCS := $(addprefix $(UTILS_DIR)/, $(UTILS_SRCS))
 TERMINAL_SRCS := check_default_state.c set_state.c signal_handler.c init.c
 TERMINAL_SRCS := $(addprefix $(TERMINAL_DIR)/, $(TERMINAL_SRCS))
-EXEC_SRCS := exec_built_in.c execute.c redirection.c exec_cmd.c wait_all.c
+EXEC_SRCS := exec_built_in.c execute.c redirection.c exec_cmd.c wait_all.c \
+			exec_child.c util.c
 EXEC_SRCS := $(addprefix $(EXEC_DIR)/, $(EXEC_SRCS))
 MAIN_SRCS := main.c
 MAIN_SRCS := $(addprefix $(SRCS_DIR)/, $(MAIN_SRCS))
