@@ -2,12 +2,12 @@
 #include "libft.h"
 
 // init
-t_token *init_token(void)
+t_token *init_token(char *token)
 {
 	t_token *res;
 
 	res = ft_malloc(sizeof(t_token), 1);
-	res->data = NULL;
+	res->data = token;
 	res->next = NULL;
 
 	return (res);
@@ -72,6 +72,16 @@ void	add_redirect(t_redirect *red, t_redir_type type, char *target)
 	red->next = new;
 }
 
+void	add_token(t_token *token, char *data)
+{
+	t_token *new;
+
+	while (token)
+		token = token->next;
+	new = init_token(data);
+	token = new;
+}
+
 t_cmd_line	*add_cmd_line(t_cmd_line *cml, t_pipe *pipe)
 {
 	t_cmd_line *new;
@@ -97,3 +107,5 @@ t_pipe	*add_pipe(t_pipe *pipe, t_cmd *cmds, size_t num, t_pipe_type type)
 
 	return (pipe);
 }
+
+// ========================================================================

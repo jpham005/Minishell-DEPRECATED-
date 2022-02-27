@@ -6,7 +6,7 @@
 /*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 06:20:29 by hyeonpar          #+#    #+#             */
-/*   Updated: 2022/02/27 07:50:37 by hyeonpar         ###   ########.fr       */
+/*   Updated: 2022/02/27 13:18:46 by hyeonpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,27 @@
 #include "libft.h"
 #include <stdio.h>
 
-// t_token		*make_token(t_token *res, char *s)
-// {
-// }
+t_token	*convert_dptr_to_struct(char **tokens)
+{
+	t_token *res;
+	int i;
+	int first;
 
-// t_cmd_line	*make_cmd(char *str)
-// {
-// 	t_token *res;
-
-// 	res = init_token();
-// 	res = make_token(res, str);
-
-// }
-
+	i = 0;
+	first = 1;
+	while (tokens[i])
+	{
+		if (!ft_is_space(tokens[i][0]))
+		{
+			if (first)
+				res = init_token(tokens[i]);
+			else
+				add_token(res, tokens[i]);
+		}
+		i++;
+	}
+	return (res);
+}
 
 char	**convert_token_to_dptr(t_token *head)
 {

@@ -6,7 +6,7 @@
 /*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 07:33:58 by hyeonpar          #+#    #+#             */
-/*   Updated: 2022/02/27 10:51:16 by hyeonpar         ###   ########.fr       */
+/*   Updated: 2022/02/27 13:07:29 by hyeonpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,12 +200,12 @@ char			**tokenizer(char *line)
 	}
 
 	//테스트
-	int i = 0;
-	while (*(tokens + i) != NULL)
-	{
-		printf("#%s#\n", *(tokens + i));
-		i++;
-	}
+	// int i = 0;
+	// while (*(tokens + i) != NULL)
+	// {
+	// 	printf("#%s#\n", *(tokens + i));
+	// 	i++;
+	// }
 	
 	return (tokens);
 }
