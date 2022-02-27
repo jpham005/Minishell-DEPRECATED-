@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 14:38:02 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/27 14:42:07 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/27 18:57:07 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,18 @@
 #include "exec.h"
 #include "libft.h"
 #include <errno.h>
+#include <sys/signal.h>
+#include <stdlib.h>
 
-int	handle_redir_heredoc(int in[2], t_redir *redir, \
-										t_err_info *info, t_context *context)
+void	heredoc_parent_handler(int sig)
+{
+	if (sig == SIGINT)
+	{
+		return ;
+	}
+}
+
+void	heredoc_child(int in[2], t_redir *redir, t_context *context)
 {
 	char	*buf;
 	char	*temp;
@@ -32,12 +41,37 @@ int	handle_redir_heredoc(int in[2], t_redir *redir, \
 		buf = ft_strjoin(buf, "\n");
 		safe_free((void **) &temp);
 		if (ft_putstr_fd(buf, in[1]) == -1)
-		{
-			dup_errs(info, "heredoc", errno);
-			return (0);
-		}
+			exit(1);
 		safe_free((void **) &buf);
 	}
 	safe_free((void **) &buf);
+	exit(0);
+}
+
+int	handle_redir_heredoc(int in[2], t_redir *redir, \
+										t_err_info *info, t_context *context)
+{
+	char	*buf;
+	char	*temp;
+	int		status;
+	pid_t	pid;
+
+	signal(SIGINT, heredoc_parent_handler);
+	pid = fork();
+	if (pid == -1)
+		return (0);
+	if (!pid)
+		heredoc_child(in, redir, context);
+	waitpid(pid, &status, 0);
+	if (ft_wexitstatus(status) == 1)
+	{
+		ft_strdup_err(info->err_str, "error while heredoc\n");
+		ft_strdup_err(info->err_target, redir->target);
+		signal(SIGINT, sig_int_handler_exec);
+		return (0);
+	}
+	if (ft_wexitstatus(status) == 2)
+		return (-1);
+	signal(SIGINT, sig_int_handler_exec);
 	return (1);
 }

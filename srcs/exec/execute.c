@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 11:24:03 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/27 15:44:10 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/27 18:56:01 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,24 +22,28 @@ int	exec_pipes(t_pipe *pipes, t_context *context, t_in_out *in_out)
 	pid_t	*pids;
 	size_t	i;
 	size_t	j;
+	int		ret;
 
 	pids = ft_malloc(sizeof(pid_t), pipes->len);
 	i = 0;
 	j = 0;
 	while (i + 1 < pipes->len)
 	{
-		if (!handle_redirection(pipes->cmds[i].redir, context, in_out))
+		ret = handle_redirection(pipes->cmds[i].redir, context, in_out);
+		if (!ret)
 		{
 			i++;
 			continue ;
 		}
+		if (ret == -1)
+			return (1);
 		pids[j] = exec_fork(&(pipes->cmds[i]), context, in_out);
 		if (pids[j] == -1)
 			return (wait_all(pids, j, 1));
 		j++;
 		i++;
 	}
-	if (!handle_redirection(pipes->cmds[i].redir, context, in_out))
+	if (handle_redirection(pipes->cmds[i].redir, context, in_out) <= 0)
 		return (wait_all(pids, j, 1));
 	pids[j] = exec_fork_out(&(pipes->cmds[i]), context, in_out);
 	return (wait_all(pids, j + (pids[j] != -1), (pids[j] == -1)));

@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 11:36:44 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/27 14:41:45 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/27 18:55:34 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ static int	handle_in(int in[2], t_redir *redi, t_err_info *inf, t_context *ctx)
 	int		fd;
 	char	*buf;
 	int		ret;
+	int		here;
 
 	ret = 1;
 	while (redi)
@@ -66,8 +67,9 @@ static int	handle_in(int in[2], t_redir *redi, t_err_info *inf, t_context *ctx)
 		{
 			if (!close_and_pipe(in))
 				return (0);
-			if (!handle_redir_heredoc(in, redi, inf, ctx))
-				ret = 0;
+			here = handle_redir_heredoc(in, redi, inf, ctx);
+			if (here <= 0)
+				ret = here;
 		}
 		redi = redi->next;
 	}
@@ -117,6 +119,7 @@ int	handle_redirection(t_redir *redir, t_context *context, t_in_out *in_out)
 	int			in[2];
 	int			out;
 	int			ret;
+	int			here;
 	t_err_info	err_info;
 
 	if (!redir)
@@ -125,8 +128,10 @@ int	handle_redirection(t_redir *redir, t_context *context, t_in_out *in_out)
 	ret = 1;
 	err_info.err_target = NULL;
 	err_info.err_str = NULL;
-	if (!handle_in(in, redir, &err_info, context) \
-			|| !handle_out(&out, redir, &err_info))
+	here = handle_in(in, redir, &err_info, context);
+	if (here == -1)
+		return (-1);
+	if (!here || !handle_out(&out, redir, &err_info))
 		ret = 0;
 	close(in[1]);
 	if (ret == 0 && err_info.err_target)
