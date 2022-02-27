@@ -38,13 +38,13 @@ t_cmd	*init_cmd(t_redirect *red)
 	return (cmd);
 }
 
-t_pipe	*init_pipe(t_cmd *cmd)
+t_pipe	*init_pipe(int num)
 {
 	t_pipe *pipe;
 
 	pipe = ft_malloc(sizeof(t_pipe), 1);
-	pipe->cmds = cmd;
-	pipe->num = 0;
+	pipe->cmds = NULL;
+	pipe->num = num;
 	pipe->type = PIPE;
 
 	return (pipe);
@@ -72,14 +72,14 @@ void	add_redirect(t_redirect *red, t_redir_type type, char *target)
 	red->next = new;
 }
 
-void	add_token(t_token *token, char *data)
+void	add_token(t_token **token, char *data)
 {
 	t_token *new;
 
-	while (token)
-		token = token->next;
+	while (*token)
+		token = &((*token)->next);
 	new = init_token(data);
-	token = new;
+	*token = new;
 }
 
 t_cmd_line	*add_cmd_line(t_cmd_line *cml, t_pipe *pipe)

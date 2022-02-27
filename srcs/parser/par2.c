@@ -6,7 +6,7 @@
 /*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 06:20:29 by hyeonpar          #+#    #+#             */
-/*   Updated: 2022/02/27 13:18:46 by hyeonpar         ###   ########.fr       */
+/*   Updated: 2022/02/27 14:00:12 by hyeonpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,12 @@ t_token	*convert_dptr_to_struct(char **tokens)
 		if (!ft_is_space(tokens[i][0]))
 		{
 			if (first)
+			{
 				res = init_token(tokens[i]);
+				first = 0;
+			}
 			else
-				add_token(res, tokens[i]);
+				add_token(&res, tokens[i]);
 		}
 		i++;
 	}

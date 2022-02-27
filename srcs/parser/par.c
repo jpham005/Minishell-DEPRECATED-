@@ -6,12 +6,13 @@
 /*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 17:23:31 by hyeonpar          #+#    #+#             */
-/*   Updated: 2022/02/26 23:03:06 by hyeonpar         ###   ########.fr       */
+/*   Updated: 2022/02/27 14:36:12 by hyeonpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 #include "libft.h"
+#include "terminal.h"
 #include <stdio.h>
 
 void    del_q(char *str, char c)
@@ -226,19 +227,25 @@ char *expand_asterisk(char *arg)
 	// 같은 놈만 살려놓고 틀린 놈은 날려버리기
 	// **all에는 멀쩡한 것만 남을 것이고 만약에 all이 null이면 그냥 문자열로 생각하고 출력한다
 }
-char **par4(char **pars_str, char **envp, char *env_val, int ss_idx)
+char **par4(char **pars_str, char **envp, char *env_val, int ss_idx, t_context *context)
 {
 	int i;
 	int j;
 	int len;
-	char *list_key = "SHELL"; // env들 구조체로 바꿔야됨
 	char *value;
 	char *ex_str;
 
 	value = NULL;
 	ex_str = NULL;
-	if (ft_strcmp(list_key, env_val) == 0)
-		value = ft_strdup("/bin/bash"); // strdup() == list_value
+	while (context->envp)
+	{
+		if (ft_strcmp(context->envp->key, env_val) == 0)
+		{
+			value = ft_strdup(context->envp->value);
+			break;
+		}
+		context->envp = context->envp->next;
+	}
 	// "$SHELL-123" --> /bin/bash-123
 	len = ft_strlen(pars_str[ss_idx]) - (1 + ft_strlen(env_val)) + ft_strlen(value);
 	ex_str = ft_malloc(sizeof(char), len + 1);
@@ -272,7 +279,7 @@ char **par4(char **pars_str, char **envp, char *env_val, int ss_idx)
 }
 
 /* env 환경변수명 찾는 부분 " 포함해야 함 */
-char **par3(char **pars_str, char **envp, int flag_q)
+char **par3(char **pars_str, char **envp, int flag_q, t_context *context)
 {
 	int i;
 	int j;
@@ -314,10 +321,10 @@ char **par3(char **pars_str, char **envp, int flag_q)
 	/* env_list cmp(env_val == list_key) : list_value ? loop */
 	/*  */
 
-	return (par4(pars_str, envp, env_val, ss_idx));
+	return (par4(pars_str, envp, env_val, ss_idx, context));
 }
 
-char **par2(char **pars_str, char **envp)
+char **par2(char **pars_str, char **envp, t_context *context)
 {
 	int i;
 	int flag_q;
@@ -352,10 +359,10 @@ char **par2(char **pars_str, char **envp)
 		}
 		i++;
 	}
-	return (par3(pars_str, envp, flag_q));
+	return (par3(pars_str, envp, flag_q, context));
 }
 
-char **par(char *str, char **envp)
+char **par(char *str, char **envp, t_context *context)
 {
 	char **pars_str = find_path(str, envp);
 	int i;
@@ -371,7 +378,7 @@ char **par(char *str, char **envp)
 		}
 		i++;
 	}
-	return (par2(pars_str, envp));
+	return (par2(pars_str, envp, context));
 }
 
 void    ft_exec(char **rtc)
@@ -382,10 +389,11 @@ void    ft_exec(char **rtc)
 	printf("\n================\n"); // 하단
 }
 
-void	parse_main(char *str, char **envp)
+void	expand_tokens(char *str, char **envp, t_context *context)
 {
 	char **readline_to_cmd;
 
-	readline_to_cmd = par(str, envp);
+
+	readline_to_cmd = par(str, envp, context);
 	ft_exec(readline_to_cmd);
 }

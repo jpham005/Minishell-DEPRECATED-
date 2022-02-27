@@ -6,7 +6,7 @@
 /*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 16:33:14 by hyeonpar          #+#    #+#             */
-/*   Updated: 2022/02/27 13:02:55 by hyeonpar         ###   ########.fr       */
+/*   Updated: 2022/02/27 14:26:33 by hyeonpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define PARSER_H
 
 # include <stdio.h> // size_t
+# include <terminal.h>
 # include <dirent.h>
 
 // enum
@@ -89,12 +90,13 @@ typedef struct	s_tokenizer
 	char	quote;
 }				t_tokenizer;
 
-char	        **tokenizer(char *line);
+char    **tokenizer(char *line);
 int		ft_is_space(int c);
 t_token *init_token(char *token);
-void	add_token(t_token *token, char *data);
+void	add_token(t_token **token, char *data);
 t_token	*convert_dptr_to_struct(char **tokens);
 char	**convert_token_to_dptr(t_token *head);
+void	expand_tokens(char *str, char **envp, t_context *context);
 
 
 #endif

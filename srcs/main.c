@@ -6,7 +6,7 @@
 /*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 13:46:27 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/27 13:23:35 by hyeonpar         ###   ########.fr       */
+/*   Updated: 2022/02/27 14:52:13 by hyeonpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,7 @@ static int	readline_loop(t_context *context, t_term_state *term_state, char **en
 		char **s;
 		t_token *a;
 		a = convert_dptr_to_struct(tokenizer(str));
-		while (a)
-		{
-			printf("%s\n", a->data);
-			a = a->next;
-		}
-		// s = convert_token_to_dptr(a);
+		s = convert_token_to_dptr(a);
 		//테스트
 		// int i = 0;
 		// while (*(s + i) != NULL)
@@ -69,10 +64,11 @@ static int	readline_loop(t_context *context, t_term_state *term_state, char **en
 		// 	printf("|%s|\n", *(s + i));
 		// 	i++;
 		// }
+		// cml = parse(context, s, result);
 
-		// parse_main(str, envp); // 기존 구현부 연결
+		// expand_tokens(context, str, envp); // 기존 구현부 연결
+		cml = token_to_cmd_line(s);
 		// context->exit_status = parse(str);
-		// cml = parse(context, str, result);
 		// if (cml != NULL) // 파싱 성공시 채운 cml 리턴
 		// 	*result = SUCCESS;
 		// else // 파싱 실패시 null 리턴
