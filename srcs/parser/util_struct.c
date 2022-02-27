@@ -38,24 +38,45 @@ t_cmd	*init_cmd(t_redirect *red)
 	return (cmd);
 }
 
-t_pipe	*init_pipe(int num)
+t_pipe	*init_pipe(t_cmd_line *res, int num)
 {
 	t_pipe *pipe;
+	int i;
 
+	i = num;
 	pipe = ft_malloc(sizeof(t_pipe), 1);
-	pipe->cmds = NULL;
-	pipe->num = num;
-	pipe->type = PIPE;
+	res->pipe->cmds = NULL;
+	res->pipe->num = num; // 개수 고정
+	res->pipe->type = PIPE;
+	res->next = NULL;
+	while (i--)
+		add_pipe(res, num);
 
 	return (pipe);
 }
 
-t_cmd_line	*init_cmd_line(t_pipe *pipe)
+void	add_pipe(t_cmd_line **res, int num)
+{
+	t_cmd_line *new;
+
+	new = ft_malloc(sizeof(t_cmd_line), 1);
+	new->pipes = ft_malloc(sizeof(t_pipe), 1);
+	new->pipes->cmds = NULL;
+	new->pipes->num = num;
+	new->pipes->type = PIPE;
+	new->next = NULL;
+	// 요런 걸로 간단히 할 수 있긴 할 듯
+	// new = init_pipe(num);
+	while (*res)
+		*res = &((*res)->next);
+	*res = new;
+
+t_cmd_line	*init_cmd_line(void)
 {
 	t_cmd_line *cml;
 
 	cml = ft_malloc(sizeof(t_cmd_line), 1);
-	cml->pipes = pipe;
+	cml->pipes = NULL;
 	cml->next = NULL;
 
 	return (cml);
@@ -98,14 +119,5 @@ t_cmd_line	*add_cmd_line(t_cmd_line *cml, t_pipe *pipe)
 // 	// token 연결리스트 만들기
 // 	;
 // }
-
-t_pipe	*add_pipe(t_pipe *pipe, t_cmd *cmds, size_t num, t_pipe_type type)
-{
-	pipe->cmds = cmds;
-	pipe->num = num;
-	pipe->type = type;
-
-	return (pipe);
-}
 
 // ========================================================================
