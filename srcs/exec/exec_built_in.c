@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   exec_built_in.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 15:17:17 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/25 15:50:24 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/27 21:29:18 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "temphead.h"
 #include "exec.h"
-#include "built_in.h"
 #include "libft.h"
 
 t_sh_built_in	is_built_in(char *cmd)

@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 13:46:27 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/27 14:45:27 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/27 21:37:14 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include <readline/history.h>
 
 #include <sys/wait.h> // temp
-#include "temphead.h"
+#include "cmd_line.h"
 #include "exec.h"
 #include <stdlib.h>
 #include "built_in.h"
@@ -64,87 +64,14 @@ static int	readline_loop(t_context *context)
 			add_history(str);
 		context->exit_status = parse(str);
 		safe_free((void **) &str);
-		
-		//t_cmd_line	*cmd_line;
-
-		//cmd_line = malloc(sizeof(t_cmd_line));
-		//cmd_line->next = NULL;
-		//cmd_line->type = PIPE;
-		//cmd_line->pipes = malloc(sizeof(t_pipe));
-		//cmd_line->pipes->cmds = malloc(sizeof(t_cmd) * 2);
-		//cmd_line->pipes->len = 1;
-		//cmd_line->pipes->cmds[0].redir = NULL;
-		//cmd_line->pipes->cmds[0].type = PARENTHESIS;
-		//cmd_line->pipes->cmds[1].type = SINGLE_CMD;
-		//cmd_line->pipes->cmds[1].redir = &(t_redir){
-		//	REDIR_OUT,
-		//	"fin",
-		//	NULL
-		//};
-		//cmd_line->pipes->cmds[1].cmd = ft_split("cat", ' ');
-
-		t_cmd_line	*cmd_line = malloc(sizeof(t_cmd_line));
-		cmd_line->type = PIPE;
-		cmd_line->pipes = malloc(sizeof(t_pipe));
-		cmd_line->pipes->len = 3;
-		cmd_line->pipes->cmds = malloc(sizeof(t_cmd) * 4);
-		cmd_line->pipes->cmds[0].type = SINGLE_CMD;
-		//cmd_line->pipes->cmds[0].redir = NULL;
-		cmd_line->pipes->cmds[0].redir = malloc(sizeof(t_redir));
-		cmd_line->pipes->cmds[0].redir->next = NULL;
-		cmd_line->pipes->cmds[0].redir->target = "infile";
-		cmd_line->pipes->cmds[0].redir->type = REDIR_HEREDOC;
-		cmd_line->pipes->cmds[0].cmd = ft_split("cat", ' ');
-		cmd_line->pipes->cmds[1].type = PARENTHESIS;
-		cmd_line->pipes->cmds[1].redir = NULL;
-		cmd_line->pipes->cmds[1].cmd = ft_split("ls", ' ');
-		cmd_line->pipes->cmds[2].type = SINGLE_CMD;
-		cmd_line->pipes->cmds[2].redir = NULL;
-		cmd_line->pipes->cmds[2].cmd = ft_split("cat -e", ' ');
-
-		cmd_line->next = NULL;
-
-	/*
-		cmd_line->next = malloc(sizeof(t_cmd_line));
-		cmd_line->next->type = AND;
-		cmd_line->next->pipes = malloc(sizeof(t_pipe));
-		cmd_line->next->pipes->len = 3;
-		cmd_line->next->pipes->cmds = malloc(sizeof(t_cmd) * cmd_line->next->pipes->len);
-		
-		cmd_line->next->pipes->cmds[0].type = SINGLE_CMD;
-		cmd_line->next->pipes->cmds[0].cmd = ft_split("ls", ' ');
-		cmd_line->next->pipes->cmds[0].redir = NULL;
-		// cmd_line->next->pipes->cmds[0].redir = malloc(sizeof(t_redir));
-		// cmd_line->next->pipes->cmds[0].redir->type = REDIR_IN;
-		// cmd_line->next->pipes->cmds[0].redir->target = "infile";
-		// cmd_line->next->pipes->cmds[0].redir->next = NULL;
-
-		cmd_line->next->pipes->cmds[1].type = SINGLE_CMD;
-		cmd_line->next->pipes->cmds[1].cmd = ft_split("cat -e", ' ');
-		// cmd_line->next->pipes->cmds[1].redir = NULL;
-		cmd_line->next->pipes->cmds[1].redir = malloc(sizeof(t_redir));
-		cmd_line->next->pipes->cmds[1].redir->type = REDIR_OUT;
-		cmd_line->next->pipes->cmds[1].redir->target = "outfile";
-		cmd_line->next->pipes->cmds[1].redir->next = NULL;
-
-		cmd_line->next->pipes->cmds[2].type = SINGLE_CMD;
-		cmd_line->next->pipes->cmds[2].cmd = ft_split("cat -e", ' ');
-		cmd_line->next->pipes->cmds[2].redir = NULL;
-		// cmd_line->next->pipes->cmds[2].redir = malloc(sizeof(t_redir));
-		// cmd_line->next->pipes->cmds[2].redir->type = REDIR_IN;
-		// cmd_line->next->pipes->cmds[2].redir->target = "infile";
-		// cmd_line->next->pipes->cmds[2].redir->next = NULL;
-	*/
-		executor(cmd_line, context, NULL);
-		// print exit status
-		fprintf(stdout, "exit status %d\n", context->exit_status);
+		// executor(cmd_line, context, NULL);
 	}
 	return (0);
 }
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_context		context;
+	t_context	context;
 
 	if (!check_arg(argc, (const char **) argv))
 		exit_with_status(ARG_ERR);
@@ -154,12 +81,8 @@ int	main(int argc, char **argv, char **envp)
 	if (!print_intro())
 		exit_with_status(PRINT_INTRO_ERR);
 	readline_loop(&context);
-
-	// test end
 	clear_envp_list(&(context.envp));
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
 	return (context.exit_status);
 }
-
-// cat | cat | ls

@@ -6,7 +6,7 @@
 #    By: jaham <jaham@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/16 20:45:33 by jaham             #+#    #+#              #
-#    Updated: 2022/02/27 16:00:08 by jaham            ###   ########.fr        #
+#    Updated: 2022/02/27 21:47:22 by jaham            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,8 @@ TERMINAL_DIR := $(SRCS_DIR)/terminal
 EXEC_DIR := $(SRCS_DIR)/exec
 
 INCLUDE := include
-INCLUDE_FILES := built_in.h color.h envp.h terminal.h utils.h exec.h temphead.h
+INCLUDE_FILES := built_in.h color.h envp.h terminal.h utils.h exec.h \
+				cmd_line.h
 INCLUDE_FILES := $(addprefix $(INCLUDE)/, $(INCLUDE_FILES))
 
 READLINE_DIR := $(shell brew --prefix readline)
@@ -29,7 +30,7 @@ BUILT_IN_SRCS := export.c unset.c env.c pwd.c exit.c cd.c cd_util.c echo.c
 BUILT_IN_SRCS := $(addprefix $(BUILT_IN_DIR)/, $(BUILT_IN_SRCS))
 ENVP_SRCS := init_destroy.c util.c print.c tool.c
 ENVP_SRCS := $(addprefix $(ENVP_DIR)/, $(ENVP_SRCS))
-UTILS_SRCS := exit_manage.c print_intro.c
+UTILS_SRCS := exit_manage.c print_intro.c clear_cmd_line.c
 UTILS_SRCS := $(addprefix $(UTILS_DIR)/, $(UTILS_SRCS))
 TERMINAL_SRCS := check_default_state.c set_state.c signal_handler.c init.c
 TERMINAL_SRCS := $(addprefix $(TERMINAL_DIR)/, $(TERMINAL_SRCS))

@@ -6,15 +6,12 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 11:24:03 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/27 19:31:17 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/27 21:31:49 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "temphead.h"
 #include "exec.h"
 #include "libft.h"
-#include <errno.h>
-#include <stdio.h>
 #include <stdlib.h>
 
 int	exec_pipes(t_pipe *pipes, t_context *context, t_in_out *in_out)
@@ -124,11 +121,11 @@ void	executor(t_cmd_line *cmd_line, t_context *context, t_in_out *in_out)
 	}
 	while (cmd_line)
 	{
-		if (cmd_line->type == PIPE)
+		if (cmd_line->pipes->type == PIPE)
 			context->exit_status = exec_line(cmd_line, context);
-		else if ((cmd_line->type == AND) && (context->exit_status == 0))
+		else if ((cmd_line->pipes->type == AND) && (context->exit_status == 0))
 			context->exit_status = exec_line(cmd_line, context);
-		else if ((cmd_line->type == OR) && (context->exit_status != 0))
+		else if ((cmd_line->pipes->type == OR) && (context->exit_status != 0))
 			context->exit_status = exec_line(cmd_line, context);
 		cmd_line = cmd_line->next;
 	}

@@ -6,17 +6,15 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 16:09:27 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/27 16:01:55 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/27 21:48:55 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "term.h"
 #include "exec.h"
-#include "temphead.h"
 #include "libft.h"
 #include <errno.h>
-#include <string.h>
 #include <stdlib.h>
+#include <string.h>
 
 char	*try_cmd(char **cmd, t_context *context)
 {

@@ -6,12 +6,14 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 20:46:28 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/17 15:44:42 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/27 21:47:44 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef UTILS_H
 # define UTILS_H
+
+# include "cmd_line.h"
 
 # define PRT_INTRO_ERR_MESSAGE "Print Intro Error\n"
 # define SET_TERM_ERR_MESSAGE "Setting Terminal Error\n"
@@ -28,5 +30,6 @@
 void	write_error(const char *str);
 int		exit_with_status(int status);
 int		print_intro(void);
+void	clear_cmd_line(t_cmd_line **head);
 
 #endif

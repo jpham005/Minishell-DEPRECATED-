@@ -6,20 +6,17 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 11:36:44 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/27 19:10:43 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/27 21:49:12 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "temphead.h"
 #include "exec.h"
-#include "term.h"
 #include "libft.h"
-#include <fcntl.h>
-#include <stdio.h>
 #include <errno.h>
+#include <fcntl.h>
 #include <stdlib.h>
 
-static int	handle_redir_in(int in[2], t_redir *redir, t_err_info *err_info)
+static int	handle_redir_in(int in[2], t_redirect *redir, t_err_info *err_info)
 {
 	int		fd;
 	char	*buf;
@@ -46,35 +43,35 @@ static int	handle_redir_in(int in[2], t_redir *redir, t_err_info *err_info)
 	return (1);
 }
 
-static int	handle_in(int in[2], t_redir *redi, t_err_info *inf, t_context *ctx)
+static int	handle_in(int in[2], t_redirect *r, t_err_info *inf, t_context *ctx)
 {
 	int		ret;
 	int		here;
 
 	ret = 1;
-	while (redi)
+	while (r)
 	{
-		if (redi->type == REDIR_IN)
+		if (r->type == REDIR_IN)
 		{
 			if (!close_and_pipe(in))
 				return (0);
-			if (!handle_redir_in(in, redi, inf))
+			if (!handle_redir_in(in, r, inf))
 				ret = 0;
 		}
-		else if (redi->type == REDIR_HEREDOC)
+		else if (r->type == REDIR_HEREDOC)
 		{
 			if (!close_and_pipe(in))
 				return (0);
-			here = handle_redir_heredoc(in, redi, inf, ctx);
+			here = handle_redir_heredoc(in, r, inf, ctx);
 			if (here <= 0)
 				ret = here;
 		}
-		redi = redi->next;
+		r = r->next;
 	}
 	return (ret);
 }
 
-int	handle_out(int *out, t_redir *redir, t_err_info *err_info)
+int	handle_out(int *out, t_redirect *redir, t_err_info *err_info)
 {
 	int	op;
 	int	ret;
@@ -112,7 +109,7 @@ static int	print_err_redir(t_err_info *err_info, int ret)
 	return (ret);
 }
 
-int	handle_redirection(t_redir *redir, t_context *context, t_in_out *in_out)
+int	handle_redirection(t_redirect *redir, t_context *context, t_in_out *in_out)
 {
 	int			in[2];
 	int			out;

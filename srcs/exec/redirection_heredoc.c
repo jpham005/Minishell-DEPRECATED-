@@ -6,16 +6,14 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 14:38:02 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/27 19:10:53 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/27 21:49:07 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "temphead.h"
 #include "exec.h"
 #include "libft.h"
-#include <errno.h>
-#include <sys/signal.h>
 #include <stdlib.h>
+#include <sys/signal.h>
 
 void	heredoc_parent_handler(int sig)
 {
@@ -25,7 +23,7 @@ void	heredoc_parent_handler(int sig)
 	}
 }
 
-void	heredoc_child(int in[2], t_redir *redir, t_context *context)
+void	heredoc_child(int in[2], t_redirect *redir, t_context *context)
 {
 	char	*buf;
 	char	*temp;
@@ -48,7 +46,7 @@ void	heredoc_child(int in[2], t_redir *redir, t_context *context)
 	exit(0);
 }
 
-int	handle_redir_heredoc(int in[2], t_redir *redir, \
+int	handle_redir_heredoc(int in[2], t_redirect *redir, \
 										t_err_info *info, t_context *context)
 {
 	int		status;

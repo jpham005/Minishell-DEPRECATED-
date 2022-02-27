@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wait_all.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 16:05:39 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/27 09:12:08 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/27 21:49:17 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "libft.h"
 #include <stdlib.h>
 #include <sys/wait.h>
-#include <stdio.h>
+
 int	wait_all(pid_t *pids, size_t i, int ret)
 {
 	size_t	j;

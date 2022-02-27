@@ -6,12 +6,11 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 13:43:17 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/27 16:02:18 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/27 21:31:17 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
-#include "temphead.h"
 #include "libft.h"
 #include <stdlib.h>
 
@@ -26,8 +25,8 @@ void	exec_parenthesis(char *str, t_context *context, t_in_out *in_out)
 	new = malloc(sizeof(t_cmd_line));
 	// new->next = NULL;
 	new->next = malloc(sizeof(t_cmd_line));
-	new->type = PIPE;
 	new->pipes = malloc(sizeof(t_pipe));
+	new->pipes->type = PIPE;
 	new->pipes->len = 2;
 	new->pipes->cmds = malloc(sizeof(t_cmd) * 2);
 	new->pipes->cmds[0].type = SINGLE_CMD;
@@ -38,8 +37,8 @@ void	exec_parenthesis(char *str, t_context *context, t_in_out *in_out)
 	new->pipes->cmds[1].cmd = ft_split("cat -e", ' ');
 
 	new->next->next = NULL;
-	new->next->type = AND;
 	new->next->pipes = malloc(sizeof(t_pipe));
+	new->next->pipes->type = AND;
 	new->next->pipes->len = 1;
 	new->next->pipes->cmds = malloc(sizeof(t_cmd));
 	new->next->pipes->cmds[0].type = SINGLE_CMD;
