@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 11:36:44 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/27 03:09:20 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/27 14:41:45 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,118 +16,123 @@
 #include "libft.h"
 #include <fcntl.h>
 #include <stdio.h>
+#include <errno.h>
 #include <stdlib.h>
 
-static int	handle_in(const char *target)
+static int	handle_redir_in(int in[2], t_redir *redir, t_err_info *err_info)
 {
-	int	fd;
+	int		fd;
+	char	*buf;
 
-	fd = open(target, O_RDONLY);
+	fd = open(redir->target, O_RDONLY);
 	if (fd == -1)
 	{
-		perror(target);
+		dup_errs(err_info, redir->target, errno);
 		return (0);
 	}
-	if (!ft_dup2(fd, 0))
-		return (0);
-	ft_close(fd);
-	return (1);
-}
-
-int	backup_fd(t_context *context, int backup[3])
-{
-	backup[0] = ft_dup(0);
-	backup[1] = ft_dup(1);
-	backup[2] = ft_dup(2);
-	if (!(backup[0] != -1) && (backup[1] != -1) && (backup[2] != -1))
-		return (0);
-	return (!(
-		!ft_dup2(context->std_fd[0], 0)
-		|| !ft_dup2(context->std_fd[1], 1)
-		|| !ft_dup2(context->std_fd[2], 2)
-	));
-}
-
-int	restore_fd(t_context *context, int backup[3])
-{
-	if (!ft_dup2(backup[0], 0) || !ft_dup2(backup[1], 1) \
-												|| !ft_dup2(backup[2], 2))
-		return (0);
-	ft_close(backup[0]);
-	ft_close(backup[1]);
-	ft_close(backup[2]);
-	return (1);
-}
-
-static int	handle_heredoc(char *limit, t_context *context)
-{
-	int		hpipe[2];
-	int		backup[3];
-	char	*buf;
-	char	*temp;
-
-	if (!backup_fd(context, backup) || !ft_pipe(hpipe))
-		return (0);
 	while (1)
 	{
-		buf = ft_readline(context, "> ");
-		if (!buf || !ft_strncmp(buf, limit, ft_strlen(limit) + 1))
+		buf = get_next_line(fd);
+		if (!ft_strncmp(buf, "", 1))
 			break ;
-		temp = ft_strjoin(buf, "\n");
-		free(buf);
-		buf = temp;
-		write(hpipe[1], buf, ft_strlen(buf));
+		if (ft_putstr_fd(buf, in[1]) == -1)
+		{
+			dup_errs(err_info, redir->target, errno);
+			return (0);
+		}
 		free(buf);
 	}
 	safe_free((void **) &buf);
-	if (!ft_dup2(hpipe[0], 0))
-		return (0);
-	ft_close(hpipe[1]);
-	ft_close(hpipe[0]);
-	return (restore_fd(context, backup));
-}
-
-static int	handle_out(t_redir *redir)
-{
-	int	op;
-	int	fd;
-
-	if (redir->type == REDIR_OUT)
-		op = O_WRONLY | O_CREAT | O_TRUNC;
-	else
-		op = O_WRONLY | O_CREAT | O_APPEND;
-	fd = open(redir->target, op, 0666);
-	if (fd == -1)
-	{
-		perror(redir->target);
-		return (0);
-	}
-	if (!ft_dup2(fd, 1))
-		return (0);
-	ft_close(fd);
 	return (1);
 }
 
-int	handle_redir(t_redir *redir, t_context *context)
+static int	handle_in(int in[2], t_redir *redi, t_err_info *inf, t_context *ctx)
 {
+	int		fd;
+	char	*buf;
+	int		ret;
+
+	ret = 1;
+	while (redi)
+	{
+		if (redi->type == REDIR_IN)
+		{
+			if (!close_and_pipe(in))
+				return (0);
+			if (!handle_redir_in(in, redi, inf))
+				ret = 0;
+		}
+		else if (redi->type == REDIR_HEREDOC)
+		{
+			if (!close_and_pipe(in))
+				return (0);
+			if (!handle_redir_heredoc(in, redi, inf, ctx))
+				ret = 0;
+		}
+		redi = redi->next;
+	}
+	return (ret);
+}
+
+int	handle_out(int *out, t_redir *redir, t_err_info *err_info)
+{
+	int	op;
+	int	ret;
+
+	ret = 1;
 	while (redir)
 	{
-		if (redir->type == REDIR_IN)
+		if (redir->type == REDIR_OUT)
+			op = O_WRONLY | O_CREAT | O_TRUNC;
+		else if (redir->type == REDIR_APPEND)
+			op = O_WRONLY | O_CREAT | O_APPEND;
+		else
 		{
-			if (!handle_in(redir->target))
-				return (0);
+			redir = redir->next;
+			continue ;
 		}
-		if (redir->type == REDIR_HEREDOC)
+		*out = open(redir->target, op, 0666);
+		if (*out == -1)
 		{
-			if (!handle_heredoc(redir->target, context))
-				return (0);
-		}
-		if (redir->type == REDIR_OUT || redir->type == REDIR_APPEND)
-		{
-			if (!handle_out(redir))
-				return (0);
+			ret = 0;
+			if (!(err_info->err_target))
+				dup_errs(err_info, redir->target, errno);
 		}
 		redir = redir->next;
 	}
-	return (1);
+	return (ret);
+}
+
+static int	print_err_redir(t_err_info *err_info, int ret)
+{
+	ft_putstr_fd(SHELL_NAME, 2);
+	ft_putstr_fd(err_info->err_target, 2);
+	ft_putstr_fd(": ", 2);
+	ft_putstr_fd(err_info->err_str, 2);
+	return (ret);
+}
+
+int	handle_redirection(t_redir *redir, t_context *context, t_in_out *in_out)
+{
+	int			in[2];
+	int			out;
+	int			ret;
+	t_err_info	err_info;
+
+	if (!redir)
+		return (1);
+	init_in_out(in, &out);
+	ret = 1;
+	err_info.err_target = NULL;
+	err_info.err_str = NULL;
+	if (!handle_in(in, redir, &err_info, context) \
+			|| !handle_out(&out, redir, &err_info))
+		ret = 0;
+	close(in[1]);
+	if (ret == 0 && err_info.err_target)
+		return (print_err_redir(&err_info, ret));
+	set_in_out(in, out, in_out);
+	safe_free((void **) &err_info.err_str);
+	safe_free((void **) &err_info.err_target);
+	return (ret);
 }

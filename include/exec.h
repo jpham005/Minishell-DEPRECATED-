@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 20:45:13 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/27 09:30:04 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/27 14:39:03 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ typedef enum e_pipe_bool
 
 typedef struct s_in_out
 {
-	int	prev[2];
-	int	curr[2];
+	int	in;
+	int	out;
 }	t_in_out;
 
 typedef struct s_err_info
@@ -57,18 +57,25 @@ typedef struct s_err_info
 	char	*err_target;
 }	t_err_info;
 
-void			executor(t_cmd_line *c_line, t_context *ctx);
+void			executor(t_cmd_line *c_line, t_context *ctx, t_in_out *io);
 int				exec_built_in(char **cmd, t_context *ctx, t_sh_built_in type);
-int				handle_redir(t_redir *redir, t_context *context);
+int				handle_redirection(t_redir *redi, t_context *, t_in_out *);
 t_sh_built_in	is_built_in(char *cmd);
 void			exec_cmd(char **cmd, t_context *context);
 int				wait_all(pid_t *pids, size_t i, int ret);
-void			init_in_out(t_in_out *in_out);
+void			init_in_out(int in[2], int *out);
+void			dup_errs(t_err_info *err_info, char *target, int status);
+void			set_in_out(int in[2], int out, t_in_out *in_out);
+int				close_and_pipe(int in[2]);
+int				is_heredoc_str(char *s1, char *s2);
 pid_t			exec_out(t_cmd *cmd, t_context *context, t_in_out *in_out);
-void			child(t_cmd *cmd, t_context *context, t_in_out *in_out);
 void			exec_parenthesis(char *str, t_context *context, t_in_out *io);
 void			close_pipes(int pipes[2]);
 int				handle_pipe(t_in_out *io, t_pipe_bool st, t_context *ctx);
 int				replace_stdio(t_in_out *in_out, t_context *context);
+pid_t			exec_fork_out(t_cmd *cmd, t_context *context, t_in_out *in_out);
+pid_t			exec_fork(t_cmd *cmd, t_context *context, t_in_out *in_out);
+int				handle_redir_heredoc(int in[2], t_redir *redir, \
+										t_err_info *info, t_context *context);
 
 #endif
