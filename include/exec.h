@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 20:45:13 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/27 07:54:04 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/27 09:30:04 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,17 +39,16 @@ typedef enum e_isexit
 	EXIT
 }	t_isexit;
 
-typedef enum e_pipe_len_status
+typedef enum e_pipe_bool
 {
-	IS_PIPE_CONTINUE = 0,
-	IS_PIPE_END
-}	t_pipe_len_status;
+	NO_PIPE,
+	DO_PIPE
+}	t_pipe_bool;
 
 typedef struct s_in_out
 {
 	int	prev[2];
 	int	curr[2];
-	int	pipeline[2];
 }	t_in_out;
 
 typedef struct s_err_info
@@ -67,8 +66,9 @@ int				wait_all(pid_t *pids, size_t i, int ret);
 void			init_in_out(t_in_out *in_out);
 pid_t			exec_out(t_cmd *cmd, t_context *context, t_in_out *in_out);
 void			child(t_cmd *cmd, t_context *context, t_in_out *in_out);
-void			exec_parenthesis(char *str, t_context *context);
+void			exec_parenthesis(char *str, t_context *context, t_in_out *io);
 void			close_pipes(int pipes[2]);
-int				handle_pipe(t_in_out *io, t_pipe_len_status st, t_context *ctx);
+int				handle_pipe(t_in_out *io, t_pipe_bool st, t_context *ctx);
+int				replace_stdio(t_in_out *in_out, t_context *context);
 
 #endif

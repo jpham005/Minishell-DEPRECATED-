@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 11:24:03 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/27 08:08:02 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/27 09:32:06 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,54 +31,37 @@ static pid_t	fork_exec(t_cmd *cmd, t_context *context, t_in_out *in_out)
 		if (built_in_type != SH_NOT_BUILT_IN)
 			exit(exec_built_in(cmd->cmd, context, built_in_type));
 		if (cmd->type == PARENTHESIS)
-			exec_parenthesis(cmd->cmd[0], context);
+			exec_parenthesis(cmd->cmd[0], context, in_out);
 		if (cmd->type == SINGLE_CMD)
 			exec_cmd(cmd->cmd, context);
 	}
 	return (pid);
 }
 
-int	replace_stdio(t_in_out *in_out, t_context *context)
+int	exec_pipes(t_pipe *pipes, t_context *context)
 {
-	if (in_out->prev[0] == -1)
-		dup2(context->std_fd[0], STDIN_FILENO);
-	else
-		ft_dup2(in_out->prev[0], STDIN_FILENO);
-	if (in_out->curr[0] == -1)
-		dup2(context->std_fd[1], STDOUT_FILENO);
-	else
-		ft_dup2(in_out->curr[1], STDOUT_FILENO);
-	return (1);
-}
-
-static int	exec_pipes(t_pipe *pipes, t_context *context)
-{
-	pid_t		*pids;
 	t_in_out	in_out;
+	pid_t		*pids;
 	size_t		i;
 
 	pids = ft_malloc(sizeof(pid_t), pipes->len);
 	init_in_out(&in_out);
-	i = 0;
-	while (i < pipes->len - 1)
+	handle_pipe(&in_out, NO_PIPE, context);
+	replace_stdio(&in_out, context);
+	if (handle_redir(pipes->cmds[0].redir, context))
+		pids[0] = fork_exec(&(pipes->cmds[0]), context, &in_out);
+	i = 1;
+	while (i < pipes->len)
 	{
-		if (i == 0)
-			handle_pipe(&in_out, IS_PIPE_END, context);
-		else if (!handle_pipe(&in_out, IS_PIPE_CONTINUE, context))
-			return (1);
+		handle_pipe(&in_out, i + 1 == pipes->len, context);
 		replace_stdio(&in_out, context);
-		if (!handle_redir(pipes->cmds[i].redir, context))
-			return (1);
-		pids[i] = fork_exec(&(pipes->cmds[i]), context, &in_out);
+		if (handle_redir(pipes->cmds[0].redir, context))
+			pids[i] = fork_exec(&(pipes->cmds[i]), context, &in_out);
 		i++;
 	}
-	if (!handle_pipe(&in_out, IS_PIPE_CONTINUE, context))
-		return (1);
-	replace_stdio(&in_out, context);
-	handle_redir(pipes->cmds[i].redir, context);
-	pids[i] = fork_exec(&(pipes->cmds[i]), context, &in_out);
-	close_pipes(in_out.prev);
-	return (wait_all(pids, i + (pids[i] != -1), 0));
+	ft_close(in_out.prev[0]);
+	ft_close(in_out.prev[1]);
+	return (wait_all(pids, i, 0));
 }
 
 static int	exec_single_cmd(t_cmd *cmd, t_context *context)
@@ -98,7 +81,7 @@ static int	exec_single_cmd(t_cmd *cmd, t_context *context)
 		if (cmd->type == SINGLE_CMD)
 			exec_cmd(cmd->cmd, context);
 		else
-			exec_parenthesis(cmd->cmd[0], context);
+			exec_parenthesis(cmd->cmd[0], context, NULL);
 	}
 	return (wait_all(pid, 1, 0));
 }

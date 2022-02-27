@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 13:43:17 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/27 01:47:30 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/27 09:34:40 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,38 +15,19 @@
 #include "libft.h"
 #include <stdlib.h>
 
-static int	replace_curr_fd(t_context *context, int backup[3])
+static int	replace_curr_fd(t_context *context, t_in_out *in_out)
 {
-	backup[0] = ft_dup(context->curr_fd[0]);
-	backup[1] = ft_dup(context->curr_fd[1]);
-	backup[2] = ft_dup(context->curr_fd[2]);
-	if (!(backup[0] != -1) && (backup[1] != -1) && (backup[2] != -1))
-		return (0);
 	ft_close(context->curr_fd[0]);
 	ft_close(context->curr_fd[1]);
-	ft_close(context->curr_fd[2]);
 	return (!(
-		!ft_dup2(0, context->curr_fd[0])
-		|| !ft_dup2(1, context->curr_fd[1])
-		|| !ft_dup2(2, context->curr_fd[2])
+		!ft_dup2(in_out->curr[0], context->curr_fd[0])
+		|| !ft_dup2(in_out->curr[1], context->curr_fd[1])
 	));
 }
 
-static int	restore_curr_fd(t_context *context, int backup[3])
-{
-	ft_close(context->curr_fd[0]);
-	ft_close(context->curr_fd[1]);
-	ft_close(context->curr_fd[2]);
-	context->curr_fd[0] = ft_dup(backup[0]);
-	context->curr_fd[1] = ft_dup(backup[1]);
-	context->curr_fd[2] = ft_dup(backup[2]);
-	return (!((backup[0] < 0) || (backup[1] < 0) || (backup[2] < 0)));
-}
-
-void	exec_parenthesis(char *str, t_context *context)
+void	exec_parenthesis(char *str, t_context *context, t_in_out *in_out)
 {
 	t_cmd_line	*new;
-	int			backup[3];
 	int			result;
 
 	// new = parse(str, context, &result);
@@ -74,7 +55,7 @@ void	exec_parenthesis(char *str, t_context *context)
 	new->next->pipes->cmds[0].redir = NULL;
 	new->next->pipes->cmds[0].cmd = ft_split("ls", ' ');
 //end
-	if (!replace_curr_fd(context, backup))
+	if (in_out && !replace_curr_fd(context, in_out))
 		exit(1);
 	if (result == 1)
 		executor(new, context);
@@ -83,7 +64,5 @@ void	exec_parenthesis(char *str, t_context *context)
 		ft_putstr_fd("syntax error\n", STDERR_FILENO);
 		exit(258);
 	}
-	if (!restore_curr_fd(context, backup))
-		exit(1);
 	exit(context->exit_status);
 }
