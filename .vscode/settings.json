@@ -23,6 +23,8 @@
 		"envp.h": "c",
 		"built_in.h": "c",
 		"unistd.h": "c",
-		"errno.h": "c"
+		"errno.h": "c",
+		"parser.h": "c",
+		"stdio.h": "c"
 	}
 }

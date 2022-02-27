@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 20:44:39 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/17 15:31:14 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/27 18:03:36 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int	check_valid(const char *str)
 	return (1);
 }
 
-static void	exec_normal(t_envp_list *envp, size_t i, const char *str)
+static void	exec_normal(t_envp_list *envp, const char *str)
 {
 	char	*is_op;
 	char	*key;
@@ -66,7 +66,7 @@ int	export(t_context *context, const char **argv)
 			ret_flag |= 1;
 		}
 		else
-			exec_normal(context->envp, i, argv[i]);
+			exec_normal(context->envp, argv[i]);
 		i++;
 	}
 	return (ret_flag);
