@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   terminal.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 12:06:57 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/17 15:52:03 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/27 19:02:00 by hyeonpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ typedef struct s_context
 {
 	int				std_fd[3];
 	int				exit_status;
+	int				parse_result;
 	t_envp_list		*envp;
 }	t_context;
 

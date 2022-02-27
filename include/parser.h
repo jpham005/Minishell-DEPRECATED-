@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 16:33:14 by hyeonpar          #+#    #+#             */
-/*   Updated: 2022/02/27 18:05:40 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/27 18:23:11 by hyeonpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,10 @@ typedef struct s_redirect
     struct s_redirect *next;
 }   t_redirect;
 
-typedef struct s_cmd
+typedef struct s_cmd // 초기화할 때 여기까지만 ft_malloc함
 {
-    char **cmd;
-    t_redirect *redir;
+    char **cmd; // 여기도 마찬가지 NULL 초기화
+    t_redirect *redir; // 처음엔 여기 NULL로 초기화할 것
     t_cmd_type type;
 }   t_cmd;
 

@@ -1,6 +1,14 @@
 #include "parser.h"
 #include "libft.h"
 
+// libft에 넣어도 될 듯
+int	is_redir(char *s)
+{
+	if (strncmp(s, "<", 2) || strncmp(s, ">", 2) || strncmp(s, "<<", 3) || strncmp(s, ">>", 3))
+		return (1);
+	return (0);
+}
+
 // init
 t_token *init_token(char *token)
 {
@@ -20,6 +28,9 @@ t_redirect	*init_redirect(t_redir_type type, char *target)
 	red = ft_malloc(sizeof(t_redirect), 1);
 	red->type = type;
 	red->target = target;
+	if (target == NULL || is_redir(target))
+		; // result = SYNTAX_ERROR // syntax error near unexpected token `newline'
+		// 여러 개의 token이 target이 될 수 있는가?
 	red->next = NULL;
 
 	return (red);
