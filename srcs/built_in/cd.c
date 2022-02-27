@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 15:41:42 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/25 20:36:19 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/27 16:00:42 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 #include <string.h>
 #include <sys/stat.h>
 
-static char	*try_cdpath(char ***cdpath, const char *arg, t_envp_list *envp)
+static char	*try_cdpath(char ***cdpath, const char *arg)
 {
 	size_t		i;
 	struct stat	stat;
@@ -57,7 +57,7 @@ static int	move_by_arg(t_envp_list *envp, const char *arg)
 	if (find_list_by_key(envp, "CDPATH"))
 		cdpath = ft_split(find_list_by_key(envp, "CDPATH")->value, ':');
 	curr_dir = ft_getcwd(NULL, 1);
-	path = try_cdpath(&cdpath, arg, envp);
+	path = try_cdpath(&cdpath, arg);
 	flag = (path != NULL);
 	if (!path)
 		path = ft_strdup(arg);

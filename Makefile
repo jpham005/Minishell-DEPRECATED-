@@ -6,7 +6,7 @@
 #    By: jaham <jaham@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/16 20:45:33 by jaham             #+#    #+#              #
-#    Updated: 2022/02/27 14:43:54 by jaham            ###   ########.fr        #
+#    Updated: 2022/02/27 16:00:08 by jaham            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,7 +44,7 @@ LIBFT_DIR := $(SRCS_DIR)/libft
 LIBFT := $(LIBFT_DIR)/libft.a
 
 CC := cc
-CFLAGS := -g
+CFLAGS := -g -Wall -Wextra -Werror
 NAME := minishell
 SRCS := $(BUILT_IN_SRCS) $(ENVP_SRCS) $(UTILS_SRCS) $(TERMINAL_SRCS) \
 		$(EXEC_SRCS) $(MAIN_SRCS)

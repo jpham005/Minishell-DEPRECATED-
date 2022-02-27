@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 13:43:17 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/27 14:37:33 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/27 16:02:18 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	exec_parenthesis(char *str, t_context *context, t_in_out *in_out)
 {
 	t_cmd_line	*new;
 	int			result;
-
+(void) str;  //temp
 	// new = parse(str, context, &result);
 //test
 	result = 1;
