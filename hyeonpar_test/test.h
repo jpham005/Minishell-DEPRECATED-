@@ -26,20 +26,17 @@
 // #include <sys/types.h>
 // #include <sys/wait.h>
 
-// 귀찮아서 다른 헤더에서 가져온 부분
-typedef struct s_envp_list
+typedef enum e_cmd_type // will use hyeonpar's
 {
-	char				*key;
-	char				*value;
-	size_t				list_len;
-	struct s_envp_list	*next;
-}	t_envp_list;
+    SINGLE_CMD = 0,
+    PARENTHESIS
+}   t_cmd_type;
 
 typedef enum e_pipe_type // will use hyeonpar's
 {
-    PIPE = 0, // |
-    AND, // 1 &&
-    OR // 2 ||
+    PIPE = 0,
+    AND,
+    OR
 }   t_pipe_type;
 
 typedef enum e_redir_type
@@ -50,25 +47,25 @@ typedef enum e_redir_type
     REDIR_APPEND // >>
 }   t_redir_type;
 
-// 하나의 프로세스(s_parse) 단위에서 여러 개의 리다이렉트(파일입출력) 처리가 이루어질 수 있기 때문에 여러 개 보내야 함
 typedef struct s_redirect
 {
     t_redir_type type;
     char *target; // if heredog, limit_string
     struct s_redirect *next;
+    // 괄호
 }   t_redirect;
 
 typedef struct s_cmd
 {
     char **cmd; // echo -e "helloworld"
     t_redirect *redir; // 리다이렉트 모음
+    t_cmd_type type; // 
 }   t_cmd;
 
 typedef struct s_pipe
 {
     t_cmd *cmds; // struct 구조체
-    size_t num; // pipe의 개수
-    t_pipe_type type;
+    size_t len; // pipe의 개수
 }   t_pipe;
 
 typedef struct s_cmd_line
@@ -76,6 +73,8 @@ typedef struct s_cmd_line
     t_pipe *pipes; // struct 구조체
     struct s_cmd_line *next;
 }   t_cmd_line;
+
+int *result; // 1이면 
 
 # endif
 

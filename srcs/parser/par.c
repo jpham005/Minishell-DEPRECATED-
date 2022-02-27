@@ -6,7 +6,7 @@
 /*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 17:23:31 by hyeonpar          #+#    #+#             */
-/*   Updated: 2022/02/25 00:05:21 by hyeonpar         ###   ########.fr       */
+/*   Updated: 2022/02/26 23:03:06 by hyeonpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -293,6 +293,8 @@ char **par3(char **pars_str, char **envp, int flag_q)
 			{
 				if (pars_str[i][j] == '$')
 				{
+					if (pars_str[i][j + 1] == '?')
+						; // context->exit_status로 확장
 					ss_idx = i;
 					s_idx = j + 1;
 					k = 1;
@@ -383,32 +385,7 @@ void    ft_exec(char **rtc)
 void	parse_main(char *str, char **envp)
 {
 	char **readline_to_cmd;
-	
+
 	readline_to_cmd = par(str, envp);
 	ft_exec(readline_to_cmd);
 }
-
-// 처음에 파이프 개수만 세서 cl->pipes->num에 저장한 다음 그 크기 - 1만큼 next를 붙인 구조체 완성
-// next가 null일 때까지 type과 cmds->cmd를 채운다는 느낌으로 작성해야 함
-// 각각의 cmds->cmd는 par()를 통해 명령어와 환경 변수 등이 확장 처리됨
-// void	check_pipe(char **str, t_cmd_line *cl)
-// {
-// 	char **temp;
-// 	int i;
-
-// 	i = 0;
-// 	temp = str; // ft_strdup 2차원 고려하여 복사
-// 	while (*(str + i) != NULL)
-// 	{
-// 		if (str[0][0] == '|' && str[0][1] == '|' && str[0][2] == '\0')
-// 			cl->pipes->type = OR;
-// 		else if (str[0][0] == '|' && str[0][1] == '\0')
-// 			cl->pipes->type = PIPE;
-// 		else if (str[0][0] == '&' && str[0][1] == '&' && str[0][2] == '\0')
-// 			cl->pipes->type = AND;
-// 		// cl->pipes->cmds->cmd = 이전 파이프 다음 인덱스부터 현재 파이프 이전 인덱스까지
-// 		i++;
-// 	}
-// 	// num++, s_cmd_line 쪼개기
-// }
-
