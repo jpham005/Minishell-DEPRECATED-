@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 14:38:02 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/27 18:57:07 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/27 19:10:53 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,6 @@ void	heredoc_child(int in[2], t_redir *redir, t_context *context)
 int	handle_redir_heredoc(int in[2], t_redir *redir, \
 										t_err_info *info, t_context *context)
 {
-	char	*buf;
-	char	*temp;
 	int		status;
 	pid_t	pid;
 

@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 12:20:16 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/27 19:09:53 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/27 19:11:30 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,6 @@ void	heredoc(int sig)
 {
 	if (sig == SIGINT)
 		exit(2);
-}
-
-void	heredoc_parent_handler(int sig)
-{
-	if (sig == SIGINT)
-	{
-		return ;
-	}
 }
 
 char	*ft_readline(t_context *context, char *str)
