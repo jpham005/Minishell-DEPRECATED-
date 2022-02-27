@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   par2_quote.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 16:37:13 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/27 18:05:22 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/27 20:35:50 by hyeonpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	check_flag(char **pars_str, int *flag_q, int *flag_qq, size_t i)
 	}
 }
 
-char **par2(char **pars_str, char **envp, t_context *context)
+char **par2(char **pars_str, t_context *context)
 {
 	size_t	i;
 	int		flag_q;
@@ -63,5 +63,5 @@ char **par2(char **pars_str, char **envp, t_context *context)
 		}
 		i++;
 	}
-	return (par3(pars_str, envp, flag_q, context));
+	return (par3(pars_str, flag_q, context));
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   par.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 17:23:31 by hyeonpar          #+#    #+#             */
-/*   Updated: 2022/02/27 18:07:00 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/27 20:34:42 by hyeonpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ char	**current_path_ls(void)
 	return (res);
 }
 
-char	**par(char *str, char **envp, t_context *context)
+char	**par(char *str, t_context *context)
 {
 	char	**pars_str;
 	size_t	i;
@@ -74,7 +74,7 @@ char	**par(char *str, char **envp, t_context *context)
 		}
 		i++;
 	}
-	return (par2(pars_str, envp, context));
+	return (par2(pars_str, context));
 }
 
 void	ft_exec(char **rtc)
@@ -85,10 +85,10 @@ void	ft_exec(char **rtc)
 	printf("\n================\n"); // 하단
 }
 
-void	expand_tokens(char *str, char **envp, t_context *context)
+void	expand_tokens(char *str, t_context *context)
 {
 	char	**readline_to_cmd;
 
-	readline_to_cmd = par(str, envp, context);
+	readline_to_cmd = par(str, context);
 	ft_exec(readline_to_cmd);
 }

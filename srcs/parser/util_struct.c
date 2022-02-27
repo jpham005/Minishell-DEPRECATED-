@@ -4,13 +4,13 @@
 // libft에 넣어도 될 듯
 int	is_redir(char *s)
 {
-	if (strncmp(s, "<", 2) || strncmp(s, ">", 2) || strncmp(s, "<<", 3) || strncmp(s, ">>", 3))
+	if (ft_strncmp(s, "<", 2) || ft_strncmp(s, ">", 2) || ft_strncmp(s, "<<", 3) || ft_strncmp(s, ">>", 3))
 		return (1);
 	return (0);
 }
 
 // init
-t_token *init_token(char *token)
+t_token *init_token(char *token) //
 {
 	t_token *res;
 
@@ -21,6 +21,7 @@ t_token *init_token(char *token)
 	return (res);
 }
 
+// cmd에 붙여야함
 t_redirect	*init_redirect(t_redir_type type, char *target)
 {
 	t_redirect *red;
@@ -36,60 +37,49 @@ t_redirect	*init_redirect(t_redir_type type, char *target)
 	return (red);
 }
 
-t_cmd	*init_cmd(t_redirect *red)
-{
-	t_cmd *cmd;
+// t_pipe	*init_pipe(t_cmd_line *res, int num)
+// {
+// 	t_pipe *pipe;
+// 	int i;
 
-	cmd = ft_malloc(sizeof(t_cmd), 1);
-	cmd->cmd[0][0] = '\0';
-	cmd->cmd[1] = NULL;
-	cmd->redir = red;
-	cmd->type = SINGLE_CMD;
+// 	i = num;
+// 	pipe = ft_malloc(sizeof(t_pipe), 1);
+// 	res->pipe->cmds = NULL;
+// 	res->pipe->num = num; // 개수 고정
+// 	res->pipe->type = PIPE;
+// 	res->next = NULL;
+// 	while (i--)
+// 		add_pipe(res, num);
 
-	return (cmd);
-}
+// 	return (pipe);
+// }
 
-t_pipe	*init_pipe(t_cmd_line *res, int num)
-{
-	t_pipe *pipe;
-	int i;
-
-	i = num;
-	pipe = ft_malloc(sizeof(t_pipe), 1);
-	res->pipe->cmds = NULL;
-	res->pipe->num = num; // 개수 고정
-	res->pipe->type = PIPE;
-	res->next = NULL;
-	while (i--)
-		add_pipe(res, num);
-
-	return (pipe);
-}
-
-void	add_pipe(t_cmd_line **res, int num)
+void	add_pipe(t_cmd_line *res, int num) //
 {
 	t_cmd_line *new;
 
-	new = ft_malloc(sizeof(t_cmd_line), 1);
-	new->pipes = ft_malloc(sizeof(t_pipe), 1);
-	new->pipes->cmds = NULL;
+	new = init_cmd_line();
 	new->pipes->num = num;
-	new->pipes->type = PIPE;
-	new->next = NULL;
-	// 요런 걸로 간단히 할 수 있긴 할 듯
-	// new = init_pipe(num);
-	while (*res)
-		*res = &((*res)->next);
-	*res = new;
+	while (res)
+		res = res->next;
+	res = new;
+}
 
-t_cmd_line	*init_cmd_line(void)
+// 여기서 하위 구조체까지 전부 말록해서 접근 가능하게 해둘 것임
+t_cmd_line	*init_cmd_line(void) // 
 {
 	t_cmd_line *cml;
 
 	cml = ft_malloc(sizeof(t_cmd_line), 1);
-	cml->pipes = NULL;
 	cml->next = NULL;
-
+	cml->pipes = ft_malloc(sizeof(t_pipe), 1);
+	cml->pipes->num = 0;
+	cml->pipes->type = PIPE;
+	cml->pipes->cmds = ft_malloc(sizeof(t_cmd), 1);
+	cml->pipes->cmds->cmd = NULL;
+	cml->pipes->cmds->type = SINGLE_CMD;
+	cml->pipes->cmds->redir = ft_malloc(sizeof(t_redirect), 1);
+	cml->pipes->cmds->redir = NULL;
 	return (cml);
 }
 
@@ -114,21 +104,12 @@ void	add_token(t_token **token, char *data)
 	*token = new;
 }
 
-t_cmd_line	*add_cmd_line(t_cmd_line *cml, t_pipe *pipe)
-{
-	t_cmd_line *new;
-
-	new = init_cmd_line(pipe);
-	cml->next = new;
-
-	return (cml);
-}
-
-// add(without next)
-// t_cmd	*add_cmd(t_cmd *cmd, char *s, t_redirect *redir, t_cmd_type type)
+// t_cmd_line	*add_cmd_line(t_cmd_line *cml, t_pipe *pipe)
 // {
-// 	// token 연결리스트 만들기
-// 	;
-// }
+// 	t_cmd_line *new;
 
-// ========================================================================
+// 	new = init_cmd_line(pipe);
+// 	cml->next = new;
+
+// 	return (cml);
+// }

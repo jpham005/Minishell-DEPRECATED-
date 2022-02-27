@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   par4.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 17:18:18 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/27 18:05:33 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/27 21:50:27 by hyeonpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ void	swap_pars_s(char **pars_s_ss_i, char *ex_str)
 	*pars_s_ss_i = ex_str;
 }
 
+// 환경변수가 확실히, 하나 있을 때만 처리할 수 있다.
+// 여러 개일 때, ?일 때, 그저 문자일 뿐일 때를 구분하여 처리할 수 있어야 한다.
 char	**par4(char **pars_s, char *e_v, int ss_i, t_context *ctx)
 {
 	int		i;

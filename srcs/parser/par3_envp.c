@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   par3_envp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 16:51:17 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/27 18:08:30 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/27 20:27:49 by hyeonpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@
 // 	}
 // }
 /* env 환경변수명 찾는 부분 " 포함해야 함 */
-char **par3(char **pars_str, char **envp, int flag_q, t_context *context)
+char **par3(char **pars_str, int flag_q, t_context *context)
 {
 	int i;
 	int j;

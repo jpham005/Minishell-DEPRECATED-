@@ -6,7 +6,7 @@
 /*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 13:46:27 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/27 19:03:14 by hyeonpar         ###   ########.fr       */
+/*   Updated: 2022/02/27 21:48:36 by hyeonpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ t_cmd_line	*parse(t_context *context, const char *str, int *result)
 }
 //
 
-static int	readline_loop(t_context *context, t_term_state *term_state, char **envp)
+static int	readline_loop(t_context *context, t_term_state *term_state)
 {
 	char		*str;
 	t_cmd_line	*cml;
@@ -67,7 +67,11 @@ static int	readline_loop(t_context *context, t_term_state *term_state, char **en
 		// cml = parse(context, s, result);
 
 		// expand_tokens(context, str, envp); // 기존 구현부 연결
+		
 		cml = token_to_cmd_line(s);
+		// 파싱 함수는
+		// 구조체 리턴, context->result에 에러 여부 기록하여 리턴해야 함
+		
 		// context->exit_status = parse(str);
 		// if (cml != NULL) // 파싱 성공시 채운 cml 리턴
 		// 	*result = SUCCESS;
@@ -91,7 +95,7 @@ int	main(int argc, char **argv, char **envp)
 	init_shell(&context, &term_state, (const char **) envp);
 	if (!print_intro())
 		exit_with_status(PRINT_INTRO_ERR);
-	readline_loop(&context, &term_state, envp); // 임시방편
+	readline_loop(&context, &term_state); // 임시방편
 	clear_envp_list(&(context.envp));
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);

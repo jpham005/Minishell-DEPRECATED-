@@ -6,37 +6,45 @@
 /*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 14:52:28 by hyeonpar          #+#    #+#             */
-/*   Updated: 2022/02/27 19:02:25 by hyeonpar         ###   ########.fr       */
+/*   Updated: 2022/02/27 21:43:40 by hyeonpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+// 구조체 안의 구조체를 처리하려고 하다 보니 잘 되지 않음.
+// 포인터와 구조체 사용에 여전히 익숙하지 않은 듯.
+// res->pipes로 이어지는 내용물에 어떻게 접근해야 할 지, 담는 방식 적절한지
+// 한 번 더 확인 필요할 듯함.
+
 // cmd -> 리디렉션, 파이프(관계연산자) 나오기 전까지 뒤 전부 인자로 cmd에 담음
 // 인자, 파일은 전부 아스터리스크(괄호 flag면 확장 x). 달러(괄호 없거나 대괄호 flag만 허용) 확장 가능해야 함
-// 달러는 해당하는 환경변수가 없으면 공백으로 치환한다
+// 달러는 해당하는 환경변수가 없으면 아무것도 없는 것으로 치환한다
 // 파일 뒤에 아스터리스크가 오면 에러처리 ambiguous redirect
 // quote flag 살아있으면 입력 더 받는다
 #include "parser.h"
+#include "libft.h"
 
 t_pipe_type check_pipe_type(char *s)
 {
-    if (strncmp(s, "&&", 3) == 0)
+    if (ft_strncmp(s, "&&", 3) == 0)
         return AND;
-    if (strncmp(s, "||", 3) == 0)
+    if (ft_strncmp(s, "||", 3) == 0)
         return OR;
     else
         return PIPE;
 }
 
-int is_pipe(char *s)
+int is_pipe(char *s) //
 {
-    if (strncmp(s, "&&", 3) == 0)
-        || (strncmp(s, "||", 3) == 0)
-        || (strncmp(s, "|", 2) == 0)
+    if (
+        (ft_strncmp(s, "&&", 3) == 0)
+        || (ft_strncmp(s, "||", 3) == 0)
+        || (ft_strncmp(s, "|", 2) == 0)
+    )
         return 1;
     return 0;
 }
 
-void    count_pipe(t_cmd_line *res, char **s)
+void    count_pipe(t_cmd_line *res, char **s) //
 {
     int i;
     int cnt;
@@ -49,7 +57,8 @@ void    count_pipe(t_cmd_line *res, char **s)
             cnt++;
         i++;
     }
-    add_pipe(&res, cnt); // 미리 파이프 개수 + 1만큼 cmd_line 덩어리를 만들어 둬야 함
+    while (cnt--)
+        add_pipe(res, cnt); // 미리 파이프 개수 + 1만큼 cmd_line 덩어리를 만들어 둬야 함    
 }
 
 void    fill_pipes(t_cmd_line *res, char **s)
@@ -61,7 +70,7 @@ void    fill_pipes(t_cmd_line *res, char **s)
     char **str;
 
     i = 0;
-    str = NULL:
+    str = NULL;
     while (*(s + i))
     {
         start = i;
@@ -84,9 +93,9 @@ void    fill_pipes(t_cmd_line *res, char **s)
     }
 }
 
-// 사실상 add redir, add node 역할
+// 이미 malloc 되어있으므로 선언 없이 바로 할당해도 될 듯
 // 처음 t_cmd_line을 생성할 때 내부 구조체 전부 초기화 해준다는 가정하에 작성
-void    fill_redir(t_cmd_list *res, t_redir_type type, char *target)
+void    fill_redir(t_cmd_line *res, t_redir_type type, char *target)
 {
     t_redirect  *new;
 
@@ -101,41 +110,55 @@ void    fill_redir(t_cmd_list *res, t_redir_type type, char *target)
     }
 }
 
-void    fill_cmd_redir(t_cmd_list *res)
+// 이거 잘못됨. 겹침. 별도로 이전에 함수 내에서 합쳐뒀다가 나중에 한 번에 합쳐야 함.
+void    fill_cmd(t_cmd_line *res, char *s)
+{
+    if (res->pipes->cmds->cmd == NULL)
+        res->pipes->cmds->cmd = s;
+    else // 따로 if문 안 쓰고 아래 코드 써도 될 것 같긴 한데 혹시 몰라 안전하게 조건문 작성함
+        res->pipes->cmds->cmd = ft_strjoin(res->pipes->cmds->cmd, s);
+}
+
+void    fill_cmd_redir(t_cmd_line *res)
 {
     int i;
 
     i = 0;
     while (res->pipes->cmds->cmd[i])
     {
-        if (strncmp(res->pipes->cmds->cmd[i], "<", 2) == 0)
+        if (ft_strncmp(res->pipes->cmds->cmd[i], "<", 2) == 0)
             fill_redir(res, REDIR_OUT, res->pipes->cmds->cmd[i + 1]);
-        if (strncmp(res->pipes->cmds->cmd[i], ">", 2) == 0)
+        else if (ft_strncmp(res->pipes->cmds->cmd[i], ">", 2) == 0)
             fill_redir(res, REDIR_IN, res->pipes->cmds->cmd[i + 1]);
-        if (strncmp(res->pipes->cmds->cmd[i], "<<", 3) == 0)
-            fill_redir(res, REDIR_HEREDOG, res->pipes->cmds->cmd[i + 1]);
-        if (strncmp(res->pipes->cmds->cmd[i], ">>", 3) == 0)
+        else if (ft_strncmp(res->pipes->cmds->cmd[i], "<<", 3) == 0)
+            fill_redir(res, REDIR_HEREDOC, res->pipes->cmds->cmd[i + 1]);
+        else if (ft_strncmp(res->pipes->cmds->cmd[i], ">>", 3) == 0)
             fill_redir(res, REDIR_APPEND, res->pipes->cmds->cmd[i + 1]);
+        else
+            fill_cmd(res, res->pipes->cmds->cmd[i]);
         i++;
     }
 }
 
-t_cmd_list  *token_to_cmd_line(char **s)
+t_cmd_line  *token_to_cmd_line(char **s) // 토큰 구조체에 담기
 {
-    t_cmd_list  *res;
+    t_cmd_line  *res;
 
     res = init_cmd_line();
     count_pipe(res, s);
-    fill_pipes(res, s); // 여기까지 끝나면 cmds->cmd까지 채워져 있어야 함
-    fill_cmd_redir(res); 
+    // fill_pipes(res, s); // 여기까지 끝나면 cmds->cmd까지 채워져 있어야 함
+    // fill_cmd_redir(res);
+    
+    printf("%s\n", res->pipes->cmds);
+    // 테스트
+    // int i = 0;
+    // while (res)
+    // {
+    //     res = res->next;
+    //     i++;
+    // }
+    // printf("cmd_line의 길이: %d\n", i);
+
 
     return (res);
 }
-
-
-// int	main(void)
-// {
-	
-
-// 	return (0);
-// }
