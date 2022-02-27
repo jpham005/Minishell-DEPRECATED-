@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 13:46:27 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/27 14:52:13 by hyeonpar         ###   ########.fr       */
+/*   Updated: 2022/02/27 17:59:23 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ static int	readline_loop(t_context *context, t_term_state *term_state, char **en
 		//  // 새롭게 정리한 토큰화부분
 		char **s;
 		t_token *a;
-		a = convert_dptr_to_struct(tokenizer(str));
-		s = convert_token_to_dptr(a);
+		// a = convert_dptr_to_struct(tokenizer(str));
+		// s = convert_token_to_dptr(a);
 		//테스트
 		// int i = 0;
 		// while (*(s + i) != NULL)
@@ -67,7 +67,7 @@ static int	readline_loop(t_context *context, t_term_state *term_state, char **en
 		// cml = parse(context, s, result);
 
 		// expand_tokens(context, str, envp); // 기존 구현부 연결
-		cml = token_to_cmd_line(s);
+		// cml = token_to_cmd_line(s);
 		// context->exit_status = parse(str);
 		// if (cml != NULL) // 파싱 성공시 채운 cml 리턴
 		// 	*result = SUCCESS;
@@ -95,6 +95,5 @@ int	main(int argc, char **argv, char **envp)
 	clear_envp_list(&(context.envp));
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
-	while (1);
 	return (context.exit_status);
 }

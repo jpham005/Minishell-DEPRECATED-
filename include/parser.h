@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 16:33:14 by hyeonpar          #+#    #+#             */
-/*   Updated: 2022/02/27 14:26:33 by hyeonpar         ###   ########.fr       */
+/*   Updated: 2022/02/27 18:05:40 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,12 @@ void	add_token(t_token **token, char *data);
 t_token	*convert_dptr_to_struct(char **tokens);
 char	**convert_token_to_dptr(t_token *head);
 void	expand_tokens(char *str, char **envp, t_context *context);
-
+char	*expand_asterisk(char *arg);
+char	**par2(char **pars_str, char **envp, t_context *context);
+char	**par3(char **pars_str, char **envp, int flag_q, t_context *context);
+void	check_str(char **list, char **str, int *arr);
+char	**current_path_ls(void);
+int		is_asterisk(char *str);
+char	**par4(char **pars_s, char *e_v, int ss_i, t_context *ctx);
 
 #endif

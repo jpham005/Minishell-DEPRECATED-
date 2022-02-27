@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 07:33:58 by hyeonpar          #+#    #+#             */
-/*   Updated: 2022/02/27 13:07:29 by hyeonpar         ###   ########.fr       */
+/*   Updated: 2022/02/27 18:04:42 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int		ft_free_str(char **str) // 바꿔야됨
 	if (!str || !(*str))
 		return (0);
 	free(*str);
-	*str = '\0';
+	*str = NULL;
 	return (1);
 }
 

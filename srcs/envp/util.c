@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/11 19:08:27 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/17 15:33:45 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/27 18:03:58 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 void	get_key(t_envp_list *curr, const char *envp)
 {
 	size_t	key_len;
-	size_t	i;
 
 	key_len = 0;
 	while (envp[key_len] && envp[key_len] != '=')
@@ -27,7 +26,6 @@ void	get_key(t_envp_list *curr, const char *envp)
 void	get_value(t_envp_list *curr, const char *envp)
 {
 	size_t	value_len;
-	size_t	i;
 	size_t	start;
 
 	value_len = ft_strlen(envp) - ft_strlen(curr->key) - 1;
