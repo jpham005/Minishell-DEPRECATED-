@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 11:24:03 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/27 18:56:01 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/27 19:31:17 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,19 +29,15 @@ int	exec_pipes(t_pipe *pipes, t_context *context, t_in_out *in_out)
 	j = 0;
 	while (i + 1 < pipes->len)
 	{
-		ret = handle_redirection(pipes->cmds[i].redir, context, in_out);
+		ret = handle_redirection(pipes->cmds[i++].redir, context, in_out);
 		if (!ret)
-		{
-			i++;
 			continue ;
-		}
 		if (ret == -1)
 			return (1);
-		pids[j] = exec_fork(&(pipes->cmds[i]), context, in_out);
+		pids[j] = exec_fork(&(pipes->cmds[i - 1]), context, in_out);
 		if (pids[j] == -1)
 			return (wait_all(pids, j, 1));
 		j++;
-		i++;
 	}
 	if (handle_redirection(pipes->cmds[i].redir, context, in_out) <= 0)
 		return (wait_all(pids, j, 1));
