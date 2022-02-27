@@ -6,7 +6,7 @@
 /*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 16:33:14 by hyeonpar          #+#    #+#             */
-/*   Updated: 2022/02/27 21:22:58 by hyeonpar         ###   ########.fr       */
+/*   Updated: 2022/02/28 02:12:59 by hyeonpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,16 @@ typedef struct s_redirect
     char *target;
     struct s_redirect *next;
 }   t_redirect;
-
+// 임시 string linked list
+/*
+    char *__STRING
+    string_list *next;
+*/
 typedef struct s_cmd // 초기화할 때 여기까지만 ft_malloc함
 {
+    // likend list
+    // ["cat" -> "-en" -> "file1.txt" -> ">" -> "file2.txt" -> "cat" -> "file2.txt" -> NULL]
+    // ["cat" -> "-en" -> "file1.txt" -> "cat" -> "file2.txt" -> NULL]
     char **cmd; // 여기도 마찬가지 NULL 초기화
     t_redirect *redir; // 처음엔 여기 NULL로 초기화할 것
     t_cmd_type type;
@@ -93,7 +100,7 @@ typedef struct	s_tokenizer
 char    **tokenizer(char *line);
 int		ft_is_space(int c);
 t_token *init_token(char *token);
-void	add_token(t_token **token, char *data);
+void	add_token(t_token *token, char *data);
 t_token	*convert_dptr_to_struct(char **tokens);
 char	**convert_token_to_dptr(t_token *head);
 void	expand_tokens(char *str, t_context *context);

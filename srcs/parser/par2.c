@@ -6,7 +6,7 @@
 /*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 06:20:29 by hyeonpar          #+#    #+#             */
-/*   Updated: 2022/02/27 14:00:12 by hyeonpar         ###   ########.fr       */
+/*   Updated: 2022/02/28 02:16:08 by hyeonpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ t_token	*convert_dptr_to_struct(char **tokens)
 				first = 0;
 			}
 			else
-				add_token(&res, tokens[i]);
+				add_token(res, tokens[i]);
 		}
 		i++;
 	}

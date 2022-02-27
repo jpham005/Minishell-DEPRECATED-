@@ -60,9 +60,9 @@ void	add_pipe(t_cmd_line *res, int num) //
 
 	new = init_cmd_line();
 	new->pipes->num = num;
-	while (res)
+	while (res->next)
 		res = res->next;
-	res = new;
+	res->next = new;
 }
 
 // 여기서 하위 구조체까지 전부 말록해서 접근 가능하게 해둘 것임
@@ -94,14 +94,14 @@ void	add_redirect(t_redirect *red, t_redir_type type, char *target)
 	red->next = new;
 }
 
-void	add_token(t_token **token, char *data)
+void	add_token(t_token *token, char *data)
 {
 	t_token *new;
 
-	while (*token)
-		token = &((*token)->next);
+	while (token->next)
+		token = token->next;
 	new = init_token(data);
-	*token = new;
+	token->next = new;
 }
 
 // t_cmd_line	*add_cmd_line(t_cmd_line *cml, t_pipe *pipe)
