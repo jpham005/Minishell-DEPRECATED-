@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 11:36:44 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/27 14:41:45 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/27 16:01:38 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,6 @@ static int	handle_redir_in(int in[2], t_redir *redir, t_err_info *err_info)
 
 static int	handle_in(int in[2], t_redir *redi, t_err_info *inf, t_context *ctx)
 {
-	int		fd;
-	char	*buf;
 	int		ret;
 
 	ret = 1;

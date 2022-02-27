@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 12:20:16 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/26 19:21:00 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/27 16:01:10 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ void	set_term_default(t_term_state *term_state)
 
 void	heredoc(int sig)
 {
-	exit(1);
+	if (sig)
+		exit(1);
 }
 
 char	*ft_readline(t_context *context, char *str)

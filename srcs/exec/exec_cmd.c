@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 16:09:27 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/25 20:42:32 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/27 16:01:55 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void	exec_cmd(char **cmd, t_context *context)
 	if (ft_strchr(cmd[0], '/'))
 	{
 		stat = check_cmd(cmd[0]);
-		if (stat == NOT_FOUND || IS_DIR || NO_PERMISSION)
+		if (stat == NOT_FOUND || stat == IS_DIR || stat == NO_PERMISSION)
 			exit_with_cmd_err(cmd[0], stat);
 		execve(cmd[0], cmd, convert_envp_to_dptr(context->envp));
 		exit_by_errno(errno, cmd[0]);
