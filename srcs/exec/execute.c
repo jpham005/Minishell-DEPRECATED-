@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 11:24:03 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/27 21:31:49 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/28 13:02:26 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	exec_pipes(t_pipe *pipes, t_context *context, t_in_out *in_out)
 
 static int	care_in_out(t_cmd *cmd, t_context *context, t_in_out *in_out)
 {
-	if (!handle_redirection(cmd->redir, context, in_out))
+	if (handle_redirection(cmd->redir, context, in_out) <= 0)
 		return (0);
 	if (in_out->in != 0)
 	{

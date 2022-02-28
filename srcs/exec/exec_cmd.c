@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 16:09:27 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/27 21:48:55 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/28 13:03:34 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,6 @@ void	exec_cmd(char **cmd, t_context *context)
 		execve(cmd[0], cmd, convert_envp_to_dptr(context->envp));
 		exit_by_errno(errno, cmd[0]);
 	}
-	if (cmd[0][0] == '\0')
-		exit_with_msg(cmd[0], CMD_NOT_FOUND_ERR_MSG, 127);
 	cmd_exec = try_cmd(cmd, context);
 	if (!cmd_exec)
 		exit_with_msg(cmd[0], CMD_NOT_FOUND_ERR_MSG, 127);

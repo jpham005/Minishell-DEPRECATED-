@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 13:46:27 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/27 21:37:14 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/28 14:13:47 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,9 @@ static int	readline_loop(t_context *context)
 		str = ft_readline(context, NULL);
 		if (!str)
 			return (exit_with_status(END_TERM));
-		if (*str)
-			add_history(str);
+		if (!*str)
+			continue ;
+		add_history(str);
 		context->exit_status = parse(str);
 		safe_free((void **) &str);
 		// executor(cmd_line, context, NULL);

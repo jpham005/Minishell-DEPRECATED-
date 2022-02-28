@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 15:41:42 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/27 16:00:42 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/28 13:05:43 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static char	*try_cdpath(char ***cdpath, const char *arg)
 	return (NULL);
 }
 
-static int	move_by_arg(t_envp_list *envp, const char *arg)
+static int	move_to_arg(t_envp_list *envp, const char *arg)
 {
 	char		**cdpath;
 	char		*curr_dir;
@@ -100,7 +100,7 @@ static int	move_by_oldpwd(t_envp_list *envp)
 	return (0);
 }
 
-static int	move_by_home(t_envp_list *envp)
+static int	move_to_home(t_envp_list *envp)
 {
 	t_envp_list	*home;
 	char		*curr_dir;
@@ -126,8 +126,8 @@ static int	move_by_home(t_envp_list *envp)
 int	cd(t_context *context, const char **argv)
 {
 	if (!argv[1])
-		return (move_by_home(context->envp));
+		return (move_to_home(context->envp));
 	if (!ft_strncmp(argv[1], "-", 2))
 		return (move_by_oldpwd(context->envp));
-	return (move_by_arg(context->envp, argv[1]));
+	return (move_to_arg(context->envp, argv[1]));
 }
