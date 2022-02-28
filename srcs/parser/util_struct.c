@@ -83,6 +83,14 @@ t_cmd_line	*init_cmd_line(void) //
 	return (cml);
 }
 
+void	*free_cmd_line(t_cmd_line *cml) // test
+{
+	safe_free((void **) &cml->pipes->cmds->redir); // 넥스트 노드 돌면서 free
+	safe_free((void **) &cml->pipes->cmds);
+	safe_free((void **) &cml->pipes);
+	safe_free((void **) &cml); // 넥스트 노드 돌면서 free
+}
+
 // =====================================================
 // add(with next)
 
