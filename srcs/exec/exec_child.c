@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 12:51:36 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/27 21:33:40 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/28 20:10:23 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ static void	child(t_cmd *cmd, t_context *context, \
 {
 	t_sh_built_in	built_in_type;
 
+	set_sig_handler_child();
 	if (in_out->in != 0)
 	{
 		if (!ft_dup2(in_out->in, 0))
@@ -40,8 +41,7 @@ static void	child(t_cmd *cmd, t_context *context, \
 		exit(exec_built_in(cmd->cmd, context, built_in_type));
 	if (cmd->type == SINGLE_CMD)
 		exec_cmd(cmd->cmd, context);
-	else
-		exec_parenthesis(cmd->cmd[0], context, in_out);
+	exec_parenthesis(cmd->cmd[0], context, in_out);
 }
 
 pid_t	exec_fork(t_cmd *cmd, t_context *context, t_in_out *in_out)
@@ -67,6 +67,7 @@ static void	child_out(t_cmd *cmd, t_context *context, t_in_out *in_out)
 {
 	t_sh_built_in	built_in_type;
 
+	set_sig_handler_child();
 	if (in_out->in != 0)
 	{
 		if (!ft_dup2(in_out->in, 0))
@@ -84,13 +85,12 @@ static void	child_out(t_cmd *cmd, t_context *context, t_in_out *in_out)
 		exit(exec_built_in(cmd->cmd, context, built_in_type));
 	if (cmd->type == SINGLE_CMD)
 		exec_cmd(cmd->cmd, context);
-	else
-		exec_parenthesis(cmd->cmd[0], context, in_out);
+	exec_parenthesis(cmd->cmd[0], context, in_out);
 }
 
 pid_t	exec_fork_out(t_cmd *cmd, t_context *context, t_in_out *in_out)
 {
-	pid_t			pid;
+	pid_t	pid;
 
 	pid = fork();
 	if (pid == -1)

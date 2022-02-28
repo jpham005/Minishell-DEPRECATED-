@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 13:46:27 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/28 14:13:47 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/28 20:34:41 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,10 @@ static int	parse(const char *str)
 	{
 		pid = fork();
 		if (!pid)
+		{
+			signal(SIGINT, SIG_DFL);
 			execve("jaham_test/loop", NULL, NULL);
+		}
 		else
 			waitpid(pid, &status, 0);
 	}
@@ -64,8 +67,8 @@ static int	readline_loop(t_context *context)
 			continue ;
 		add_history(str);
 		context->exit_status = parse(str);
-		safe_free((void **) &str);
 		// executor(cmd_line, context, NULL);
+		safe_free((void **) &str);
 	}
 	return (0);
 }

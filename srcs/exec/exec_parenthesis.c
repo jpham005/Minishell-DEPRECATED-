@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 13:43:17 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/27 21:31:17 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/28 18:15:28 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,11 @@ void	exec_parenthesis(char *str, t_context *context, t_in_out *in_out)
 	new->pipes->cmds[0].redir = NULL;
 	new->pipes->cmds[0].cmd = ft_split("cat -e", ' ');
 	new->pipes->cmds[1].type = SINGLE_CMD;
-	new->pipes->cmds[1].redir = NULL;
+	// new->pipes->cmds[1].redir = NULL;
+	new->pipes->cmds[1].redir = malloc(sizeof(t_redirect));
+	new->pipes->cmds[1].redir->type = REDIR_HEREDOC;
+	new->pipes->cmds[1].redir->next = NULL;
+	new->pipes->cmds[1].redir->target = "eof";
 	new->pipes->cmds[1].cmd = ft_split("cat -e", ' ');
 
 	new->next->next = NULL;

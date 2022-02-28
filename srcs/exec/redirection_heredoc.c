@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 14:38:02 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/27 21:49:07 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/28 18:16:35 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,9 @@ void	heredoc_child(int in[2], t_redirect *redir, t_context *context)
 	char	*buf;
 	char	*temp;
 
+	signal(SIGINT, sig_int_handler_default);
+	if (!ft_dup2(context->std_fd[0], 0) || !ft_dup2(context->std_fd[1], 1))
+		exit(1);
 	while (1)
 	{
 		buf = ft_readline(context, "> ");
@@ -52,7 +55,6 @@ int	handle_redir_heredoc(int in[2], t_redirect *redir, \
 	int		status;
 	pid_t	pid;
 
-	signal(SIGINT, heredoc_parent_handler);
 	pid = fork();
 	if (pid == -1)
 		return (0);
@@ -63,11 +65,9 @@ int	handle_redir_heredoc(int in[2], t_redirect *redir, \
 	{
 		ft_strdup_err(info->err_str, "error while heredoc\n");
 		ft_strdup_err(info->err_target, redir->target);
-		signal(SIGINT, sig_int_handler_exec);
 		return (0);
 	}
 	if (ft_wexitstatus(status) == 2)
 		return (-1);
-	signal(SIGINT, sig_int_handler_exec);
 	return (1);
 }

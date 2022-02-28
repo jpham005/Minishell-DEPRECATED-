@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 16:09:27 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/28 13:03:34 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/28 20:27:42 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	check_cmd(char *cmd)
 		return (NOT_FOUND);
 	if (stat.st_mode & S_IFDIR)
 		return (IS_DIR);
-	if (stat.st_mode & S_IXUSR)
+	if (!(stat.st_mode & S_IXUSR))
 		return (NO_PERMISSION);
 	return (-1);
 }

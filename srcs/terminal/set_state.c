@@ -6,34 +6,38 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 12:20:16 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/27 19:11:30 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/28 18:08:58 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include "terminal.h"
 #include <stdio.h>
 #include <signal.h>
 #include <stdlib.h>
 #include <readline/readline.h>
 
-void	set_term_readline(t_term_state *term_state)
+static void	set_term_readline(t_term_state *term_state)
 {
 	signal(SIGQUIT, SIG_IGN);
-	signal(SIGINT, sig_int_handler_default);
+	signal(SIGINT, sig_int_handler_readline);
 	tcsetattr(STDOUT_FILENO, TCSANOW, &(term_state->rl_term));
 }
 
-void	set_term_default(t_term_state *term_state)
+static void	set_term_default(t_term_state *term_state)
 {
-	signal(SIGQUIT, sig_quit_handler);
-	signal(SIGINT, sig_int_handler_exec);
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, SIG_IGN);
 	tcsetattr(STDOUT_FILENO, TCSANOW, &(term_state->default_term));
 }
 
-void	heredoc(int sig)
+static void	heredoc(int sig)
 {
 	if (sig == SIGINT)
+	{
+		ft_putstr_fd("\n", 2);
 		exit(2);
+	}
 }
 
 char	*ft_readline(t_context *context, char *str)

@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 11:24:03 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/28 13:02:26 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/28 18:18:03 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,8 @@ static int	exec_line(t_cmd_line *cmd_line, t_context *ctx)
 
 void	executor(t_cmd_line *cmd_line, t_context *context, t_in_out *in_out)
 {
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 	if (in_out)
 	{
 		if (!ft_dup2(in_out->out, 1) || !ft_dup2(in_out->in, 0))

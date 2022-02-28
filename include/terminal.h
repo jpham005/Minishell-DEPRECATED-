@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 12:06:57 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/26 20:42:53 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/28 17:58:41 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,10 @@ typedef struct s_context
 	t_term_state	term_state;
 }	t_context;
 
-void	set_term_default(t_term_state *term_state);
-void	set_term_execute(t_term_state *term_state);
 void	reset_terminal(t_context *context);
+void	sig_int_handler_readline(int sig);
 void	sig_int_handler_default(int sig);
-void	sig_int_handler_exec(int sig);
+void	set_sig_handler_child(void);
 void	sig_quit_handler(int sig);
 int		check_arg(int argc, const char **argv);
 int		check_tty(int stdin, int stdout, int stderr);
