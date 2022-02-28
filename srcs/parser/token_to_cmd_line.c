@@ -6,7 +6,7 @@
 /*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 14:52:28 by hyeonpar          #+#    #+#             */
-/*   Updated: 2022/02/28 02:32:18 by hyeonpar         ###   ########.fr       */
+/*   Updated: 2022/02/28 20:59:52 by hyeonpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,12 @@ t_pipe_type check_pipe_type(char *s)
 
 int is_pipe(char *s) //
 {
+    if (s == NULL)
+        return (0);
     if (
         (ft_strncmp(s, "&&", 2) == 0)
         || (ft_strncmp(s, "||", 2) == 0)
-        || (ft_strncmp(s, "|", 1) == 0)
+        // || (ft_strncmp(s, "|", 1) == 0)
     )
         return (1);
     return (0);
@@ -47,18 +49,30 @@ int is_pipe(char *s) //
 void    count_pipe(t_cmd_line *res, char **s) //
 {
     int i;
-    int cnt;
+    int pipe_num;
+    int first;
 
     i = 0;
-    cnt = 0;
+    pipe_num = 0;
+    first = 1;
     while (*(s + i))
     {
+        if (ft_strncmp(*(s + i), "|", 2) == 0)
+            pipe_num++;
         if (is_pipe(*(s + i)))
-            cnt++;
+        {
+            if (first)
+            {
+                res->pipes->num = pipe_num + 1;
+                first--;
+            }
+            else
+                add_pipe(res, pipe_num + 1);
+            pipe_num = 0;
+        }
         i++;
     }
-    while (cnt--)
-        add_pipe(res, cnt); // 미리 파이프 개수 + 1만큼 cmd_line 덩어리를 만들어 둬야 함    
+    add_pipe(res, pipe_num + 1);
 }
 
 void    fill_pipes(t_cmd_line *res, char **s)
@@ -70,23 +84,24 @@ void    fill_pipes(t_cmd_line *res, char **s)
     char **str;
 
     i = 0;
-    str = NULL;
     while (*(s + i))
     {
+        // str = NULL;
         j = 0;
         start = i;
-        while (*(s + i) && !(is_pipe(*(s + i)))) // 파이프나 NULL이 아닐 때까지 반복
+        while (*(s + i) && !(is_pipe(*(s + i)))) // 관계연산자나 NULL이 아닐 때까지 반복
             i++;
         temp = i - start + 1;
         str = ft_malloc(sizeof(char *), temp);
         while (--temp)
             str[j++] = s[start++];
         str[j] = NULL;
-        res->pipes->cmds->cmd = str;
-        
+        res->pipes->cmds->cmd = str; // 이걸 좀 수정해야하나싶음
         res = res->next;
-        if (*(s + i))
+        if (is_pipe(*(s + i)))
             res->pipes->type = check_pipe_type(s[i++]);
+        // safe_free((void **) str);
+        // ls|ls||ls||ls&&ls
     }
 }
 

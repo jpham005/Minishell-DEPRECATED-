@@ -37,6 +37,30 @@ t_redirect	*init_redirect(t_redir_type type, char *target)
 	return (red);
 }
 
+void	free_token(t_token *token)
+{
+	t_token *temp;
+
+	while (token)
+	{
+		temp = token;
+		token = token->next;
+		safe_free((void **) temp);
+	}
+}
+
+void	free_redir(t_redirect *redir) // target free 안 해줘도 되나?
+{
+	t_redirect *temp;
+
+	while (redir)
+	{
+		temp = redir;
+		redir = redir->next;
+		safe_free((void **) temp);
+	}
+}
+
 // t_pipe	*init_pipe(t_cmd_line *res, int num)
 // {
 // 	t_pipe *pipe;
@@ -54,12 +78,12 @@ t_redirect	*init_redirect(t_redir_type type, char *target)
 // 	return (pipe);
 // }
 
-void	add_pipe(t_cmd_line *res, int num) //
+void	add_pipe(t_cmd_line *res, int pipe_num)
 {
 	t_cmd_line *new;
 
 	new = init_cmd_line();
-	new->pipes->num = num;
+	new->pipes->num = pipe_num;
 	while (res->next)
 		res = res->next;
 	res->next = new;
@@ -83,12 +107,19 @@ t_cmd_line	*init_cmd_line(void) //
 	return (cml);
 }
 
-void	*free_cmd_line(t_cmd_line *cml) // test
+void	free_cmd_line(t_cmd_line *cml) // test
 {
-	safe_free((void **) &cml->pipes->cmds->redir); // 넥스트 노드 돌면서 free
+	t_cmd_line *temp;
+
+	free_redir(cml->pipes->cmds->redir);
 	safe_free((void **) &cml->pipes->cmds);
 	safe_free((void **) &cml->pipes);
-	safe_free((void **) &cml); // 넥스트 노드 돌면서 free
+	while (cml)
+	{
+		temp = cml;
+		cml = cml->next;
+		safe_free((void **) temp);
+	}
 }
 
 // =====================================================
@@ -121,3 +152,38 @@ void	add_token(t_token *token, char *data)
 
 // 	return (cml);
 // }
+
+void	print_struct(t_cmd_line *cml)
+{
+	while (cml)
+	{
+		printf("pipe type: %d\n", cml->pipes->type);
+		printf("cmd type: %d\n", cml->pipes->cmds->type);
+		int i = 0;
+		int j = 0;
+		printf("pipe num: %zu\n", cml->pipes->num);
+		while (cml->pipes->cmds->cmd[i])
+		{
+			printf("cmd[%d]: %s\n", i, cml->pipes->cmds->cmd[i]);
+			i++;
+		}
+		// while (i < cml->pipes->num)
+		// {
+		// 	while (cml->pipes->cmds[i].cmd[j])
+		// 	{
+		// 		printf("cmd[%d]: %s\n", i, cml->pipes->cmds[i].cmd[j]);
+		// 		j++;
+		// 	}
+		// 	i++;
+		// }
+		// ls|ls||ls||ls&&ls
+		while (cml->pipes->cmds->redir)
+		{
+			printf("redir type: %d\n", cml->pipes->cmds->redir->type);
+			printf("redir target: %s\n", cml->pipes->cmds->redir->target);
+			cml->pipes->cmds->redir = cml->pipes->cmds->redir->next;
+		}
+		cml = cml->next;
+		printf("\n");
+	}
+}
