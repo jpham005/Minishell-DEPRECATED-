@@ -167,15 +167,15 @@ void	print_struct(t_cmd_line *cml)
 			printf("cmd[%d]: %s\n", i, cml->pipes->cmds->cmd[i]);
 			i++;
 		}
-		// while (i < cml->pipes->num)
-		// {
-		// 	while (cml->pipes->cmds[i].cmd[j])
-		// 	{
-		// 		printf("cmd[%d]: %s\n", i, cml->pipes->cmds[i].cmd[j]);
-		// 		j++;
-		// 	}
-		// 	i++;
-		// }
+		while (i < cml->pipes->num)
+		{
+			while (cml->pipes->cmds[i].cmd[j])
+			{
+				printf("cmd[%d]: %s\n", i, cml->pipes->cmds[i].cmd[j]);
+				j++;
+			}
+			i++;
+		}
 		// ls|ls||ls||ls&&ls
 		while (cml->pipes->cmds->redir)
 		{

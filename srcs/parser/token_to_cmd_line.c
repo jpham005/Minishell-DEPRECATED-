@@ -6,7 +6,7 @@
 /*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 14:52:28 by hyeonpar          #+#    #+#             */
-/*   Updated: 2022/02/28 20:59:52 by hyeonpar         ###   ########.fr       */
+/*   Updated: 2022/02/28 21:59:38 by hyeonpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,47 @@ void    count_pipe(t_cmd_line *res, char **s) //
     add_pipe(res, pipe_num + 1);
 }
 
+void    fill_cmds(t_cmd_line *res, char **str)
+{
+    t_token *temp;
+    int i;
+    int j;
+    int k;
+
+    i = 0;
+    j = 0;
+    k = 0;
+    temp = ft_malloc(sizeof(t_token), 1);
+    temp->data = NULL;
+    temp->next = NULL;
+    res->pipes->cmds = ft_malloc(sizeof(char), res->pipes->num + 1);
+    while (str[i])
+    {
+        if (ft_strncmp(str[i], "|", 2) == 0)
+        {
+            while (temp)
+            {
+                convert_token_to_dptr() // 이중 포인터로 토큰 바꾸고 cmds[k]에 할당
+                res->pipes->cmds[k]
+            }
+            res->pipes->cmds[k].cmd[j] = NULL;
+            k++;
+            free_token(temp);
+            temp = ft_malloc(sizeof(t_token), 1);
+            temp->data = NULL;
+            temp->next = NULL;
+        }
+        else
+        {
+            if (temp->data == NULL)
+                temp->data = str[i];
+            else
+                add_token(temp, str[i]);
+        }
+        i++;
+    }
+}
+
 void    fill_pipes(t_cmd_line *res, char **s)
 {
     int i;
@@ -96,7 +137,8 @@ void    fill_pipes(t_cmd_line *res, char **s)
         while (--temp)
             str[j++] = s[start++];
         str[j] = NULL;
-        res->pipes->cmds->cmd = str; // 이걸 좀 수정해야하나싶음
+        // res->pipes->cmds->cmd = str; // 이걸 좀 수정해야하나싶음
+        fill_cmds(res, str);
         res = res->next;
         if (is_pipe(*(s + i)))
             res->pipes->type = check_pipe_type(s[i++]);
@@ -168,7 +210,7 @@ t_cmd_line  *token_to_cmd_line(char **s) // 토큰 구조체에 담기
     res = init_cmd_line();
     count_pipe(res, s);
     fill_pipes(res, s);
-    fill_cmd_redir(res);
+    // fill_cmd_redir(res);
 
     // 테스트 출력용
     // int i = 0;
