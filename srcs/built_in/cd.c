@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 15:41:42 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/28 13:05:43 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/01 12:44:47 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,12 +63,12 @@ static int	move_to_arg(t_envp_list *envp, const char *arg)
 		path = ft_strdup(arg);
 	if (chdir(path) == -1)
 	{
-		printf(SHELL_NAME CD_CMD "%s: %s\n", path, strerror(errno));
+		print_cd_error(path, strerror(errno));
 		safe_free((void **) &curr_dir);
 		return (1);
 	}
 	if (flag)
-		printf("%s\n", path);
+		print_cd_success(path);
 	update_envp_list(&envp, "OLDPWD", curr_dir);
 	update_envp_list(&envp, "PWD", path);
 	free_both_cd(&curr_dir, &path);
@@ -83,17 +83,17 @@ static int	move_by_oldpwd(t_envp_list *envp)
 	oldpwd = find_list_by_key(envp, "OLDPWD");
 	if (!oldpwd)
 	{
-		ft_putstr_fd(OLDPWD_NOT_SET_ERR_MESSAGE, 1);
+		ft_putstr_fd(OLDPWD_NOT_SET_ERR_MESSAGE, 2);
 		return (1);
 	}
 	curr_dir = ft_getcwd(NULL, 1);
 	if (chdir(oldpwd->value) == -1)
 	{
-		printf(SHELL_NAME CD_CMD "%s: %s\n", oldpwd->value, strerror(errno));
+		print_cd_error(oldpwd->value, strerror(errno));
 		safe_free((void **) &curr_dir);
 		return (1);
 	}
-	printf("%s\n", oldpwd->value);
+	print_cd_success(oldpwd->value);
 	update_envp_list(&envp, "OLDPWD", curr_dir);
 	update_envp_list(&envp, "PWD", oldpwd->value);
 	safe_free((void **) &curr_dir);
@@ -114,7 +114,7 @@ static int	move_to_home(t_envp_list *envp)
 	curr_dir = ft_getcwd(NULL, 1);
 	if (chdir(home->value) == -1)
 	{
-		printf(SHELL_NAME CD_CMD "%s: %s\n", home->value, strerror(errno));
+		print_cd_error(home->value, strerror(errno));
 		return (1);
 	}
 	update_envp_list(&envp, "OLDPWD", curr_dir);

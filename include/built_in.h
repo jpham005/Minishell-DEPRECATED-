@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 20:54:17 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/25 16:43:49 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/01 12:43:02 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ int		unset(t_context *context, const char **argv);
 int		env(t_context *context, const char **argv);
 int		pwd(t_context *context, const char **argv);
 int		cd(t_context *context, const char **argv);
+void	print_cd_error(char *s1, char *s2);
+void	print_cd_success(char *s1);
 void	free_both_cd(char **curr_dir, char **path);
 int		echo(t_context *context, const char **argv);
 

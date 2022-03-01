@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 20:44:39 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/27 16:00:26 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/01 12:47:25 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,15 @@ static void	exec_normal(t_envp_list *envp, const char *str)
 	safe_free((void **) &value);
 }
 
+static void	print_export_err_message(const char *str)
+{
+	ft_putstr_fd(SHELL_NAME EXPORT_CMD, 2);
+	ft_putstr_fd("`", 2);
+	ft_putstr_fd(str, 2);
+	ft_putstr_fd("': ", 2);
+	ft_putstr_fd(EXPORT_ARG_ERR_MESSAGE, 2);
+}
+
 int	export(t_context *context, const char **argv)
 {
 	int		ret_flag;
@@ -60,9 +69,7 @@ int	export(t_context *context, const char **argv)
 	{
 		if (!check_valid(argv[i]))
 		{
-			printf(
-				SHELL_NAME EXPORT_CMD"`%s': "EXPORT_ARG_ERR_MESSAGE, argv[i]
-				);
+			print_export_err_message(argv[i]);
 			ret_flag |= 1;
 		}
 		else

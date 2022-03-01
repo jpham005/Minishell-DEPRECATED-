@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/12 16:25:58 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/19 20:07:59 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/01 12:47:32 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,15 @@ static void	exit_with_message(int status)
 	exit(status);
 }
 
+static void	print_non_numeric_err_message(const char *str)
+{
+	ft_putstr_fd("exit\n", 2);
+	ft_putstr_fd(SHELL_NAME EXIT_CMD, 2);
+	ft_putstr_fd(str, 2);
+	ft_putstr_fd(": ", 2);
+	ft_putstr_fd(EXIT_NON_NUMERIC_ERR_MESSAGE, 2);
+}
+
 int	built_in_exit(t_context *context, const char **argv)
 {
 	int	state;
@@ -41,14 +50,13 @@ int	built_in_exit(t_context *context, const char **argv)
 		exit_with_message(context->exit_status);
 	if (state & EXIT_NON_NUMERIC)
 	{
-		printf("exit\n");
-		printf(SHELL_NAME EXIT_CMD"%s: "EXIT_NON_NUMERIC_ERR_MESSAGE, argv[1]);
+		print_non_numeric_err_message(argv[1]);
 		exit(255);
 	}
 	if (state & EXIT_TOO_MANY_ARG)
 	{
-		printf("exit\n");
-		printf(SHELL_NAME EXIT_CMD EXIT_TOO_MANY_ARG_ERR_MESSAGE);
+		ft_putstr_fd("exit\n", 2);
+		ft_putstr_fd(SHELL_NAME EXIT_CMD EXIT_TOO_MANY_ARG_ERR_MESSAGE, 2);
 		return (1);
 	}
 	if (state & EXIT_NUMERIC)
