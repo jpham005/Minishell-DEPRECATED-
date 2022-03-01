@@ -6,7 +6,7 @@
 /*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 13:46:27 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/28 16:32:31 by hyeonpar         ###   ########.fr       */
+/*   Updated: 2022/03/01 08:31:41 by hyeonpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,12 @@ static int	readline_loop(t_context *context, t_term_state *term_state)
 		cml = token_to_cmd_line(s);
 		print_struct(cml);
 
-		// free로 파일 별도로 만들자
-		safe_free((void **) s);
+		// free로 파일 별도로 정리해서 만들자
+		// 일단 누수 내버려두고 구현에 집중하자
+		// safe_free((void **) s);
 		free_token(a);
 		free_cmd_line(cml);
+
 		// 파싱 함수는
 		// 구조체 리턴, context->result에 에러 여부 기록하여 리턴해야 함
 		

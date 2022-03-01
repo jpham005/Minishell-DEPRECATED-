@@ -6,7 +6,7 @@
 /*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 14:52:28 by hyeonpar          #+#    #+#             */
-/*   Updated: 2022/02/28 21:59:38 by hyeonpar         ###   ########.fr       */
+/*   Updated: 2022/03/01 14:41:18 by hyeonpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,22 +88,18 @@ void    fill_cmds(t_cmd_line *res, char **str)
     temp = ft_malloc(sizeof(t_token), 1);
     temp->data = NULL;
     temp->next = NULL;
-    res->pipes->cmds = ft_malloc(sizeof(char), res->pipes->num + 1);
+    res->pipes->cmds = ft_malloc(sizeof(t_cmd), res->pipes->num + 1);
     while (str[i])
     {
         if (ft_strncmp(str[i], "|", 2) == 0)
         {
-            while (temp)
-            {
-                convert_token_to_dptr() // 이중 포인터로 토큰 바꾸고 cmds[k]에 할당
-                res->pipes->cmds[k]
-            }
-            res->pipes->cmds[k].cmd[j] = NULL;
-            k++;
+            res->pipes->cmds[k].cmd = convert_token_to_dptr(temp);
+            res->pipes->cmds[k].type = SINGLE_CMD;
             free_token(temp);
             temp = ft_malloc(sizeof(t_token), 1);
             temp->data = NULL;
             temp->next = NULL;
+            k++;
         }
         else
         {
@@ -114,6 +110,14 @@ void    fill_cmds(t_cmd_line *res, char **str)
         }
         i++;
     }
+    // s = convert_token_to_dptr(temp);
+    // res->pipes->cmds[k].cmd = s;
+    res->pipes->cmds[k].cmd = convert_token_to_dptr(temp);
+    res->pipes->cmds[k].type = SINGLE_CMD;
+    k++;
+    free_token(temp);
+    res->pipes->cmds[k].cmd = NULL;
+    res->pipes->cmds[k].type = SINGLE_CMD;
 }
 
 void    fill_pipes(t_cmd_line *res, char **s)
@@ -147,60 +151,57 @@ void    fill_pipes(t_cmd_line *res, char **s)
     }
 }
 
-// 이미 malloc 되어있으므로 선언 없이 바로 할당해도 될 듯
-// 처음 t_cmd_line을 생성할 때 내부 구조체 전부 초기화 해준다는 가정하에 작성
-void    fill_redir(t_cmd_line *res, t_redir_type type, char *target)
+void    fill_redir(t_cmd_line *res, t_redir_type type, char *target, int j)
 {
     t_redirect  *new;
 
-    if (res->pipes->cmds->redir == NULL)
-        res->pipes->cmds->redir = init_redirect(type, target);
+    // res->pipes->cmds[j].redir = ft_malloc(sizeof(t_redirect), 1);
+    if (res->pipes->cmds[j].redir == NULL)
+        res->pipes->cmds[j].redir = init_redirect(type, target);
     else
     {
         new = init_redirect(type, target);
-        while (res->pipes->cmds->redir->next)
-            res->pipes->cmds->redir = res->pipes->cmds->redir->next;
-        res->pipes->cmds->redir->next = new;
+        while (res->pipes->cmds[j].redir->next)
+            res->pipes->cmds[j].redir = res->pipes->cmds[j].redir->next;
+        res->pipes->cmds[j].redir->next = new;
     }
 }
-/* res->pipes->cmds->cmd == 
-    ["cat", "-en", "file1.txt", ">", "file2.txt", "cat", "file2.txt", NULL] */
-/* cmd = 
-    ["cat", "-en", "file1.txt", "cat", "file2.txt", NULL] */
-/* res->pipes->cmds->cmd = cmd */
-// 임시 리스트 추가
-// ["cat", "-en", "file1.txt", "cat", "file2.txt", NULL]
-// char *tmp = strjoin("Hyeonpar_jaham", res->pipes->cmds->cmd[i]);
-// char **cmd = split(tmp, "Hyeonpar_jaham");
-// res->pipes->cmds->cmd[i] = cmd;
+
 void    fill_cmd_redir(t_cmd_line *res)
 {
     int i;
+    int j;
     t_token *temp;
 
-    i = 0;
+    j = -1;
     temp = NULL;
-    while (res->pipes->cmds->cmd[i])
+    while (++j < res->pipes->num)
     {
-        if (ft_strncmp(res->pipes->cmds->cmd[i], "<", 2) == 0)
-            fill_redir(res, REDIR_OUT, res->pipes->cmds->cmd[++i]);
-        else if (ft_strncmp(res->pipes->cmds->cmd[i], ">", 2) == 0)
-            fill_redir(res, REDIR_IN, res->pipes->cmds->cmd[++i]);
-        else if (ft_strncmp(res->pipes->cmds->cmd[i], "<<", 3) == 0)
-            fill_redir(res, REDIR_HEREDOC, res->pipes->cmds->cmd[++i]);
-        else if (ft_strncmp(res->pipes->cmds->cmd[i], ">>", 3) == 0)
-            fill_redir(res, REDIR_APPEND, res->pipes->cmds->cmd[++i]);
-        else
+        res->pipes->cmds[j].redir = NULL;
+        i = 0;
+        while (res->pipes->cmds[j].cmd[i])
         {
-            if (!temp)
-                temp = init_token(res->pipes->cmds->cmd[i]);
+            if (ft_strncmp(res->pipes->cmds[j].cmd[i], "<", 2) == 0)
+                fill_redir(res, REDIR_OUT, res->pipes->cmds[j].cmd[++i], j);
+            else if (ft_strncmp(res->pipes->cmds[j].cmd[i], ">", 2) == 0)
+                fill_redir(res, REDIR_IN, res->pipes->cmds[j].cmd[++i], j);
+            else if (ft_strncmp(res->pipes->cmds[j].cmd[i], "<<", 3) == 0)
+                fill_redir(res, REDIR_HEREDOC, res->pipes->cmds[j].cmd[++i], j);
+            else if (ft_strncmp(res->pipes->cmds[j].cmd[i], ">>", 3) == 0)
+                fill_redir(res, REDIR_APPEND, res->pipes->cmds[j].cmd[++i], j);
             else
-                add_token(temp, res->pipes->cmds->cmd[i]);
+            {
+                if (!temp)
+                    temp = init_token(res->pipes->cmds[j].cmd[i]);
+                else
+                    add_token(temp, res->pipes->cmds[j].cmd[i]);
+            }
+            if (res->pipes->cmds[j].cmd[i] != NULL)
+                i++;
         }
-        if (res->pipes->cmds->cmd[i] != NULL)
-            i++;
+        res->pipes->cmds[j].cmd = convert_token_to_dptr(temp);
     }
-    res->pipes->cmds->cmd = convert_token_to_dptr(temp);
+
 }
 
 t_cmd_line  *token_to_cmd_line(char **s) // 토큰 구조체에 담기
@@ -210,7 +211,7 @@ t_cmd_line  *token_to_cmd_line(char **s) // 토큰 구조체에 담기
     res = init_cmd_line();
     count_pipe(res, s);
     fill_pipes(res, s);
-    // fill_cmd_redir(res);
+    fill_cmd_redir(res);
 
     // 테스트 출력용
     // int i = 0;

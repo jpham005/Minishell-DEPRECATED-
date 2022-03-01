@@ -30,8 +30,7 @@ t_redirect	*init_redirect(t_redir_type type, char *target)
 	red->type = type;
 	red->target = target;
 	if (target == NULL || is_redir(target))
-		; // result = SYNTAX_ERROR // syntax error near unexpected token `newline'
-		// 여러 개의 token이 target이 될 수 있는가?
+		; // 에러 처리
 	red->next = NULL;
 
 	return (red);
@@ -45,6 +44,7 @@ void	free_token(t_token *token)
 	{
 		temp = token;
 		token = token->next;
+		safe_free((void **) &temp->data);
 		safe_free((void **) temp);
 	}
 }
@@ -99,11 +99,11 @@ t_cmd_line	*init_cmd_line(void) //
 	cml->pipes = ft_malloc(sizeof(t_pipe), 1);
 	cml->pipes->num = 0;
 	cml->pipes->type = PIPE;
-	cml->pipes->cmds = ft_malloc(sizeof(t_cmd), 1);
-	cml->pipes->cmds->cmd = NULL;
-	cml->pipes->cmds->type = SINGLE_CMD;
-	cml->pipes->cmds->redir = ft_malloc(sizeof(t_redirect), 1);
-	cml->pipes->cmds->redir = NULL;
+	// cml->pipes->cmds = ft_malloc(sizeof(t_cmd), 1);
+	// cml->pipes->cmds->cmd = NULL;
+	// cml->pipes->cmds->type = SINGLE_CMD;
+	// cml->pipes->cmds->redir = ft_malloc(sizeof(t_redirect), 1);
+	// cml->pipes->cmds->redir = NULL;
 	return (cml);
 }
 
@@ -111,7 +111,7 @@ void	free_cmd_line(t_cmd_line *cml) // test
 {
 	t_cmd_line *temp;
 
-	free_redir(cml->pipes->cmds->redir);
+	// free_redir(cml->pipes->cmds->redir);
 	safe_free((void **) &cml->pipes->cmds);
 	safe_free((void **) &cml->pipes);
 	while (cml)
@@ -155,20 +155,17 @@ void	add_token(t_token *token, char *data)
 
 void	print_struct(t_cmd_line *cml)
 {
+	int i;
+	int j;
+
 	while (cml)
 	{
 		printf("pipe type: %d\n", cml->pipes->type);
-		printf("cmd type: %d\n", cml->pipes->cmds->type);
-		int i = 0;
-		int j = 0;
 		printf("pipe num: %zu\n", cml->pipes->num);
-		while (cml->pipes->cmds->cmd[i])
-		{
-			printf("cmd[%d]: %s\n", i, cml->pipes->cmds->cmd[i]);
-			i++;
-		}
+		i = 0;
 		while (i < cml->pipes->num)
 		{
+			j = 0;
 			while (cml->pipes->cmds[i].cmd[j])
 			{
 				printf("cmd[%d]: %s\n", i, cml->pipes->cmds[i].cmd[j]);
@@ -177,11 +174,18 @@ void	print_struct(t_cmd_line *cml)
 			i++;
 		}
 		// ls|ls||ls||ls&&ls
-		while (cml->pipes->cmds->redir)
+		// echo -n "asdasd $SHELL" > a| << b cat -e && cd || ls
+		
+		i = 0;
+		while (i < cml->pipes->num)
 		{
-			printf("redir type: %d\n", cml->pipes->cmds->redir->type);
-			printf("redir target: %s\n", cml->pipes->cmds->redir->target);
-			cml->pipes->cmds->redir = cml->pipes->cmds->redir->next;
+			while (cml->pipes->cmds[i].redir)
+			{
+				printf("cmd[%d] redir type: %d\n", i, cml->pipes->cmds[i].redir->type);
+				printf("cmd[%d] redir target: %s\n", i, cml->pipes->cmds[i].redir->target);
+				cml->pipes->cmds[i].redir = cml->pipes->cmds[i].redir->next;
+			}
+			i++;
 		}
 		cml = cml->next;
 		printf("\n");
