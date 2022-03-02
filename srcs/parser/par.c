@@ -6,7 +6,7 @@
 /*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 17:23:31 by hyeonpar          #+#    #+#             */
-/*   Updated: 2022/03/02 15:33:06 by hyeonpar         ###   ########.fr       */
+/*   Updated: 2022/03/02 16:58:45 by hyeonpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,32 +107,27 @@ void	delete_quote_2(char **str, int len, int i)
 	char quote;
 
 	s = ft_malloc(sizeof(char), len + 1);
-	j = 0;
+	j = -1;
 	quote = 0;
 	len = 0;
-	while (str[i][j])
+	while(str[i][++j])
 	{
 		if (quote == 0 && (str[i][j] == '\'' || str[i][j] == '\"'))
 		{
 			quote = str[i][j];
+			continue;
 		}
 		else if ((quote == '\'' && str[i][j] == '\'') || (quote == '\"' && str[i][j] == '\"'))
+		{
 			quote = 0;
-		s[j] = str[i][j];
-		j++;
+			continue;
+		}
+		s[len++] = str[i][j];
 	}
-	// i = -1;
-	// len = 0;
-	// while (arg[++i] != '\0')
-	// {
-	// 	if (arg[i] =='\'' || arg[i] =='\"')
-	// 		continue;
-	// 	no_q[len] = arg[i];
-	// 	printf("len: %d\n", len);
-	// 	len++;
-	// }
-	// no_q[len] = '\0';
-	// return (no_q);
+	s[len] = '\0';
+	safe_free((void **) &str[i]);
+	str[i] = ft_strdup(s);
+	safe_free((void **) &s);
 }
 
 void	delete_quote_1(char **str)
@@ -142,28 +137,34 @@ void	delete_quote_1(char **str)
 	int	quote;
 	int	len;
 
-	i = 0;
-	while (str[i])
+	i = -1;
+	while (str[++i])
 	{
-		j = 0;
+		j = -1;
 		quote = 0;
 		len = 0;
-		while(str[i][j])
+		while(str[i][++j])
 		{
 			if (quote == 0 && (str[i][j] == '\'' || str[i][j] == '\"'))
+			{
 				quote = str[i][j];
+				continue;
+			}
 			else if ((quote == '\'' && str[i][j] == '\'') || (quote == '\"' && str[i][j] == '\"'))
+			{
 				quote = 0;
+				continue;
+			}
 			len++;
-			j++;
 		}
 		delete_quote_2(str, len, i);
-		i++;
+		// if quote = 1이면 
+		// 2 함수로 안 가고 에러처리(실제 bash에서는 추가적인 입력을 대기하지만 일단 여기서는 끝 콤마가 열려있는 상태면 에러 처리함)
 	}
 }
 
 void	expand_tokens(t_context *context, char **str)
 {
 	par(context, str); // 아스터리스크 확장하고
-	// delete_quote(str);
+	delete_quote_1(str); // 지금까지 남아있던 따옴표 전부 제거
 }
