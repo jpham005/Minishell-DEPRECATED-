@@ -6,7 +6,7 @@
 /*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 16:37:13 by jaham             #+#    #+#             */
-/*   Updated: 2022/03/03 03:47:41 by hyeonpar         ###   ########.fr       */
+/*   Updated: 2022/03/03 07:23:57 by hyeonpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,7 +164,17 @@ char	*change_dollar(t_context *context, int *dollar_flag, char *str)
 	temp = 0;
 	while (str[i])
 	{
-		if (
+		if (str[i] == '$' && str[i + 1] == '?' && dollar_flag[j])
+		{
+			expand_value = ft_itoa(context->exit_status);
+			new = ft_strjoin(temp_s, expand_value);
+			safe_free((void **) &temp_s);
+			safe_free((void **) &expand_value);
+			temp_s = new;
+			i++;
+			j++;
+		}
+		else if (
 			(str[i] != '$') 
 			|| ((str[i] == '$') && (!dollar_flag[j++])) 
 			|| ((str[i] == '$') && ((!is_env_var(str[i + 1]) || str[i + 1] == '\0')))
@@ -184,6 +194,7 @@ char	*change_dollar(t_context *context, int *dollar_flag, char *str)
 			{
 				new = ft_strjoin(temp_s, expand_value);
 				safe_free((void **) &temp_s);
+				safe_free((void **) &expand_value);
 				temp_s = new;
 			}
 			i--;
