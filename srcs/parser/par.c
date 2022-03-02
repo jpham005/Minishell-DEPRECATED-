@@ -6,7 +6,7 @@
 /*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 17:23:31 by hyeonpar          #+#    #+#             */
-/*   Updated: 2022/03/02 16:58:45 by hyeonpar         ###   ########.fr       */
+/*   Updated: 2022/03/03 03:13:24 by hyeonpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,11 +91,7 @@ void	par(t_context *context, char **str) // str의 유효한 아스터리스크 
 	while (str[i])
 	{
 		if (is_asterisk(str[i]))
-		{
-			printf("bef: %s\n", str[i]);
 			str[i] = expand_asterisk(str[i]); // *가 포함된 문자열을 확장
-			printf("aft: %s\n", str[i]);
-		}
 		i++;
 	}
 }

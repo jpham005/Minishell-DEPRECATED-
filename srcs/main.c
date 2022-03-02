@@ -6,7 +6,7 @@
 /*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 13:46:27 by jaham             #+#    #+#             */
-/*   Updated: 2022/03/02 13:42:00 by hyeonpar         ###   ########.fr       */
+/*   Updated: 2022/03/03 03:29:53 by hyeonpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,20 +52,39 @@ static int	readline_loop(t_context *context, t_term_state *term_state)
 		if (*str)
 			add_history(str);
 
+		char **t;
 		char **s;
 		t_token *a;
-		a = convert_dptr_to_struct(tokenizer(str));
+		t = tokenizer(str);
+		a = convert_dptr_to_struct(t);
 		s = convert_token_to_dptr(a);
 		//테스트
-		// int i = 0;
-		// while (*(s + i) != NULL)
-		// {
-		// 	printf("|%s|\n", *(s + i));
-		// 	i++;
-		// }
+		int i = 0;
+		while (*(s + i) != NULL)
+		{
+			printf("|%s|\n", *(s + i));
+			i++;
+		}
 		// cml = parse(context, s, result);
+		// while (context->envp)
+		// {
+		// 	printf("%s ::: %s\n", context->envp->key, context->envp->value);
+		// 	context->envp = context->envp->next;
+		// }
+		expand_dollars(context, s); // $ 확장
+		i = 0;
+		while (*(s + i) != NULL)
+		{
+			printf("|%s|\n", *(s + i));
+			i++;
+		}
 		expand_tokens(context, s); // 기존 구현부 연결
-
+		i = 0;
+		while (*(s + i) != NULL)
+		{
+			printf("|%s|\n", *(s + i));
+			i++;
+		}
 		// 방금 주석한거
 		// cml = token_to_cmd_line(s);
 		// print_struct(cml);

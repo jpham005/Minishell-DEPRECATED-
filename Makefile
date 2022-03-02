@@ -6,7 +6,7 @@
 #    By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/16 20:45:33 by jaham             #+#    #+#              #
-#    Updated: 2022/02/27 20:44:46 by hyeonpar         ###   ########.fr        #
+#    Updated: 2022/03/03 03:38:50 by hyeonpar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,7 @@ ENVP_SRCS := $(addprefix $(ENVP_DIR)/, $(ENVP_SRCS))
 UTILS_SRCS := exit_manage.c print_intro.c
 UTILS_SRCS := $(addprefix $(UTILS_DIR)/, $(UTILS_SRCS))
 PARSER_SRCS := par.c par2.c util_struct.c token.c expand_asterisk.c \
-		par2_quote.c check_str_asterisk.c par3_envp.c par4.c token_to_cmd_line.c
+		par2_quote.c check_str_asterisk.c token_to_cmd_line.c
 PARSER_SRCS := $(addprefix $(PARSER_DIR)/, $(PARSER_SRCS))
 TERMINAL_SRCS := check_default_state.c set_state.c signal_handler.c init.c
 TERMINAL_SRCS := $(addprefix $(TERMINAL_DIR)/, $(TERMINAL_SRCS))
