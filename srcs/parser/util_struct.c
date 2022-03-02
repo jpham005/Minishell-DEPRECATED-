@@ -176,17 +176,17 @@ void	print_struct(t_cmd_line *cml)
 		// ls|ls||ls||ls&&ls
 		// echo -n "asdasd $SHELL" > a| << b cat -e && cd || ls
 		
-		i = 0;
-		while (i < cml->pipes->num)
-		{
-			while (cml->pipes->cmds[i].redir)
-			{
-				printf("cmd[%d] redir type: %d\n", i, cml->pipes->cmds[i].redir->type);
-				printf("cmd[%d] redir target: %s\n", i, cml->pipes->cmds[i].redir->target);
-				cml->pipes->cmds[i].redir = cml->pipes->cmds[i].redir->next;
-			}
-			i++;
-		}
+		// i = 0;
+		// while (i < cml->pipes->num)
+		// {
+		// 	while (cml->pipes->cmds[i].redir)
+		// 	{
+		// 		printf("cmd[%d] redir type: %d\n", i, cml->pipes->cmds[i].redir->type);
+		// 		printf("cmd[%d] redir target: %s\n", i, cml->pipes->cmds[i].redir->target);
+		// 		cml->pipes->cmds[i].redir = cml->pipes->cmds[i].redir->next;
+		// 	}
+		// 	i++;
+		// }
 		cml = cml->next;
 		printf("\n");
 	}

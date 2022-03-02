@@ -6,7 +6,7 @@
 /*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 14:52:28 by hyeonpar          #+#    #+#             */
-/*   Updated: 2022/03/01 14:41:18 by hyeonpar         ###   ########.fr       */
+/*   Updated: 2022/03/01 16:24:44 by hyeonpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,18 +72,19 @@ void    count_pipe(t_cmd_line *res, char **s) //
         }
         i++;
     }
-    add_pipe(res, pipe_num + 1);
+    if (first)
+        res->pipes->num = pipe_num + 1;
+    else
+        add_pipe(res, pipe_num + 1);
 }
 
 void    fill_cmds(t_cmd_line *res, char **str)
 {
     t_token *temp;
     int i;
-    int j;
     int k;
 
     i = 0;
-    j = 0;
     k = 0;
     temp = ft_malloc(sizeof(t_token), 1);
     temp->data = NULL;
@@ -110,14 +111,12 @@ void    fill_cmds(t_cmd_line *res, char **str)
         }
         i++;
     }
-    // s = convert_token_to_dptr(temp);
-    // res->pipes->cmds[k].cmd = s;
     res->pipes->cmds[k].cmd = convert_token_to_dptr(temp);
     res->pipes->cmds[k].type = SINGLE_CMD;
     k++;
     free_token(temp);
-    res->pipes->cmds[k].cmd = NULL;
-    res->pipes->cmds[k].type = SINGLE_CMD;
+    // res->pipes->cmds[k].cmd = NULL;
+    // res->pipes->cmds[k].type = SINGLE_CMD;
 }
 
 void    fill_pipes(t_cmd_line *res, char **s)
@@ -146,6 +145,12 @@ void    fill_pipes(t_cmd_line *res, char **s)
         res = res->next;
         if (is_pipe(*(s + i)))
             res->pipes->type = check_pipe_type(s[i++]);
+        if (!s[i]) // 관계연산자 뒤가 널일 때 처리를 위함
+        {
+            str = ft_malloc(sizeof(char *), 1);
+            str[0] = NULL;
+            fill_cmds(res, str);
+        }
         // safe_free((void **) str);
         // ls|ls||ls||ls&&ls
     }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_asterisk.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 16:14:26 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/27 18:03:00 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/02 14:30:04 by hyeonpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,11 @@
 #include "libft.h"
 #include <stdlib.h>
 
-void	check_side(char **list, char *arg, int *arr)
+void	check_side(char **list, char *arg)
 {
 	int i;
-	int j;
 
 	i = -1;
-	j = 0;
 	while (list[++i] != NULL)
 	{
 		if (
@@ -29,87 +27,104 @@ void	check_side(char **list, char *arg, int *arr)
 			|| ((arg[ft_strlen(arg) - 1] != '*') \
 			&& (list[i][ft_strlen(list[i]) - 1] == arg[ft_strlen(arg) - 1])))
 			)
+			continue;
+		else
 		{
-			*(arr + j) = i;
-			j++;
+			safe_free((void **) &list[i]);
+			list[i] = ft_strdup(" ");
 		}
 	}
 }
 
-char	*expand_asterisk_helper(int arr[256], char **list)
+char	*expand_asterisk_helper(char **list)
 {
 	char	*tmp;
 	char	*tmp2;
-	size_t	cnt;
-	size_t	k;
+	int		i;
 
-	cnt = 0;
-	k = -1;
+	i = -1;
 	tmp2 = NULL;
-	while (arr[++k] != -1)
+	while (list[++i] != NULL)
 	{
-		if (arr[k] > -1)
+		if (ft_strncmp(list[i], " ", 1) != 0)
 		{
-			tmp = ft_strjoin(list[arr[k]], " ");
+			tmp = ft_strjoin(list[i], " ");
 			tmp2 = ft_strjoin(tmp2, tmp);
-			cnt++;
 		}
 	}
-	if (cnt)
-	{
-		safe_free((void **) tmp);
-		return (tmp2);
-	}
-	return (NULL);
+	// safe_free((void **) &tmp);
+	return (tmp2);
 }
 
-char	*expand_asterisk(char *arg)
+char	*del_quote(char *arg)
+{
+	int i;
+	int len;
+	char quote;
+	char *no_q;
+
+	i = -1;
+	len = 0;
+	quote = 0;
+	while (arg[++i] != '\0')
+	{
+		if (quote == 0 && (arg[i] =='\'' || arg[i] =='\"')) // quote 안이 아닌 상태에서 quote를 발견하면 추가하고 넘어감
+		{
+			quote = arg[i];
+			continue;
+		}
+		else if (quote != 0 && quote == arg[i]) // quote 안에서 quote를 발견하면 quote 0 만들고 넘어감
+		{
+			quote = 0;
+			continue;
+		}
+		len++; // 나머지 경우는 len++
+	}
+	no_q = ft_malloc(sizeof(char), len + 1);
+	i = -1;
+	len = 0;
+	quote = 0;
+	while (arg[++i] != '\0')
+	{
+		if (quote == 0 && (arg[i] =='\'' || arg[i] =='\"'))
+		{
+			quote = arg[i];
+			continue;
+		}
+		else if (quote != 0 && quote == arg[i])
+		{
+			quote = 0;
+			continue;
+		}
+		no_q[len] = arg[i];
+		len++;
+	}
+	no_q[len] = '\0';
+	return (no_q);
+}
+
+char	*expand_asterisk(char *arg) // arg는 아스터리스크가 확장될 수 있는(유효한) 문자열덩어리
 {
 	char	**str; // asterlisk로 나눈 문자열(list에 있나 체크해야됨)
+	char	*no_q;
 	char	**list;
-	int		arr[256]; // list의 idx만 저장한 배열, 실제로는 파일/폴더가 256개 넘을 수 있으므로 나중에 수정해야됨
 	char	*new;
 
-	ft_memset(arr, -1, sizeof(int) * 256); // 이것도 -1 초기화 안 돼서 그냥 넣은 임시 초기화 코드
-	str = ft_split(arg, '*');
+	no_q = del_quote(arg); // quote 빼고 문자열의 길이가 얼마나 되는지 구하고,길이만큼 새로운 문자열 말록하고, 거기에 코트 빼고 다 넣어
+	printf("%s\n", no_q);
 	list = current_path_ls();
-	check_side(list, arg, arr); // 양 끝이 조건 충족하는지 검사
-	// // arg 체크 코드
-	// printf ("===========sddasd============\n");
-	// k = 0;
-	// while(arr[k] != -1)
-	//     printf("%d\n", arr[k++]);
-	// printf ("===========asfasdf============\n");
+	check_side(list, no_q); // 양 끝이 조건 충족하는지 검사, 충족 안 하면 스페이스만 넣어버림
 
-	check_str(list, str, arr); // 사이에 str 있는지 검사
-	// printf ("===========last============\n");
-	new = expand_asterisk_helper(arr, list);
+	str = ft_split(no_q, '*');
+	check_str(list, str); // 사이에 str 있는지 검사
+	new = expand_asterisk_helper(list);
 	if (new)
 	{
 		free(arg);
 		arg = new;
 	}
+	safe_free((void **) str);
+	safe_free((void **) list);
+
 	return (arg);
-	// printf ("===========last============\n");
-
-	// // * 기준 split 상태 확인 코드
-	// i = 0;
-	// printf ("===========* split============\n");
-	// while (*(str + i) != NULL)
-	// 	printf("%s\n", str[i++]);
-	// printf ("===========* split============\n");
-
-	// 현재 폴더 내 자료 출력 확인 코드
-	// i = 0;
-	// printf ("===========current path file&directory============\n");
-	// while (*(list + i) != NULL)
-	// 	printf("%s\n", list[i++]);
-	// printf ("===========current path file&directory============\n");
-
-	// *: 현재 디렉토리의 모든 파일/폴더(ls 출력 결과를 char **all에 담기)
-	// a*b*c: 별도 함수로 파싱. a, *, b ,*, c이런 식으로
-	// 함수 하나 만들어서 인자로 들어온 **all에 들어있는 놈 하나랑 비교
-	// cmp와 비슷한데 *나오면 *아닌 문자 나올때까지 skip 끝까지 갔는데 똑같으면 1리턴, 아니면 0리턴
-	// 같은 놈만 살려놓고 틀린 놈은 날려버리기
-	// **all에는 멀쩡한 것만 남을 것이고 만약에 all이 null이면 그냥 문자열로 생각하고 출력한다
 }

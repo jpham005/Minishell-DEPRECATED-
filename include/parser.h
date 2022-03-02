@@ -6,7 +6,7 @@
 /*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 16:33:14 by hyeonpar          #+#    #+#             */
-/*   Updated: 2022/03/01 07:19:42 by hyeonpar         ###   ########.fr       */
+/*   Updated: 2022/03/02 01:12:08 by hyeonpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,11 +103,11 @@ t_token *init_token(char *token);
 void	add_token(t_token *token, char *data);
 t_token	*convert_dptr_to_struct(char **tokens);
 char	**convert_token_to_dptr(t_token *head);
-void	expand_tokens(char *str, t_context *context);
+void	expand_tokens(t_context *context, char **str);
 char	*expand_asterisk(char *arg);
 char	**par2(char **pars_str, t_context *context);
 char	**par3(char **pars_str, int flag_q, t_context *context);
-void	check_str(char **list, char **str, int *arr);
+void	check_str(char **list, char **str);
 char	**current_path_ls(void);
 int		is_asterisk(char *str);
 char	**par4(char **pars_s, char *e_v, int ss_i, t_context *ctx);

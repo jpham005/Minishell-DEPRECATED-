@@ -6,7 +6,7 @@
 /*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 17:23:31 by hyeonpar          #+#    #+#             */
-/*   Updated: 2022/02/27 20:34:42 by hyeonpar         ###   ########.fr       */
+/*   Updated: 2022/03/02 15:33:06 by hyeonpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,44 @@
 #include "terminal.h"
 #include <stdio.h>
 
+// s가 str 안에 있으면 인덱스, 아니면 -1 리턴
+int	find_char(char *str, char s)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == s)
+			return (i);
+		i++;
+	}
+	return (-1);
+}
+
 // asterisk start
 int	is_asterisk(char *str)
 {
-	int i = 0;
+	int i;
+	int j;
+	int	quote;
 
-	while (str[i] != '\0')
+	i = 0;
+	j = find_char(str, '*');
+	if (j == -1)
+		return (0);
+	quote = 0;
+	while (i < j)
 	{
-		if (str[i] == '*')
-			return (1);
+		if (quote == 0 && (str[i] == '\'' || str[i] == '\"'))
+			quote = str[i];
+		else if ((quote == '\'' && str[i] == '\'') || (quote == '\"' && str[i] == '\"'))
+			quote = 0;
 		i++;
 	}
-	return (0);
+	if (quote)
+		return (0);
+	return (1);
 }
 
 // ., ..을 제외한 현재 경로의 파일, 폴더 리스트 리턴
@@ -57,38 +83,87 @@ char	**current_path_ls(void)
 	return (res);
 }
 
-char	**par(char *str, t_context *context)
+void	par(t_context *context, char **str) // str의 유효한 아스터리스크 문자열을 확장해주는 함수
 {
-	char	**pars_str;
-	size_t	i;
+	int	i;
 
-	// asterisk expand
-	pars_str = ft_split(str, ' ');
 	i = 0;
-	while (*(pars_str + i) != NULL)
+	while (str[i])
 	{
-		if (is_asterisk(pars_str[i]))
+		if (is_asterisk(str[i]))
 		{
-			*(pars_str + i) = expand_asterisk(*(pars_str + i));
-			break;
+			printf("bef: %s\n", str[i]);
+			str[i] = expand_asterisk(str[i]); // *가 포함된 문자열을 확장
+			printf("aft: %s\n", str[i]);
 		}
 		i++;
 	}
-	return (par2(pars_str, context));
 }
 
-void	ft_exec(char **rtc)
+void	delete_quote_2(char **str, int len, int i)
 {
-	// fork()
-	printf("\n================\n");
-	execve(rtc[0], rtc, NULL); // 프로세스 CMD로 넘어가므로 일반적으로 하단은 실행 안 됨
-	printf("\n================\n"); // 하단
+	char *s;
+	int	j;
+	char quote;
+
+	s = ft_malloc(sizeof(char), len + 1);
+	j = 0;
+	quote = 0;
+	len = 0;
+	while (str[i][j])
+	{
+		if (quote == 0 && (str[i][j] == '\'' || str[i][j] == '\"'))
+		{
+			quote = str[i][j];
+		}
+		else if ((quote == '\'' && str[i][j] == '\'') || (quote == '\"' && str[i][j] == '\"'))
+			quote = 0;
+		s[j] = str[i][j];
+		j++;
+	}
+	// i = -1;
+	// len = 0;
+	// while (arg[++i] != '\0')
+	// {
+	// 	if (arg[i] =='\'' || arg[i] =='\"')
+	// 		continue;
+	// 	no_q[len] = arg[i];
+	// 	printf("len: %d\n", len);
+	// 	len++;
+	// }
+	// no_q[len] = '\0';
+	// return (no_q);
 }
 
-void	expand_tokens(char *str, t_context *context)
+void	delete_quote_1(char **str)
 {
-	char	**readline_to_cmd;
+	int i;
+	int	j;
+	int	quote;
+	int	len;
 
-	readline_to_cmd = par(str, context);
-	ft_exec(readline_to_cmd);
+	i = 0;
+	while (str[i])
+	{
+		j = 0;
+		quote = 0;
+		len = 0;
+		while(str[i][j])
+		{
+			if (quote == 0 && (str[i][j] == '\'' || str[i][j] == '\"'))
+				quote = str[i][j];
+			else if ((quote == '\'' && str[i][j] == '\'') || (quote == '\"' && str[i][j] == '\"'))
+				quote = 0;
+			len++;
+			j++;
+		}
+		delete_quote_2(str, len, i);
+		i++;
+	}
+}
+
+void	expand_tokens(t_context *context, char **str)
+{
+	par(context, str); // 아스터리스크 확장하고
+	// delete_quote(str);
 }
