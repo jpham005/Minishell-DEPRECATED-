@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clear_cmd_line.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 21:16:00 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/27 21:48:34 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/04 01:32:10 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	clear_pipe_line(t_pipe *pipes)
 	i = 0;
 	while (i < pipes->len)
 	{
-		clear_cmds(&(pipes->cmds[i]));
+		clear_cmds(pipes->cmds[i]);
 		i++;
 	}
 	free(pipes->cmds);

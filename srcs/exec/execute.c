@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 11:24:03 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/28 18:18:03 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/04 01:33:18 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,19 +26,19 @@ int	exec_pipes(t_pipe *pipes, t_context *context, t_in_out *in_out)
 	j = 0;
 	while (i + 1 < pipes->len)
 	{
-		ret = handle_redirection(pipes->cmds[i++].redir, context, in_out);
+		ret = handle_redirection(pipes->cmds[i++]->redir, context, in_out);
 		if (!ret)
 			continue ;
 		if (ret == -1)
 			return (1);
-		pids[j] = exec_fork(&(pipes->cmds[i - 1]), context, in_out);
+		pids[j] = exec_fork(pipes->cmds[i - 1], context, in_out);
 		if (pids[j] == -1)
 			return (wait_all(pids, j, 1));
 		j++;
 	}
-	if (handle_redirection(pipes->cmds[i].redir, context, in_out) <= 0)
+	if (handle_redirection(pipes->cmds[i]->redir, context, in_out) <= 0)
 		return (wait_all(pids, j, 1));
-	pids[j] = exec_fork_out(&(pipes->cmds[i]), context, in_out);
+	pids[j] = exec_fork_out(pipes->cmds[i], context, in_out);
 	return (wait_all(pids, j + (pids[j] != -1), (pids[j] == -1)));
 }
 
@@ -99,7 +99,7 @@ static int	exec_line(t_cmd_line *cmd_line, t_context *ctx)
 		exit(1);
 	if (cmd_line->pipes->len == 1)
 	{
-		ret = exec_single_cmd(&(cmd_line->pipes->cmds[0]), ctx, &new);
+		ret = exec_single_cmd(cmd_line->pipes->cmds[0], ctx, &new);
 		if (!ft_dup2(backup[0], 0) || !ft_dup2(backup[1], 1))
 			exit(1);
 		return (ret);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_line.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 21:16:53 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/27 21:36:28 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/04 01:21:47 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ typedef struct s_cmd
 
 typedef struct s_pipe
 {
-	t_cmd		*cmds;
+	t_cmd		**cmds;
 	size_t		len;
 	t_pipe_type	type;
 }	t_pipe;
