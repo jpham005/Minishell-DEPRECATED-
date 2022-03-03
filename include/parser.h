@@ -6,7 +6,7 @@
 /*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 16:33:14 by hyeonpar          #+#    #+#             */
-/*   Updated: 2022/03/03 06:29:18 by hyeonpar         ###   ########.fr       */
+/*   Updated: 2022/03/03 22:19:45 by hyeonpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,16 +52,9 @@ typedef struct s_redirect
     char *target;
     struct s_redirect *next;
 }   t_redirect;
-// 임시 string linked list
-/*
-    char *__STRING
-    string_list *next;
-*/
-typedef struct s_cmd // 초기화할 때 여기까지만 ft_malloc함
+
+typedef struct s_cmd
 {
-    // likend list
-    // ["cat" -> "-en" -> "file1.txt" -> ">" -> "file2.txt" -> "cat" -> "file2.txt" -> NULL]
-    // ["cat" -> "-en" -> "file1.txt" -> "cat" -> "file2.txt" -> NULL]
     char **cmd; // 여기도 마찬가지 NULL 초기화
     t_redirect *redir; // 처음엔 여기 NULL로 초기화할 것
     t_cmd_type type;
@@ -69,7 +62,7 @@ typedef struct s_cmd // 초기화할 때 여기까지만 ft_malloc함
 
 typedef struct s_pipe
 {
-    t_cmd *cmds;
+    t_cmd **cmds;
     size_t num;
     t_pipe_type type;
 }   t_pipe;

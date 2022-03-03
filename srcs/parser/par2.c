@@ -6,7 +6,7 @@
 /*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 06:20:29 by hyeonpar          #+#    #+#             */
-/*   Updated: 2022/03/02 01:24:41 by hyeonpar         ###   ########.fr       */
+/*   Updated: 2022/03/03 19:20:27 by hyeonpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ char	**convert_token_to_dptr(t_token *head)
 
 	cp = head;
 	len = 0;
+	if (cp->data == NULL)
+		return (NULL);
 	while (cp)
 	{
 		len++;
@@ -55,7 +57,6 @@ char	**convert_token_to_dptr(t_token *head)
 	}
 	ret = ft_malloc(sizeof(char *), len + 1);
 	i = 0;
-	// while ((i == 0 && head->data == NULL) && i < len)
 	while (i < len)
 	{
 		ret[i] = ft_strdup(head->data);
@@ -63,11 +64,6 @@ char	**convert_token_to_dptr(t_token *head)
 		head = head->next;
 	}
 	ret[i] = NULL;
-
-	// int k = -1;
-	// while (ret[++k])
-	// 	printf("%s\n", ret[k]);
-	// printf("\n");
 
 	return (ret);
 }

@@ -15,7 +15,7 @@ t_token *init_token(char *token) //
 	t_token *res;
 
 	res = ft_malloc(sizeof(t_token), 1);
-	res->data = token;
+	res->data = ft_strdup(token);
 	res->next = NULL;
 
 	return (res);
@@ -28,10 +28,10 @@ t_redirect	*init_redirect(t_redir_type type, char *target)
 
 	red = ft_malloc(sizeof(t_redirect), 1);
 	red->type = type;
-	red->target = target;
+	red->target = ft_strdup(target);
+	red->next = NULL;
 	if (target == NULL || is_redir(target))
 		; // 에러 처리
-	red->next = NULL;
 
 	return (red);
 }
@@ -49,7 +49,7 @@ void	free_token(t_token *token)
 	}
 }
 
-void	free_redir(t_redirect *redir) // target free 안 해줘도 되나?
+void	free_redir(t_redirect *redir)
 {
 	t_redirect *temp;
 
@@ -57,7 +57,9 @@ void	free_redir(t_redirect *redir) // target free 안 해줘도 되나?
 	{
 		temp = redir;
 		redir = redir->next;
-		safe_free((void **) temp);
+		if (temp->target != NULL)
+			safe_free((void **) &redir->target);
+		safe_free((void **) &temp);
 	}
 }
 
@@ -99,6 +101,7 @@ t_cmd_line	*init_cmd_line(void) //
 	cml->pipes = ft_malloc(sizeof(t_pipe), 1);
 	cml->pipes->num = 0;
 	cml->pipes->type = PIPE;
+	cml->pipes->cmds = NULL;
 	// cml->pipes->cmds = ft_malloc(sizeof(t_cmd), 1);
 	// cml->pipes->cmds->cmd = NULL;
 	// cml->pipes->cmds->type = SINGLE_CMD;
@@ -107,51 +110,23 @@ t_cmd_line	*init_cmd_line(void) //
 	return (cml);
 }
 
-void	free_cmd_line(t_cmd_line *cml) // test
-{
-	t_cmd_line *temp;
-
-	// free_redir(cml->pipes->cmds->redir);
-	safe_free((void **) &cml->pipes->cmds);
-	safe_free((void **) &cml->pipes);
-	while (cml)
-	{
-		temp = cml;
-		cml = cml->next;
-		safe_free((void **) temp);
-	}
-}
-
 // =====================================================
 // add(with next)
-
-void	add_redirect(t_redirect *red, t_redir_type type, char *target)
-{
-	t_redirect *new;
-
-	new = init_redirect(type, target);
-	red->next = new;
-}
 
 void	add_token(t_token *token, char *data)
 {
 	t_token *new;
 
+	if (token->data == NULL)
+	{
+		token->data = ft_strdup(data);
+		return ;
+	}
 	while (token->next)
 		token = token->next;
 	new = init_token(data);
 	token->next = new;
 }
-
-// t_cmd_line	*add_cmd_line(t_cmd_line *cml, t_pipe *pipe)
-// {
-// 	t_cmd_line *new;
-
-// 	new = init_cmd_line(pipe);
-// 	cml->next = new;
-
-// 	return (cml);
-// }
 
 void	print_struct(t_cmd_line *cml)
 {
@@ -166,28 +141,29 @@ void	print_struct(t_cmd_line *cml)
 		while (i < cml->pipes->num)
 		{
 			j = 0;
-			while (cml->pipes->cmds[i].cmd[j])
+			while (cml->pipes->cmds[i]->cmd[j])
 			{
-				printf("cmd[%d]: %s\n", i, cml->pipes->cmds[i].cmd[j]);
+				printf("cmds[%d]->cmd[%d]: %s\n", i, j, cml->pipes->cmds[i]->cmd[j]);
 				j++;
+			}
+			i++;
+		}
+		i = 0;
+		while (i < cml->pipes->num)
+		{
+			while (cml->pipes->cmds[i]->redir)
+			{
+				printf("%d type: %d\n", i, cml->pipes->cmds[i]->redir->type);
+				printf("%d target: %s\n", i, cml->pipes->cmds[i]->redir->target);
+				cml->pipes->cmds[i]->redir = cml->pipes->cmds[i]->redir->next;
 			}
 			i++;
 		}
 		// ls|ls||ls||ls&&ls
 		// echo -n "asdasd $SHELL" > a| << b cat -e && cd || ls
-		
-		// i = 0;
-		// while (i < cml->pipes->num)
-		// {
-		// 	while (cml->pipes->cmds[i].redir)
-		// 	{
-		// 		printf("cmd[%d] redir type: %d\n", i, cml->pipes->cmds[i].redir->type);
-		// 		printf("cmd[%d] redir target: %s\n", i, cml->pipes->cmds[i].redir->target);
-		// 		cml->pipes->cmds[i].redir = cml->pipes->cmds[i].redir->next;
-		// 	}
-		// 	i++;
-		// }
 		cml = cml->next;
-		printf("\n");
+		printf("==============\n");
 	}
 }
+
+// echo a>b>c>d || echo a>b>vc>d (관계연산자 다음부터 리디렉션 저장 안됨, 파이프 다음에 이전 파이프 cmds 누적) 
