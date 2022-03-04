@@ -6,7 +6,7 @@
 /*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 13:46:27 by jaham             #+#    #+#             */
-/*   Updated: 2022/03/03 23:28:01 by hyeonpar         ###   ########.fr       */
+/*   Updated: 2022/03/05 01:07:16 by hyeonpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,28 +20,6 @@
 
 #include <sys/wait.h> // temp
 
-void	free_struct(t_cmd_line *cml)
-{
-	t_cmd_line *temp;
-	int i;
-	
-	i = 0;
-	while (i < cml->pipes->num)
-	{
-		free_redir(cml->pipes->cmds[i]->redir);
-		safe_free((void **) cml->pipes->cmds[i]->cmd);
-		i++;
-	}
-	safe_free((void **) cml->pipes->cmds);
-	while (cml)
-	{
-		temp = cml;
-		cml = cml->next;
-		safe_free((void **) &temp->pipes);
-		safe_free((void **) &temp);
-	}
-}
-
 t_cmd_line	*parse(t_context *context, const char *str, int *result)
 {
 	t_cmd_line *cml;
@@ -54,29 +32,25 @@ t_cmd_line	*parse(t_context *context, const char *str, int *result)
 	s = convert_token_to_dptr(a);
 
 	expand_dollars(context, s);
-	//테스트
-	// int i = 0;
-	// while (*(s + i) != NULL)
-	// {
-	// 	printf("|%s|\n", *(s + i));
-	// 	i++;
-	// }
 	expand_asterisks(context, s);
-	// i = 0;
-	// while (*(s + i) != NULL)
-	// {
-	// 	printf("|%s|\n", *(s + i));
-	// 	i++;
-	// }
+
 	cml = token_to_cmd_line(s);
     print_struct(cml);
-	safe_free((void **) t);
+
+	// free
+	int i = 0;
+	while (t[i])
+    	safe_free((void **) &t[i++]);
 	free_token(a);
-	free_struct(cml);
+	i = 0;
+	while (s[i])
+    	safe_free((void **) &s[i++]);
+	
+	//  echo a > b | c > d || cat -e
+	// 750 byte
 
 	return (cml);
 }
-//
 
 static int	readline_loop(t_context *context, t_term_state *term_state)
 {
@@ -93,13 +67,10 @@ static int	readline_loop(t_context *context, t_term_state *term_state)
 			add_history(str);
 
 		cml = parse(context, str, result);
-		// free로 파일 별도로 정리해서 만들자
-		// 일단 누수 내버려두고 구현에 집중하자
-		// 방금 주석한거
-		// free_token(a);
-		// free_cmd_line(cml);
-		
-		// context->exit_status = parse(str);
+
+		// cml이 null일 경우 에러
+		// 실행한 뒤...
+		free_cmd_line(cml);
 
 		safe_free((void **) &str);
 	}

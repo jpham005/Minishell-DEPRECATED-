@@ -6,7 +6,7 @@
 /*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 07:33:58 by hyeonpar          #+#    #+#             */
-/*   Updated: 2022/03/03 06:50:40 by hyeonpar         ###   ########.fr       */
+/*   Updated: 2022/03/05 01:24:10 by hyeonpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int		ft_len_doublestr(char **str)
 	return (idx);
 }
 
-char	**ft_realloc_doublestr(char ***strs_ref, char *item)
+void	ft_realloc_doublestr(char ***strs_ref, char *item)
 {
 	char	**ret;
 	char	**strs;
@@ -62,17 +62,14 @@ char	**ft_realloc_doublestr(char ***strs_ref, char *item)
 
 	strs = *strs_ref;
 	if (!item)
-		return (strs);
+		return ;
 	len = ft_len_doublestr(strs) + 2;
-	if (!(ret = (char **)ft_calloc(sizeof(char *), len--)))
-		return (0);
+	ret = (char **)ft_calloc(sizeof(char *), len--);
 	ret[--len] = ft_strdup(item);
 	while (len--)
-		if (!(ret[len] = ft_strdup(strs[len])))
-			return (0);
+		ret[len] = ft_strdup(strs[len]);
 	*strs_ref = ret;
 	ft_free_doublestr(&strs);
-	return (ret);
 }
 
 int		ft_is_set(char c, char *set)

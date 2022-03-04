@@ -6,7 +6,7 @@
 /*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 16:33:14 by hyeonpar          #+#    #+#             */
-/*   Updated: 2022/03/03 22:19:45 by hyeonpar         ###   ########.fr       */
+/*   Updated: 2022/03/05 01:10:45 by hyeonpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,13 +103,12 @@ void	check_str(char **list, char **str);
 char	**current_path_ls(void);
 int		is_asterisk(char *str);
 t_cmd_line	*init_cmd_line(void);
-void    free_cmd_line(t_cmd_line *cml);
 t_cmd_line  *token_to_cmd_line(char **s);
 void	add_pipe(t_cmd_line *res, int pipe_num);
 t_redirect	*init_redirect(t_redir_type type, char *target);
-void	free_token(t_token *token);
 void	print_struct(t_cmd_line *cml);
 int     is_pipe(char *s);
-
+void    free_cmd_line(t_cmd_line *cml);
+void	free_token(t_token *token);
 
 #endif

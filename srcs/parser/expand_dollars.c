@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   par2_quote.c                                       :+:      :+:    :+:   */
+/*   expand_dollars.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 16:37:13 by jaham             #+#    #+#             */
-/*   Updated: 2022/03/03 07:23:57 by hyeonpar         ###   ########.fr       */
+/*   Updated: 2022/03/05 01:12:51 by hyeonpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,7 +221,7 @@ void	expand_dollars(t_context *context, char **str)
 		cnt = count_dollar(str[i]);
 		if (cnt == 0)
 			continue ;
-		dollar_flag = (int *)ft_malloc(sizeof(int), cnt + 1);
+		dollar_flag = ft_malloc(sizeof(int), cnt + 1);
 		dollar_flag[cnt] = -2;
 		check_dollar(dollar_flag, str[i]);
 		new = change_dollar(context, dollar_flag, str[i]);

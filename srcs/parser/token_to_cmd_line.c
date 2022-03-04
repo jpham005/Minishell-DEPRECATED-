@@ -6,7 +6,7 @@
 /*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 14:52:28 by hyeonpar          #+#    #+#             */
-/*   Updated: 2022/03/04 03:02:57 by hyeonpar         ###   ########.fr       */
+/*   Updated: 2022/03/05 00:53:14 by hyeonpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,29 +112,27 @@ void    fill_cmds(t_cmd_line *res, char **str)
 {
     t_token *temp;
     int i;
-    int k;
+    int j;
 
     i = -1;
-    k = 0;
-
+    j = 0;
     temp = init_empty_token();
     init_cmds_and_redir(res);
     while (str[++i])
     {
-        printf("str[%d]: %s\n", i, str[i]);
         if (ft_strncmp(str[i], "|", 2) == 0)
         {
-            res->pipes->cmds[k]->cmd = convert_token_to_dptr(temp);
-            res->pipes->cmds[k]->type = SINGLE_CMD;
+            res->pipes->cmds[j]->cmd = convert_token_to_dptr(temp);
+            res->pipes->cmds[j]->type = SINGLE_CMD;
             free_token(temp);
             temp = init_empty_token();
-            k++;
+            j++;
         }
         else
             add_token(temp, str[i]);
     }
-    res->pipes->cmds[k]->cmd = convert_token_to_dptr(temp);
-    res->pipes->cmds[k]->type = SINGLE_CMD;
+    res->pipes->cmds[j]->cmd = convert_token_to_dptr(temp);
+    res->pipes->cmds[j]->type = SINGLE_CMD;
     free_token(temp);
 }
 
@@ -170,7 +168,6 @@ void    fill_pipes(t_cmd_line *res, char **s)
         //     fill_cmds(res, str);
         // }
         safe_free((void **) str);
-        safe_free((void **) s);
     }
 }
 
@@ -179,7 +176,6 @@ void    fill_redir(t_cmd_line *res, t_redir_type type, char *target, int j)
     t_redirect  *new;
     t_redirect  *temp;
 
-    // printf("bef %s\n", res->pipes->cmds[j]->redir->target);
     if (res->pipes->cmds[j]->redir->target == NULL)
         res->pipes->cmds[j]->redir = init_redirect(type, target);
     else
@@ -191,43 +187,44 @@ void    fill_redir(t_cmd_line *res, t_redir_type type, char *target, int j)
         res->pipes->cmds[j]->redir->next = new;
         res->pipes->cmds[j]->redir = temp;
     }
-    // printf("aft %s\n", res->pipes->cmds[j]->redir->target);
 }
 
 void    fill_cmd_redir(t_cmd_line *res)
 {
+    t_token *temp;
+    t_cmd_line *cp;
     int i;
     int j;
-    t_token *temp;
 
-    j = -1;
-    temp = NULL;
-    while (++j < res->pipes->num)
+    cp = res;
+    while (cp)
     {
-        i = 0;
-        while (res->pipes->cmds[j]->cmd[i])
+        j = -1;
+        while (++j < cp->pipes->num)
         {
-            if (ft_strncmp(res->pipes->cmds[j]->cmd[i], "<", 2) == 0)
-                fill_redir(res, REDIR_OUT, res->pipes->cmds[j]->cmd[++i], j);
-            else if (ft_strncmp(res->pipes->cmds[j]->cmd[i], ">", 2) == 0)
-                fill_redir(res, REDIR_IN, res->pipes->cmds[j]->cmd[++i], j);
-            else if (ft_strncmp(res->pipes->cmds[j]->cmd[i], "<<", 3) == 0)
-                fill_redir(res, REDIR_HEREDOC, res->pipes->cmds[j]->cmd[++i], j);
-            else if (ft_strncmp(res->pipes->cmds[j]->cmd[i], ">>", 3) == 0)
-                fill_redir(res, REDIR_APPEND, res->pipes->cmds[j]->cmd[++i], j);
-            else
+            temp = init_empty_token();
+            i = 0;
+            while (cp->pipes->cmds[j]->cmd[i])
             {
-                if (!temp)
-                    temp = init_token(res->pipes->cmds[j]->cmd[i]);
+                if (ft_strncmp(cp->pipes->cmds[j]->cmd[i], "<", 2) == 0)
+                    fill_redir(cp, REDIR_OUT, cp->pipes->cmds[j]->cmd[++i], j);
+                else if (ft_strncmp(cp->pipes->cmds[j]->cmd[i], ">", 2) == 0)
+                    fill_redir(cp, REDIR_IN, cp->pipes->cmds[j]->cmd[++i], j);
+                else if (ft_strncmp(cp->pipes->cmds[j]->cmd[i], "<<", 3) == 0)
+                    fill_redir(cp, REDIR_HEREDOC, cp->pipes->cmds[j]->cmd[++i], j);
+                else if (ft_strncmp(cp->pipes->cmds[j]->cmd[i], ">>", 3) == 0)
+                    fill_redir(cp, REDIR_APPEND, cp->pipes->cmds[j]->cmd[++i], j);
                 else
-                    add_token(temp, res->pipes->cmds[j]->cmd[i]);
+                    add_token(temp, cp->pipes->cmds[j]->cmd[i]);
+                if (cp->pipes->cmds[j]->cmd[i] != NULL)
+                    i++;
             }
-            if (res->pipes->cmds[j]->cmd[i] != NULL)
-                i++;
+            safe_free((void **) cp->pipes->cmds[j]->cmd);
+            cp->pipes->cmds[j]->cmd = convert_token_to_dptr(temp);
+            free_token(temp);
         }
-        res->pipes->cmds[j]->cmd = convert_token_to_dptr(temp);
+        cp = cp->next;
     }
-    free_token(temp);
 }
 
 t_cmd_line  *token_to_cmd_line(char **s)

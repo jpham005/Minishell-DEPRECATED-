@@ -1,7 +1,6 @@
 #include "parser.h"
 #include "libft.h"
 
-// libft에 넣어도 될 듯
 int	is_redir(char *s)
 {
 	if (ft_strncmp(s, "<", 2) || ft_strncmp(s, ">", 2) || ft_strncmp(s, "<<", 3) || ft_strncmp(s, ">>", 3))
@@ -10,7 +9,7 @@ int	is_redir(char *s)
 }
 
 // init
-t_token *init_token(char *token) //
+t_token *init_token(char *token)
 {
 	t_token *res;
 
@@ -35,50 +34,6 @@ t_redirect	*init_redirect(t_redir_type type, char *target)
 
 	return (red);
 }
-
-void	free_token(t_token *token)
-{
-	t_token *temp;
-
-	while (token)
-	{
-		temp = token;
-		token = token->next;
-		safe_free((void **) &temp->data);
-		safe_free((void **) temp);
-	}
-}
-
-void	free_redir(t_redirect *redir)
-{
-	t_redirect *temp;
-
-	while (redir)
-	{
-		temp = redir;
-		redir = redir->next;
-		if (temp->target != NULL)
-			safe_free((void **) &redir->target);
-		safe_free((void **) &temp);
-	}
-}
-
-// t_pipe	*init_pipe(t_cmd_line *res, int num)
-// {
-// 	t_pipe *pipe;
-// 	int i;
-
-// 	i = num;
-// 	pipe = ft_malloc(sizeof(t_pipe), 1);
-// 	res->pipe->cmds = NULL;
-// 	res->pipe->num = num; // 개수 고정
-// 	res->pipe->type = PIPE;
-// 	res->next = NULL;
-// 	while (i--)
-// 		add_pipe(res, num);
-
-// 	return (pipe);
-// }
 
 void	add_pipe(t_cmd_line *res, int pipe_num)
 {
@@ -116,16 +71,18 @@ t_cmd_line	*init_cmd_line(void) //
 void	add_token(t_token *token, char *data)
 {
 	t_token *new;
+	t_token *cp;
 
+	cp = token;
 	if (token->data == NULL)
 	{
 		token->data = ft_strdup(data);
 		return ;
 	}
-	while (token->next)
-		token = token->next;
+	while (cp->next)
+		cp = cp->next;
 	new = init_token(data);
-	token->next = new;
+	cp->next = new;
 }
 
 void	print_struct(t_cmd_line *cml)
