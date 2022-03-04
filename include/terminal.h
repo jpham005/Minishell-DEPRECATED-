@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 12:06:57 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/28 17:58:41 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/04 15:04:30 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ typedef struct s_term_state
 typedef struct s_context
 {
 	int				std_fd[3];
-	int				curr_fd[3];
 	int				exit_status;
 	t_envp_list		*envp;
 	t_term_state	term_state;
@@ -47,5 +46,7 @@ int		check_arg(int argc, const char **argv);
 int		check_tty(int stdin, int stdout, int stderr);
 void	init_shell(t_context *context, const char **envp);
 char	*ft_readline(t_context *context, char *str);
+int		readline_loop(t_context *context);
+int		check_str(const char *str, t_context *context);
 
 #endif

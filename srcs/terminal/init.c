@@ -6,13 +6,13 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 20:41:04 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/26 20:48:58 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/04 15:42:30 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "terminal.h"
 #include "libft.h"
-#include <stdio.h>
+#include "terminal.h"
+
 void	init_shell(t_context *context, const char **envp)
 {
 	t_term		term;
@@ -21,9 +21,6 @@ void	init_shell(t_context *context, const char **envp)
 	context->std_fd[0] = ft_dup(STDIN_FILENO);
 	context->std_fd[1] = ft_dup(STDOUT_FILENO);
 	context->std_fd[2] = ft_dup(STDERR_FILENO);
-	context->curr_fd[0] = ft_dup(context->std_fd[0]);
-	context->curr_fd[1] = ft_dup(context->std_fd[1]);
-	context->curr_fd[2] = ft_dup(context->std_fd[2]);
 	if (tcgetattr(STDOUT_FILENO, &term))
 		perror_exit("tcgetattr", 1);
 	context->exit_status = 0;
