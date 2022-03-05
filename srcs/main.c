@@ -6,7 +6,7 @@
 /*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 13:46:27 by jaham             #+#    #+#             */
-/*   Updated: 2022/03/05 21:41:30 by hyeonpar         ###   ########.fr       */
+/*   Updated: 2022/03/06 02:55:40 by hyeonpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,15 @@ t_cmd_line	*parse(t_context *context, const char *str, int *result)
 	t_token *a;
 
 	t = tokenizer(str);
+	// int i = 0;
+    // while (t[i])
+    // {
+    //     printf("%s\n", t[i++]);
+    // }
 	if (!t)
 	{
-		cml = NULL;
-		return (cml);
+		printf("괄호 열림\n");
+		return (NULL);
 	}
 	a = convert_dptr_to_struct(t);
 	s = convert_token_to_dptr(a);
@@ -48,7 +53,7 @@ t_cmd_line	*parse(t_context *context, const char *str, int *result)
 	free_c_dptr(&t);
 	
 	//  echo a > b | c > d || cat -e
-	// 174 byte
+	// leak cmds, cmd만 남음
 
 	return (cml);
 }

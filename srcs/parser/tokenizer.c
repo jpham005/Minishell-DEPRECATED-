@@ -6,7 +6,7 @@
 /*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 07:33:58 by hyeonpar          #+#    #+#             */
-/*   Updated: 2022/03/05 21:40:45 by hyeonpar         ###   ########.fr       */
+/*   Updated: 2022/03/06 03:15:18 by hyeonpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,8 @@ int		get_end(const char *line, t_tokenizer *tool)
 		return (0);
 	if (line[i] == tool->quote && tool->qidx != i) // 현재 코트이고 코트 인덱스가 아니라면
 		tool->quote = 0;
+	if (tool->quote && (line[i + 1] == '\0')) // 문자열 안인데 다음이 널이라 끝나야 한다면
+		return (1);
 	if (tool->quote) // 현재 코트면 0리턴
 		return (0);
 	if (line[i] == '(' && tool->pidx != i)

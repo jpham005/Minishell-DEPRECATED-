@@ -1,7 +1,7 @@
 #include "parser.h"
 #include "libft.h"
 
-int	is_redir(char *s)
+int	is_redir2(char *s)
 {
 	if (ft_strncmp(s, "<", 2) || ft_strncmp(s, ">", 2) || ft_strncmp(s, "<<", 3) || ft_strncmp(s, ">>", 3))
 		return (1);
@@ -29,7 +29,7 @@ t_redirect	*init_redirect(t_redir_type type, char *target)
 	red->type = type;
 	red->target = ft_strdup(target);
 	red->next = NULL;
-	if (target == NULL || is_redir(target))
+	if (target == NULL || is_redir2(target))
 		; // 에러 처리
 
 	return (red);
@@ -87,6 +87,7 @@ void	add_token(t_token *token, char *data)
 
 void	print_struct(t_cmd_line *cml)
 {
+	t_redirect *temp;
 	int i;
 	int j;
 
@@ -108,17 +109,18 @@ void	print_struct(t_cmd_line *cml)
 		i = 0;
 		while (i < cml->pipes->num)
 		{
+			temp = NULL;
 			while (cml->pipes->cmds[i]->redir)
 			{
-				printf("%d redir: %d\n", i, cml->pipes->cmds[i]->redir);
+				temp = cml->pipes->cmds[i]->redir;
+				printf("%d redir: %p\n", i, cml->pipes->cmds[i]->redir);
 				printf("%d type: %d\n", i, cml->pipes->cmds[i]->redir->type);
-				printf("%d target: %s\n", i, cml->pipes->cmds[i]->redir->target);
+				printf("%d target: %p\n", i, cml->pipes->cmds[i]->redir->target);
 				cml->pipes->cmds[i]->redir = cml->pipes->cmds[i]->redir->next;
 			}
+			cml->pipes->cmds[i]->redir = temp;
 			i++;
 		}
-		// ls|ls||ls||ls&&ls
-		// echo -n "asdasd $SHELL" > a| << b cat -e && cd || ls
 		cml = cml->next;
 		printf("==============\n");
 	}

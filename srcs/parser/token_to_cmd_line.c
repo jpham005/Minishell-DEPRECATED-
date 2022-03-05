@@ -6,7 +6,7 @@
 /*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 14:52:28 by hyeonpar          #+#    #+#             */
-/*   Updated: 2022/03/05 21:53:18 by hyeonpar         ###   ########.fr       */
+/*   Updated: 2022/03/06 03:13:26 by hyeonpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,16 +99,16 @@ void    init_cmds_and_redir(t_cmd_line *res)
         i++;
     }
     i = 0;
-    // while (i < res->pipes->num)
-    // {
-    //     res->pipes->cmds[i]->redir = ft_malloc(sizeof(t_redirect), 1);
-    //     res->pipes->cmds[i]->redir->target = NULL;
-    //     res->pipes->cmds[i]->redir->next = NULL;
-    //     i++;
-    // }
+    while (i < res->pipes->num)
+    {
+        res->pipes->cmds[i]->redir = ft_malloc(sizeof(t_redirect), 1);
+        res->pipes->cmds[i]->redir->target = NULL;
+        res->pipes->cmds[i]->redir->next = NULL;
+        i++;
+    }
 }
 
-void    fill_cmds(t_cmd_line *res, char **str)
+int    fill_cmds(t_cmd_line *res, char **str)
 {
     t_token *temp;
     int i;
@@ -131,12 +131,20 @@ void    fill_cmds(t_cmd_line *res, char **str)
         else
             add_token(temp, str[i]);
     }
+    // temp가 init 상태(파이프 뒤 없음)이면 0리턴
+    if (!temp->data)
+    {
+        // cmd 말록 안 된 상태
+        free_token(temp);
+        return (0);
+    }
     res->pipes->cmds[j]->cmd = convert_token_to_dptr(temp);
     res->pipes->cmds[j]->type = SINGLE_CMD;
     free_token(temp);
+    return (1);
 }
 
-void    fill_pipes(t_cmd_line *res, char **s)
+int    fill_pipes(t_cmd_line *res, char **s)
 {
     int i;
     int j;
@@ -156,19 +164,23 @@ void    fill_pipes(t_cmd_line *res, char **s)
         while (--temp)
             str[j++] = ft_strdup(s[start++]);
         str[j] = NULL;
-        fill_cmds(res, str);
+        if (!fill_cmds(res, str))
+        {
+            free_c_dptr(&str);
+            return (0);
+        }
+        free_c_dptr(&str);
         if (res->next)
             res = res->next;
+        if (is_pipe(s[i]) && !s[i + 1])
+        {
+            // 여태까지 말록된것만 프리하는 함수 만들고 호출하기, 파이프도 마찬가지
+            return (0);
+        }
         if (is_pipe(s[i]))
             res->pipes->type = check_pipe_type(s[i++]);
-        // if (!s[i]) // 관계연산자 뒤가 널일 때 처리를 위함
-        // {
-        //     str = ft_malloc(sizeof(char *), 1);
-        //     str[0] = NULL;
-        //     fill_cmds(res, str);
-        // }
-        free_c_dptr(&str);
     }
+    return (1);
 }
 
 void    fill_redir(t_cmd_line *res, t_redir_type type, char *target, int j)
@@ -177,7 +189,11 @@ void    fill_redir(t_cmd_line *res, t_redir_type type, char *target, int j)
     t_redirect  *temp;
 
     if (res->pipes->cmds[j]->redir->target == NULL)
-        res->pipes->cmds[j]->redir = init_redirect(type, target);
+    {
+        res->pipes->cmds[j]->redir->type = type;
+        res->pipes->cmds[j]->redir->target = ft_strdup(target);
+        printf("target>>> %p\n", res->pipes->cmds[j]->redir->target);
+    }
     else
     {
         temp = res->pipes->cmds[j]->redir;
@@ -189,12 +205,23 @@ void    fill_redir(t_cmd_line *res, t_redir_type type, char *target, int j)
     }
 }
 
+int	is_redir(char *s, int *i)
+{
+	if (!ft_strncmp(s, "<", 2) || !ft_strncmp(s, ">", 2) || !ft_strncmp(s, "<<", 3) || !ft_strncmp(s, ">>", 3))
+    {
+        (*i)++;
+		return (1);
+    }
+	return (0);
+}
+
 void    fill_cmd_redir(t_cmd_line *res)
 {
     t_token *temp;
     t_cmd_line *cp;
     int i;
     int j;
+    int cnt;
 
     cp = res;
     while (cp)
@@ -204,20 +231,29 @@ void    fill_cmd_redir(t_cmd_line *res)
         {
             temp = init_empty_token();
             i = 0;
+            cnt = 0;
             while (cp->pipes->cmds[j]->cmd[i])
             {
-                if (ft_strncmp(cp->pipes->cmds[j]->cmd[i], "<", 2) == 0)
-                    fill_redir(cp, REDIR_OUT, cp->pipes->cmds[j]->cmd[++i], j);
-                else if (ft_strncmp(cp->pipes->cmds[j]->cmd[i], ">", 2) == 0)
-                    fill_redir(cp, REDIR_IN, cp->pipes->cmds[j]->cmd[++i], j);
-                else if (ft_strncmp(cp->pipes->cmds[j]->cmd[i], "<<", 3) == 0)
-                    fill_redir(cp, REDIR_HEREDOC, cp->pipes->cmds[j]->cmd[++i], j);
-                else if (ft_strncmp(cp->pipes->cmds[j]->cmd[i], ">>", 3) == 0)
-                    fill_redir(cp, REDIR_APPEND, cp->pipes->cmds[j]->cmd[++i], j);
+                if (is_redir(cp->pipes->cmds[j]->cmd[i], &cnt))
+                {
+                    if (ft_strncmp(cp->pipes->cmds[j]->cmd[i], "<", 2) == 0)
+                        fill_redir(cp, REDIR_OUT, cp->pipes->cmds[j]->cmd[++i], j);
+                    else if (ft_strncmp(cp->pipes->cmds[j]->cmd[i], ">", 2) == 0)
+                        fill_redir(cp, REDIR_IN, cp->pipes->cmds[j]->cmd[++i], j);
+                    else if (ft_strncmp(cp->pipes->cmds[j]->cmd[i], "<<", 3) == 0)
+                        fill_redir(cp, REDIR_HEREDOC, cp->pipes->cmds[j]->cmd[++i], j);
+                    else if (ft_strncmp(cp->pipes->cmds[j]->cmd[i], ">>", 3) == 0)
+                        fill_redir(cp, REDIR_APPEND, cp->pipes->cmds[j]->cmd[++i], j);
+                }
                 else
                     add_token(temp, cp->pipes->cmds[j]->cmd[i]);
                 if (cp->pipes->cmds[j]->cmd[i] != NULL)
                     i++;
+            }
+            if (cnt == 0)
+            {
+                free_redir(cp->pipes->cmds[j]->redir);
+                cp->pipes->cmds[j]->redir = NULL;
             }
             free_c_dptr(&cp->pipes->cmds[j]->cmd);
             cp->pipes->cmds[j]->cmd = convert_token_to_dptr(temp);
@@ -270,21 +306,24 @@ int delete_quote_1(char **str)
 		j = -1;
 		quote = 0;
 		len = 0;
-		while(str[i][++j])
+		while (str[i][++j])
 		{
+            printf("j : %d\n", j);
 			if (quote == 0 && (str[i][j] == '\'' || str[i][j] == '\"'))
 			{
 				quote = str[i][j];
+                printf("%c\n", quote);
 				continue;
 			}
 			else if ((quote == '\'' && str[i][j] == '\'') || (quote == '\"' && str[i][j] == '\"'))
 			{
 				quote = 0;
+                printf("%c\n", quote);
 				continue;
 			}
 			len++;
 		}
-		if (quote)
+        if (quote)
             return (0);
 		delete_quote_2(str, len, i);
 	}
@@ -297,12 +336,17 @@ t_cmd_line  *token_to_cmd_line(char **s)
 
     if (!delete_quote_1(s))
     {
-        res = NULL;
-        return (res);
+        printf("quote error\n");
+        return (NULL);
     }
     res = init_cmd_line();
     count_pipe(res, s);
-    fill_pipes(res, s);
+    if (!fill_pipes(res, s))
+    {
+        printf("fill pipes error\n");
+        free_cmd_line_e(res);
+        return (NULL);
+    }
     fill_cmd_redir(res);
 
     return (res);
