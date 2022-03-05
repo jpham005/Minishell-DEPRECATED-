@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 12:20:11 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/17 15:45:59 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/05 20:55:32 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	print_intro(void)
 	read_size = read(fd, str, 2000);
 	if (read_size < 0)
 		return (0);
-	if (write(STDERR_FILENO, str, read_size) < 0)
+	if (write(2, str, read_size) < 0)
 		return (0);
 	return (1);
 }

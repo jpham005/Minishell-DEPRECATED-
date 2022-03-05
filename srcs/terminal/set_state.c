@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 12:20:16 by jaham             #+#    #+#             */
-/*   Updated: 2022/03/05 17:03:36 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/05 20:54:54 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,14 @@ static void	set_term_readline(t_term_state *term_state)
 {
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, sig_int_handler_readline);
-	tcsetattr(STDOUT_FILENO, TCSANOW, &(term_state->rl_term));
+	tcsetattr(1, TCSANOW, &(term_state->rl_term));
 }
 
 static void	set_term_default(t_term_state *term_state)
 {
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, SIG_IGN);
-	tcsetattr(STDOUT_FILENO, TCSANOW, &(term_state->default_term));
+	tcsetattr(1, TCSANOW, &(term_state->default_term));
 }
 
 char	*ft_readline(t_context *context, char *str)
