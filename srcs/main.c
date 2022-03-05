@@ -6,7 +6,7 @@
 /*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 13:46:27 by jaham             #+#    #+#             */
-/*   Updated: 2022/03/05 01:07:16 by hyeonpar         ###   ########.fr       */
+/*   Updated: 2022/03/05 02:18:17 by hyeonpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,16 +38,12 @@ t_cmd_line	*parse(t_context *context, const char *str, int *result)
     print_struct(cml);
 
 	// free
-	int i = 0;
-	while (t[i])
-    	safe_free((void **) &t[i++]);
 	free_token(a);
-	i = 0;
-	while (s[i])
-    	safe_free((void **) &s[i++]);
+	free_c_dptr(&s);
+	free_c_dptr(&t);
 	
 	//  echo a > b | c > d || cat -e
-	// 750 byte
+	// 174 byte
 
 	return (cml);
 }
@@ -69,7 +65,12 @@ static int	readline_loop(t_context *context, t_term_state *term_state)
 		cml = parse(context, str, result);
 
 		// cml이 null일 경우 에러
-		// 실행한 뒤...
+		if (!cml)
+		{
+			printf("===============\n");
+			printf("Error\n");
+		}
+		// 실행한 뒤 cml free
 		free_cmd_line(cml);
 
 		safe_free((void **) &str);

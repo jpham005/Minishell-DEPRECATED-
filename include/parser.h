@@ -6,7 +6,7 @@
 /*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 16:33:14 by hyeonpar          #+#    #+#             */
-/*   Updated: 2022/03/05 01:10:45 by hyeonpar         ###   ########.fr       */
+/*   Updated: 2022/03/05 03:38:08 by hyeonpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ typedef struct	s_tokenizer
 	char	quote;
 }				t_tokenizer;
 
-char    **tokenizer(char *line);
+char    **tokenizer(const char *line);
 int		ft_is_space(int c);
 t_token *init_token(char *token);
 void	add_token(t_token *token, char *data);

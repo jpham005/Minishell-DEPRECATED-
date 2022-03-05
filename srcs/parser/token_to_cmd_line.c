@@ -6,7 +6,7 @@
 /*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 14:52:28 by hyeonpar          #+#    #+#             */
-/*   Updated: 2022/03/05 00:53:14 by hyeonpar         ###   ########.fr       */
+/*   Updated: 2022/03/05 15:34:32 by hyeonpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ void    init_cmds_and_redir(t_cmd_line *res)
     while (i < res->pipes->num)
     {
         res->pipes->cmds[i]->redir = ft_malloc(sizeof(t_redirect), 1);
+        // res->pipes->cmds[i]->redir = NULL;
         res->pipes->cmds[i]->redir->target = NULL;
         res->pipes->cmds[i]->redir->next = NULL;
         i++;
@@ -167,7 +168,7 @@ void    fill_pipes(t_cmd_line *res, char **s)
         //     str[0] = NULL;
         //     fill_cmds(res, str);
         // }
-        safe_free((void **) str);
+        free_c_dptr(&str);
     }
 }
 
@@ -219,7 +220,7 @@ void    fill_cmd_redir(t_cmd_line *res)
                 if (cp->pipes->cmds[j]->cmd[i] != NULL)
                     i++;
             }
-            safe_free((void **) cp->pipes->cmds[j]->cmd);
+            free_c_dptr(&cp->pipes->cmds[j]->cmd);
             cp->pipes->cmds[j]->cmd = convert_token_to_dptr(temp);
             free_token(temp);
         }
@@ -227,10 +228,79 @@ void    fill_cmd_redir(t_cmd_line *res)
     }
 }
 
+void	delete_quote_2(char **str, int len, int i)
+{
+	char *s;
+	int	j;
+	char quote;
+
+	s = ft_malloc(sizeof(char), len + 1);
+	j = -1;
+	quote = 0;
+	len = 0;
+	while(str[i][++j])
+	{
+		if (quote == 0 && (str[i][j] == '\'' || str[i][j] == '\"'))
+		{
+			quote = str[i][j];
+			continue;
+		}
+		else if ((quote == '\'' && str[i][j] == '\'') || (quote == '\"' && str[i][j] == '\"'))
+		{
+			quote = 0;
+			continue;
+		}
+		s[len++] = str[i][j];
+	}
+	s[len] = '\0';
+	safe_free((void **) &str[i]);
+	str[i] = ft_strdup(s);
+	safe_free((void **) &s);
+}
+
+int delete_quote_1(char **str)
+{
+	int i;
+	int	j;
+	int	quote;
+	int	len;
+
+	i = -1;
+	while (str[++i])
+	{
+		j = -1;
+		quote = 0;
+		len = 0;
+		while(str[i][++j])
+		{
+			if (quote == 0 && (str[i][j] == '\'' || str[i][j] == '\"'))
+			{
+				quote = str[i][j];
+				continue;
+			}
+			else if ((quote == '\'' && str[i][j] == '\'') || (quote == '\"' && str[i][j] == '\"'))
+			{
+				quote = 0;
+				continue;
+			}
+			len++;
+		}
+		if (quote)
+            return (0);
+		delete_quote_2(str, len, i);
+	}
+    return (1);
+}
+
 t_cmd_line  *token_to_cmd_line(char **s)
 {
     t_cmd_line  *res;
 
+    if (!delete_quote_1(s))
+    {
+        res = NULL;
+        return (res);
+    }
     res = init_cmd_line();
     count_pipe(res, s);
     fill_pipes(res, s);

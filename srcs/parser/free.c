@@ -6,7 +6,7 @@
 /*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/05 00:33:02 by hyeonpar          #+#    #+#             */
-/*   Updated: 2022/03/05 01:10:24 by hyeonpar         ###   ########.fr       */
+/*   Updated: 2022/03/05 03:39:30 by hyeonpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	free_cmd_line(t_cmd_line *cml)
 		while (i < cml->pipes->num)
 		{
 			free_redir(cml->pipes->cmds[i]->redir);
-			safe_free((void **) cml->pipes->cmds[i]->cmd);
+			free_c_dptr(&cml->pipes->cmds[i]->cmd);
 			i++;
 		}
 		safe_free((void **) cml->pipes->cmds);

@@ -110,6 +110,7 @@ void	print_struct(t_cmd_line *cml)
 		{
 			while (cml->pipes->cmds[i]->redir)
 			{
+				printf("%d redir: %d\n", i, cml->pipes->cmds[i]->redir);
 				printf("%d type: %d\n", i, cml->pipes->cmds[i]->redir->type);
 				printf("%d target: %s\n", i, cml->pipes->cmds[i]->redir->target);
 				cml->pipes->cmds[i]->redir = cml->pipes->cmds[i]->redir->next;

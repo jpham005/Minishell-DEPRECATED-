@@ -6,7 +6,7 @@
 /*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 07:33:58 by hyeonpar          #+#    #+#             */
-/*   Updated: 2022/03/05 01:24:10 by hyeonpar         ###   ########.fr       */
+/*   Updated: 2022/03/05 02:14:32 by hyeonpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ static void		token_init(t_tokenizer *tool)
 	tool->quote = 0;
 }
 
-char			get_quote(char *line, int idx)
+char			get_quote(const	char *line, int idx)
 {
 	char	quote;
 
@@ -117,7 +117,7 @@ char			get_quote(char *line, int idx)
 	return (quote);
 }
 
-int		get_end(char *line, t_tokenizer *tool)
+int		get_end(const char *line, t_tokenizer *tool)
 {
 	int		i;
 
@@ -148,7 +148,7 @@ int		get_end(char *line, t_tokenizer *tool)
 	return (ft_is_set(line[i + 1], "><|&()")); // 다음이 무조건 시작하는 문자면 끝내야됨
 }
 
-int		get_start(char *line, t_tokenizer *tool)
+int		get_start(const char *line, t_tokenizer *tool)
 {
 	int	i;
 
@@ -175,7 +175,7 @@ int		get_start(char *line, t_tokenizer *tool)
 }
 
 // 위는 다 이 함수를 위한 것이라 static 처리하면 됨
-char			**tokenizer(char *line)
+char			**tokenizer(const char *line)
 {
 	t_tokenizer		tool;
 	char			*token;
