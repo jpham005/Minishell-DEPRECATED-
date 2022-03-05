@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jaham <jaham@student.42.fr>                +#+  +:+       +#+         #
+#    By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/16 20:45:33 by jaham             #+#    #+#              #
-#    Updated: 2022/03/05 20:45:50 by jaham            ###   ########.fr        #
+#    Updated: 2022/03/06 03:57:47 by jaham            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,9 +16,10 @@ ENVP_DIR := $(SRCS_DIR)/envp
 UTILS_DIR := $(SRCS_DIR)/utils
 TERMINAL_DIR := $(SRCS_DIR)/terminal
 EXEC_DIR := $(SRCS_DIR)/exec
+PARSER_DIR := $(SRCS_DIR)/parser
 
 INCLUDE := include
-INCLUDE_FILES := built_in.h color.h envp.h terminal.h utils.h exec.h \
+INCLUDE_FILES := built_in.h color.h envp.h terminal.h utils.h exec.h parser.h \
 				cmd_line.h
 INCLUDE_FILES := $(addprefix $(INCLUDE)/, $(INCLUDE_FILES))
 
@@ -32,8 +33,11 @@ ENVP_SRCS := init_destroy.c util.c print.c tool.c
 ENVP_SRCS := $(addprefix $(ENVP_DIR)/, $(ENVP_SRCS))
 UTILS_SRCS := exit_manage.c print_intro.c clear_cmd_line.c
 UTILS_SRCS := $(addprefix $(UTILS_DIR)/, $(UTILS_SRCS))
+PARSER_SRCS := expand_asterisks.c par2.c util_struct.c tokenizer.c \
+		expand_dollars.c token_to_cmd_line.c free.c
 TERMINAL_SRCS := check_default_state.c set_state.c signal_handler.c init.c \
 				readline_loop.c check_valid_str.c signal_handler_exec.c
+PARSER_SRCS := $(addprefix $(PARSER_DIR)/, $(PARSER_SRCS))
 TERMINAL_SRCS := $(addprefix $(TERMINAL_DIR)/, $(TERMINAL_SRCS))
 EXEC_SRCS := exec_built_in.c execute.c redirection.c exec_cmd.c wait_all.c \
 			exec_child.c exec_parenthesis.c redirection_util.c \
@@ -49,7 +53,7 @@ CC := cc
 CFLAGS := -g -Wall -Wextra -Werror
 NAME := minishell
 SRCS := $(BUILT_IN_SRCS) $(ENVP_SRCS) $(UTILS_SRCS) $(TERMINAL_SRCS) \
-		$(EXEC_SRCS) $(MAIN_SRCS)
+		$(PARSER_SRCS) $(EXEC_SRCS) $(MAIN_SRCS)
 OBJS := $(SRCS:.c=.o)
 RM := rm
 RMFLAGS := -f

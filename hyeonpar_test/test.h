@@ -26,55 +26,68 @@
 // #include <sys/types.h>
 // #include <sys/wait.h>
 
-# define ARG 101 // 내부에서 환경변수 expand, 와일드카드(*) 처리
-# define COMMAND 102 // echo, cd, pwd, export, unset, env, exit
-# define OPTION 103 // echo의 -m, cd 옵션 필요한가?(심볼릭링크), ...
-# define PIPE 104 // |(control operator), &&(앞선 파서 동작시에만 뒤 파서 동작), ||
-# define REDIR 105 // <, >, >>, (<<)
-# define FILE 106 // a.txt, ...
-
-// 귀찮아서 다른 헤더에서 가져온 부분
-typedef struct s_envp_list
+typedef enum e_cmd_type // will use hyeonpar's
 {
-	char				*key;
-	char				*value;
-	size_t				list_len;
-	struct s_envp_list	*next;
-}	t_envp_list;
+    SINGLE_CMD = 0,
+    PARENTHESIS
+}   t_cmd_type;
 
-//
-
-typedef struct  s_token
+typedef enum e_pipe_type // will use hyeonpar's
 {
-    char *str;
-    int type;
-    struct s_token *next;
-}   t_token;
+    PIPE = 0,
+    AND,
+    OR
+}   t_pipe_type;
 
-typedef struct  s_parse
+typedef enum e_redir_type
 {
-    t_token *head;
-    t_token *tail;
+    REDIR_IN = 0, // >
+    REDIR_HEREDOC, // <<
+    REDIR_OUT, // <
+    REDIR_APPEND // >>
+}   t_redir_type;
 
-}   t_parse;
-
-typedef struct s_command
+typedef struct s_redirect
 {
-    char *command;
-    char *bin;
+    t_redir_type type;
+    char *target; // if heredog, limit_string
+    struct s_redirect *next;
+    // 괄호
+}   t_redirect;
 
-    int in;
-    int out;
-    int pipe[2];
-    int type;
+typedef struct s_cmd
+{
+    char **cmd; // echo -e "helloworld"
+    t_redirect *redir; // 리다이렉트 모음
+    t_cmd_type type; // 
+}   t_cmd;
 
-    t_token *arguments;
-    t_envp_list *envp_list;
-    
-    struct s_command *next;
-}   t_command;
+typedef struct s_pipe
+{
+    t_cmd *cmds; // struct 구조체
+    size_t len; // pipe의 개수
+}   t_pipe;
+
+typedef struct s_cmd_line
+{
+    t_pipe *pipes; // struct 구조체
+    struct s_cmd_line *next;
+}   t_cmd_line;
+
+int *result; // 1이면 
 
 # endif
 
 // 시작과 파이프 직후에는 명령어가 나오고, command 뒤에는 arg가 나온다.
 // token 매크로 덩어리들의 위치를 구하는 공식을 여러 개 정리한 후 함수로 구현해야 한다.
+
+// redir 다음에는 file이 온다.
+// 
+
+// 괄호 처리
+// 소괄호 / 중괄호, 대괄호 반응이 다른 것으로 보아 소괄호()만 처리하면 될 듯
+// false && (ls || ls)
+// false && ls || ls
+// 괄호를 별도로 끊어서 파싱
+
+// main -> 파싱 -> 실행... ()만나면 -> 파싱 -> ?

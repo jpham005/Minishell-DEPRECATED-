@@ -1,28 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/03 20:29:54 by jaham             #+#    #+#             */
-/*   Updated: 2022/03/02 23:41:27 by hyeonpar         ###   ########.fr       */
+/*   Created: 2022/02/24 01:03:48 by hyeonpar          #+#    #+#             */
+/*   Updated: 2022/02/24 09:04:27 by hyeonpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strjoin(const char *s1, const char *s2)
+char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
 {
-	char	*ret;
-	size_t	s1_len;
-	size_t	s2_len;
+	const size_t	needle_len = ft_strlen(needle);
 
-	s1_len = ft_strlen(s1);
-	s2_len = ft_strlen(s2);
-	ret = ft_malloc(sizeof(char), s1_len + s2_len + 1);
-	ft_memcpy(ret, s1, s1_len);
-	ft_memcpy(ret + s1_len, s2, s2_len);
-	ret[s1_len + s2_len] = '\0';
-	return (ret);
+	if (*needle)
+	{
+		if (len == 0)
+			return (NULL);
+		while (len-- && ft_strncmp(haystack, needle, needle_len) != 0)
+		{
+			if (len < needle_len)
+				return (NULL);
+			if (*haystack == '\0')
+				return (NULL);
+			haystack++;
+		}
+	}
+	return ((char *)haystack);
 }

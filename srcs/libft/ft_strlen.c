@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 01:06:37 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/04 11:10:22 by jaham            ###   ########.fr       */
+/*   Updated: 2022/02/24 21:26:42 by hyeonpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ size_t	ft_strlen(const char *str)
 {
 	size_t	i;
 
+	if (str == NULL)
+		return (0);
 	i = 0;
 	while (str[i])
 		i++;

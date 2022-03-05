@@ -1,28 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/03 20:29:54 by jaham             #+#    #+#             */
-/*   Updated: 2022/03/02 23:41:27 by hyeonpar         ###   ########.fr       */
+/*   Created: 2022/02/24 01:07:04 by hyeonpar          #+#    #+#             */
+/*   Updated: 2022/02/24 09:07:26 by hyeonpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strjoin(const char *s1, const char *s2)
+size_t		ft_strlcpy(char *dst, const char *src, size_t dstsize)
 {
-	char	*ret;
-	size_t	s1_len;
-	size_t	s2_len;
+	size_t	i;
+	size_t	len;
 
-	s1_len = ft_strlen(s1);
-	s2_len = ft_strlen(s2);
-	ret = ft_malloc(sizeof(char), s1_len + s2_len + 1);
-	ft_memcpy(ret, s1, s1_len);
-	ft_memcpy(ret + s1_len, s2, s2_len);
-	ret[s1_len + s2_len] = '\0';
-	return (ret);
+	i = 0;
+	len = 0;
+	if (dst == NULL || src == NULL)
+		return (0);
+	if (dstsize == 0)
+		return (ft_strlen(src));
+	while (src[len] != '\0')
+		len++;
+	if (dstsize != 0)
+	{
+		while (i < (dstsize - 1) && *(src + i) != '\0')
+		{
+			*(dst + i) = *(src + i);
+			i++;
+		}
+		*(dst + i) = '\0';
+	}
+	return (len);
 }

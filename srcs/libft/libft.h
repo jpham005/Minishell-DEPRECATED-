@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 01:06:49 by jaham             #+#    #+#             */
-/*   Updated: 2022/03/05 15:26:33 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/06 03:55:42 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,5 +47,13 @@ int		ft_strcmp(const char *s1, const char *s2);
 void	ft_close(int fd);
 void	exit_with_msg(char *s1, char *s2, int status);
 int		ft_dup(int fd);
+void	ft_bzero(void *s, size_t n);
+void	*ft_calloc(size_t count, size_t size);
+void	*ft_memset(void *b, int c, size_t len);
+int		ft_strcmp(const char *s1, const char *s2);
+size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
+char	*ft_strnstr(const char *haystack, const char *needle, size_t len);
+int		ft_isdigit(int c);
+char	*ft_itoa(int n);
 
 #endif
