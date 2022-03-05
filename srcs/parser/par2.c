@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   par2.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 06:20:29 by hyeonpar          #+#    #+#             */
-/*   Updated: 2022/03/04 23:15:59 by hyeonpar         ###   ########.fr       */
+/*   Updated: 2022/03/06 03:46:39 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ char	**convert_token_to_dptr(t_token *head)
 		cp = cp->next;
 	}
 	ret = ft_malloc(sizeof(char *), len + 1);
+//printf("par2 ret %p\n", ret);
 	i = 0;
 	while (i < len)
 	{

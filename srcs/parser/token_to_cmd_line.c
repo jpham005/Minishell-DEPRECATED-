@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_to_cmd_line.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 14:52:28 by hyeonpar          #+#    #+#             */
-/*   Updated: 2022/03/06 03:13:26 by hyeonpar         ###   ########.fr       */
+/*   Updated: 2022/03/06 03:47:24 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ t_token    *init_empty_token(void)
     t_token *temp;
 
     temp = ft_malloc(sizeof(t_token), 1);
+//printf("ttcl temp %p\n", temp);
     temp->data = NULL;
     temp->next = NULL;
     return (temp);
@@ -93,15 +94,18 @@ void    init_cmds_and_redir(t_cmd_line *res)
 
     i = 0;
     res->pipes->cmds = ft_malloc(sizeof(t_cmd *), res->pipes->num);
+//printf("ttcl dcmds %p\n", res->pipes->cmds);
     while (i < res->pipes->num)
     {
         res->pipes->cmds[i] = ft_malloc(sizeof(t_cmd), 1);
+//printf("ttcl cmds %p\n", res->pipes->cmds[i]);
         i++;
     }
     i = 0;
     while (i < res->pipes->num)
     {
         res->pipes->cmds[i]->redir = ft_malloc(sizeof(t_redirect), 1);
+//printf("ttcl redir%p\n", res->pipes->cmds[i]->redir);
         res->pipes->cmds[i]->redir->target = NULL;
         res->pipes->cmds[i]->redir->next = NULL;
         i++;
@@ -161,6 +165,7 @@ int    fill_pipes(t_cmd_line *res, char **s)
             i++;
         temp = i - start + 1;
         str = ft_malloc(sizeof(char *), temp);
+//printf("ttcl str %p\n", str);
         while (--temp)
             str[j++] = ft_strdup(s[start++]);
         str[j] = NULL;
@@ -192,7 +197,7 @@ void    fill_redir(t_cmd_line *res, t_redir_type type, char *target, int j)
     {
         res->pipes->cmds[j]->redir->type = type;
         res->pipes->cmds[j]->redir->target = ft_strdup(target);
-        printf("target>>> %p\n", res->pipes->cmds[j]->redir->target);
+//printf("target>>> %p\n", res->pipes->cmds[j]->redir->target);
     }
     else
     {
@@ -270,6 +275,7 @@ void	delete_quote_2(char **str, int len, int i)
 	char quote;
 
 	s = ft_malloc(sizeof(char), len + 1);
+//printf("ttcl s %p\n", s);
 	j = -1;
 	quote = 0;
 	len = 0;

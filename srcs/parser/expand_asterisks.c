@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_asterisks.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 17:23:31 by hyeonpar          #+#    #+#             */
-/*   Updated: 2022/03/05 17:35:07 by hyeonpar         ###   ########.fr       */
+/*   Updated: 2022/03/06 03:46:18 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,6 +150,7 @@ char	*del_quote(char *arg)
 		len++; // 나머지 경우는 len++
 	}
 	no_q = ft_malloc(sizeof(char), len + 1);
+//printf("no_q : %p\n", no_q);
 	i = -1;
 	len = 0;
 	quote = 0;

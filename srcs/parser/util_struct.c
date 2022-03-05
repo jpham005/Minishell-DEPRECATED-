@@ -14,6 +14,7 @@ t_token *init_token(char *token)
 	t_token *res;
 
 	res = ft_malloc(sizeof(t_token), 1);
+//printf("token res %p\n", res);
 	res->data = ft_strdup(token);
 	res->next = NULL;
 
@@ -26,6 +27,7 @@ t_redirect	*init_redirect(t_redir_type type, char *target)
 	t_redirect *red;
 
 	red = ft_malloc(sizeof(t_redirect), 1);
+//printf("token red %p\n", red);
 	red->type = type;
 	red->target = ft_strdup(target);
 	red->next = NULL;
@@ -52,8 +54,10 @@ t_cmd_line	*init_cmd_line(void) //
 	t_cmd_line *cml;
 
 	cml = ft_malloc(sizeof(t_cmd_line), 1);
+//printf("token cml %p\n", cml);
 	cml->next = NULL;
 	cml->pipes = ft_malloc(sizeof(t_pipe), 1);
+//printf("token pipes %p\n", cml->pipes);
 	cml->pipes->num = 0;
 	cml->pipes->type = PIPE;
 	cml->pipes->cmds = NULL;

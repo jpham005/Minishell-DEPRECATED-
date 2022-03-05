@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+         #
+#    By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/16 20:45:33 by jaham             #+#    #+#              #
-#    Updated: 2022/03/05 00:42:06 by hyeonpar         ###   ########.fr        #
+#    Updated: 2022/03/06 03:34:21 by jaham            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,7 +44,7 @@ LIBFT := $(LIBFT_DIR)/libft.a
 
 CC := cc
 # CFLAGS := -g -fsanitize=address -Wall -Wextra -Werror
-CFLAGS := -g -fsanitize=address
+CFLAGS := -g
 NAME := minishell
 SRCS := $(BUILT_IN_SRCS) $(ENVP_SRCS) $(UTILS_SRCS) $(TERMINAL_SRCS) \
 		$(PARSER_SRCS) $(MAIN_SRCS)

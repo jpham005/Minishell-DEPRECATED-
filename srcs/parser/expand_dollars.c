@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_dollars.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 16:37:13 by jaham             #+#    #+#             */
-/*   Updated: 2022/03/05 01:12:51 by hyeonpar         ###   ########.fr       */
+/*   Updated: 2022/03/06 03:46:32 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ char	*is_envp(t_context *context, char *str, int start, int end)
 	len = end - start;
 	ret = NULL;
 	s = ft_malloc(sizeof(char), len + 1);
+//printf("isenvp s: %p\n", s);
 	while (i < len)
 		s[i++] = str[start++];
 	s[i] = '\0';
@@ -128,6 +129,7 @@ char	*ft_charjoin(char *s1, char c)
 	if (!s1)
 	{
 		ret = ft_malloc(sizeof(char), 2);
+//printf("char join ret1 %p\n", ret);
 		ret[0] = c;
 		ret[1] = '\0';
 		return (ret);
@@ -135,6 +137,7 @@ char	*ft_charjoin(char *s1, char c)
 	i = -1;
 	s1_len = ft_strlen(s1);
 	ret = ft_malloc(sizeof(char), s1_len + 1 + 1);
+//printf("char join ret2 %p\n", ret);
 	while (s1[++i])
 		ret[i] = s1[i];
 	ret[i] = c;
@@ -222,6 +225,7 @@ void	expand_dollars(t_context *context, char **str)
 		if (cnt == 0)
 			continue ;
 		dollar_flag = ft_malloc(sizeof(int), cnt + 1);
+//printf("dollar_flag %p\n", dollar_flag);
 		dollar_flag[cnt] = -2;
 		check_dollar(dollar_flag, str[i]);
 		new = change_dollar(context, dollar_flag, str[i]);

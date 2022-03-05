@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/05 00:33:02 by hyeonpar          #+#    #+#             */
-/*   Updated: 2022/03/06 03:08:24 by hyeonpar         ###   ########.fr       */
+/*   Updated: 2022/03/06 03:38:08 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,10 @@ void	free_cmd_line(t_cmd_line *cml)
 		{
 			free_redir(cml->pipes->cmds[i]->redir);
 			free_c_dptr(&cml->pipes->cmds[i]->cmd);
+			safe_free((void **) &(cml->pipes->cmds[i]));
 			i++;
 		}
-		safe_free((void **) cml->pipes->cmds);
+		safe_free((void **) &(cml->pipes->cmds));
 
 		temp = cml;
 		cml = cml->next;
