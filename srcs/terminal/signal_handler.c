@@ -6,13 +6,13 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 21:08:08 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/28 20:32:26 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/05 17:10:51 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "terminal.h"
-#include "color.h"
+#include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <readline/readline.h>
@@ -40,8 +40,11 @@ void	sig_quit_handler(int sig)
 		ft_putstr_fd(SIG_QUIT_MESSAGE, 2);
 }
 
-void	set_sig_handler_child(void)
+void	heredoc_handler(int sig)
 {
-	signal(SIGINT, sig_int_handler_default);
-	signal(SIGQUIT, sig_quit_handler);
+	if (sig == SIGINT)
+	{
+		ft_putstr_fd("\n", 2);
+		exit(2);
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 12:20:16 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/28 18:08:58 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/05 17:03:36 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,6 @@ static void	set_term_default(t_term_state *term_state)
 	tcsetattr(STDOUT_FILENO, TCSANOW, &(term_state->default_term));
 }
 
-static void	heredoc(int sig)
-{
-	if (sig == SIGINT)
-	{
-		ft_putstr_fd("\n", 2);
-		exit(2);
-	}
-}
-
 char	*ft_readline(t_context *context, char *str)
 {
 	char	*ret;
@@ -49,7 +40,7 @@ char	*ft_readline(t_context *context, char *str)
 		ret = readline(MINISHELL_WITH_COLOR);
 	else
 	{
-		signal(SIGINT, heredoc);
+		signal(SIGINT, heredoc_handler);
 		ret = readline(str);
 	}
 	set_term_default(&(context->term_state));

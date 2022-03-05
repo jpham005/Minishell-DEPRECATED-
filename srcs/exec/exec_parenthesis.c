@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_parenthesis.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 13:43:17 by jaham             #+#    #+#             */
-/*   Updated: 2022/03/04 01:41:22 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/05 16:02:38 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	exec_parenthesis(char *str, t_context *context, t_in_out *in_out)
 		executor(new, context, in_out);
 	else
 	{
-		ft_putstr_fd("syntax error\n", STDERR_FILENO);
+		ft_putstr_fd("syntax error\n", 2);
 		exit(258);
 	}
 	exit(context->exit_status);

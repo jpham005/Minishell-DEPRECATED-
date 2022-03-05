@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 11:24:03 by jaham             #+#    #+#             */
-/*   Updated: 2022/03/04 01:33:18 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/05 17:32:50 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ static int	exec_single_cmd(t_cmd *cmd, t_context *context, t_in_out *in_out)
 	int	built_in_type;
 	int	*pid;
 
+	signal(SIGQUIT, sig_quit_handler);
+	signal(SIGINT, sig_int_handler_default);
 	if (!care_in_out(cmd, context, in_out))
 		return (1);
 	built_in_type = is_built_in(cmd->cmd[0]);
@@ -75,6 +77,7 @@ static int	exec_single_cmd(t_cmd *cmd, t_context *context, t_in_out *in_out)
 	pid[0] = ft_fork();
 	if (!pid[0])
 	{
+		set_sig_handler_child();
 		if (cmd->type == SINGLE_CMD)
 			exec_cmd(cmd->cmd, context);
 		else

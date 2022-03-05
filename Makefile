@@ -6,7 +6,7 @@
 #    By: jaham <jaham@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/16 20:45:33 by jaham             #+#    #+#              #
-#    Updated: 2022/03/04 15:08:58 by jaham            ###   ########.fr        #
+#    Updated: 2022/03/05 20:45:50 by jaham            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ ENVP_SRCS := $(addprefix $(ENVP_DIR)/, $(ENVP_SRCS))
 UTILS_SRCS := exit_manage.c print_intro.c clear_cmd_line.c
 UTILS_SRCS := $(addprefix $(UTILS_DIR)/, $(UTILS_SRCS))
 TERMINAL_SRCS := check_default_state.c set_state.c signal_handler.c init.c \
-				readline_loop.c check_valid_str.c
+				readline_loop.c check_valid_str.c signal_handler_exec.c
 TERMINAL_SRCS := $(addprefix $(TERMINAL_DIR)/, $(TERMINAL_SRCS))
 EXEC_SRCS := exec_built_in.c execute.c redirection.c exec_cmd.c wait_all.c \
 			exec_child.c exec_parenthesis.c redirection_util.c \
