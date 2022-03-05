@@ -3,127 +3,87 @@
 /*                                                        :::      ::::::::   */
 /*   readline_loop.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 14:54:45 by jaham             #+#    #+#             */
-/*   Updated: 2022/03/05 19:51:06 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/06 04:11:08 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "built_in.h"
+#include "exec.h"
+#include "libft.h"
+#include "parser.h"
 #include "terminal.h"
 #include "utils.h"
-#include "libft.h"
-#include "exec.h"
-#include "built_in.h"
 
 #include <sys/wait.h> // temp
 #include <stdlib.h>
 #include <stdio.h>
 //parser part
-static int	parse(const char *str)
+t_cmd_line	*parse(t_context *context, const char *str, int *result)
 {
-	int	pid;
-	int	status;
+	t_cmd_line *cml;
+	char **t;
+	char **s;
+	t_token *a;
 
-	if (!ft_strncmp("loop", str, 5))
+	t = tokenizer(str);
+	// int i = 0;
+    // while (t[i])
+    // {
+    //     printf("%s\n", t[i++]);
+    // }
+	if (!t)
 	{
-		pid = fork();
-		if (!pid)
-		{
-			signal(SIGINT, SIG_DFL);
-			execve("jaham_test/loop", NULL, NULL);
-		}
-		else
-			waitpid(pid, &status, 0);
+		printf("괄호 열림\n");
+		return (NULL);
 	}
-	else if (!ft_strncmp("read", str, 5))
-	{
-		pid = fork();
-		if (!pid)
-		{
-			execve("jaham_test/read", NULL, NULL);
-			write(1, "error\n", 6);
-		}
-		else
-			waitpid(pid, &status, 0);
-	}
-	return (123);
+	a = convert_dptr_to_struct(t);
+	s = convert_token_to_dptr(a);
+
+	expand_dollars(context, s);
+	expand_asterisks(context, s);
+
+	cml = token_to_cmd_line(s);
+    print_struct(cml);
+
+	// free
+	free_token(a);
+	free_c_dptr(&s);
+	free_c_dptr(&t);
+	
+	//  echo a > b | c > d || cat -e
+	// leak cmds, cmd만 남음
+
+	return (cml);
 }
 
 int	readline_loop(t_context *context)
 {
-	char	*str;
+	char		*str;
+	t_cmd_line	*cmd_line;
 
 	while (1)
 	{
 		str = ft_readline(context, NULL);
 		if (!str)
 			exit(exit_with_status(END_TERM));
-		if (!check_str(str, context))
+		if (!check_valid_str(str, context))
 		{
 			safe_free((void **) &str);
 			continue ;
 		}
-		context->exit_status = parse(str);
-
-		t_cmd_line	*cmd_line = malloc(sizeof(t_cmd_line));
-		cmd_line->pipes = malloc(sizeof(t_pipe));
-		cmd_line->pipes->type = PIPE;
-		cmd_line->pipes->len = 2;
-		cmd_line->pipes->cmds = malloc(sizeof(t_cmd *) * 4);
-		cmd_line->pipes->cmds[0] = malloc(sizeof(t_cmd));
-		cmd_line->pipes->cmds[0]->type = SINGLE_CMD;
-		cmd_line->pipes->cmds[0]->redir = NULL;
-		cmd_line->pipes->cmds[0]->redir = malloc(sizeof(t_redirect));
-		cmd_line->pipes->cmds[0]->redir->next = NULL;
-		cmd_line->pipes->cmds[0]->redir->target = "infile";
-		cmd_line->pipes->cmds[0]->redir->type = REDIR_HEREDOC;
-		cmd_line->pipes->cmds[0]->cmd = ft_split("Cat", ' ');
-		cmd_line->pipes->cmds[1] = malloc(sizeof(t_cmd));
-		cmd_line->pipes->cmds[1]->type = SINGLE_CMD;
-		cmd_line->pipes->cmds[1]->redir = NULL;
-		cmd_line->pipes->cmds[1]->cmd = ft_split("ls", ' ');
-		cmd_line->pipes->cmds[2] = malloc(sizeof(t_cmd));
-		cmd_line->pipes->cmds[2]->type = SINGLE_CMD;
-		cmd_line->pipes->cmds[2]->redir = NULL;
-		cmd_line->pipes->cmds[2]->cmd = ft_split("ls", ' ');
-
-		cmd_line->next = NULL;
-
-		//cmd_line->next = malloc(sizeof(t_cmd_line));
-		//cmd_line->next->pipes = malloc(sizeof(t_pipe));
-		//cmd_line->next->pipes->type = AND;
-		//cmd_line->next->pipes->len = 3;
-		//cmd_line->next->pipes->cmds = malloc(sizeof(t_cmd) * cmd_line->next->pipes->len);
-		
-		//cmd_line->next->pipes->cmds[0]->type = SINGLE_CMD;
-		//cmd_line->next->pipes->cmds[0]->cmd = ft_split("ls", ' ');
-		//cmd_line->next->pipes->cmds[0]->redir = NULL;
-		// cmd_line->next->pipes->cmds[0]->redir = malloc(sizeof(t_redirect));
-		// cmd_line->next->pipes->cmds[0]->redir->type = REDIR_IN;
-		// cmd_line->next->pipes->cmds[0]->redir->target = "infile";
-		// cmd_line->next->pipes->cmds[0]->redir->next = NULL;
-
-		//cmd_line->next->pipes->cmds[1]->type = SINGLE_CMD;
-		//cmd_line->next->pipes->cmds[1]->cmd = ft_split("cat -e", ' ');
-		// cmd_line->next->pipes->cmds[1]->redir = NULL;
-		//cmd_line->next->pipes->cmds[1]->redir = malloc(sizeof(t_redirect));
-		//cmd_line->next->pipes->cmds[1]->redir->type = REDIR_OUT;
-		//cmd_line->next->pipes->cmds[1]->redir->target = "outfile";
-		//cmd_line->next->pipes->cmds[1]->redir->next = NULL;
-
-		//cmd_line->next->pipes->cmds[2]->type = SINGLE_CMD;
-		//cmd_line->next->pipes->cmds[2]->cmd = ft_split("cat -e", ' ');
-		//cmd_line->next->pipes->cmds[2]->redir = NULL;
-		// cmd_line->next->pipes->cmds[2]->redir = malloc(sizeof(t_redirect));
-		// cmd_line->next->pipes->cmds[2]->redir->type = REDIR_IN;
-		// cmd_line->next->pipes->cmds[2]->redir->target = "infile";
-		// cmd_line->next->pipes->cmds[2]->redir->next = NULL;
-
-
+		cmd_line = parse(context, str, NULL);
+		safe_free((void **) &str);
+		if (!cmd_line)
+		{
+			printf("parse error\n");
+			continue ;
+		}
 		executor(cmd_line, context, NULL);
 		// fprintf(stdout, "exit status %d\n", context->exit_status);
-		safe_free((void **) &str);
+		free_cmd_line(cmd_line);
 	}
 	return (0);
 }

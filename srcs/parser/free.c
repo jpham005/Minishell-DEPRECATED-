@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/05 00:33:02 by hyeonpar          #+#    #+#             */
-/*   Updated: 2022/03/06 03:38:08 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/06 04:05:04 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	free_redir(t_redirect *redir)
 void	free_cmd_line(t_cmd_line *cml)
 {
 	t_cmd_line *temp;
-	int i;
+	size_t i;
 
 	while (cml)
 	{
@@ -67,7 +67,7 @@ void	free_cmd_line(t_cmd_line *cml)
 void	free_cmd_line_e(t_cmd_line *cml)
 {
 	t_cmd_line *temp;
-	int i;
+	size_t i;
 
 	while (cml)
 	{

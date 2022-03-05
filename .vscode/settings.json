@@ -30,7 +30,7 @@
 		"signal.h": "c",
 		"stdio.h": "c",
 		"temphead.h": "c",
-		"term.h": "c"
+		"term.h": "c",
 		"parser.h": "c",
 		"array": "c",
 		"string": "c",

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_valid_str.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 15:03:05 by jaham             #+#    #+#             */
-/*   Updated: 2022/03/04 15:45:48 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/06 04:02:22 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static int	is_valid_str(char *str, t_context *context)
 	return (0);
 }
 
-int	check_str(const char *str, t_context *context)
+int	check_valid_str(const char *str, t_context *context)
 {
 	char	**splited;
 	int		ret;

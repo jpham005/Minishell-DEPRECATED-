@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 14:52:28 by hyeonpar          #+#    #+#             */
-/*   Updated: 2022/03/06 03:47:24 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/06 04:04:52 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ t_token    *init_empty_token(void)
 
 void    init_cmds_and_redir(t_cmd_line *res)
 {
-    int i;
+    size_t i;
 
     i = 0;
     res->pipes->cmds = ft_malloc(sizeof(t_cmd *), res->pipes->num);
@@ -225,7 +225,7 @@ void    fill_cmd_redir(t_cmd_line *res)
     t_token *temp;
     t_cmd_line *cp;
     int i;
-    int j;
+    size_t j;
     int cnt;
 
     cp = res;

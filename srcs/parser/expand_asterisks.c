@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 17:23:31 by hyeonpar          #+#    #+#             */
-/*   Updated: 2022/03/06 03:46:18 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/06 04:03:12 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -236,7 +236,7 @@ int	is_asterisk(char *str)
 	return (1);
 }
 
-void	expand_asterisks(t_context *context, char **str)
+void	expand_asterisks(char **str)
 {
 	int	i;
 

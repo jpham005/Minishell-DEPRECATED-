@@ -92,7 +92,7 @@ void	add_token(t_token *token, char *data)
 void	print_struct(t_cmd_line *cml)
 {
 	t_redirect *temp;
-	int i;
+	size_t	i;
 	int j;
 
 	while (cml)
@@ -105,7 +105,7 @@ void	print_struct(t_cmd_line *cml)
 			j = 0;
 			while (cml->pipes->cmds[i]->cmd[j])
 			{
-				printf("cmds[%d]->cmd[%d]: %s\n", i, j, cml->pipes->cmds[i]->cmd[j]);
+				printf("cmds[%zu]->cmd[%d]: %s\n", i, j, cml->pipes->cmds[i]->cmd[j]);
 				j++;
 			}
 			i++;
@@ -117,9 +117,9 @@ void	print_struct(t_cmd_line *cml)
 			while (cml->pipes->cmds[i]->redir)
 			{
 				temp = cml->pipes->cmds[i]->redir;
-				printf("%d redir: %p\n", i, cml->pipes->cmds[i]->redir);
-				printf("%d type: %d\n", i, cml->pipes->cmds[i]->redir->type);
-				printf("%d target: %p\n", i, cml->pipes->cmds[i]->redir->target);
+				printf("%zu redir: %p\n", i, cml->pipes->cmds[i]->redir);
+				printf("%zu type: %d\n", i, cml->pipes->cmds[i]->redir->type);
+				printf("%zu target: %p\n", i, cml->pipes->cmds[i]->redir->target);
 				cml->pipes->cmds[i]->redir = cml->pipes->cmds[i]->redir->next;
 			}
 			cml->pipes->cmds[i]->redir = temp;
