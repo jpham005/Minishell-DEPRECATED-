@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 14:54:45 by jaham             #+#    #+#             */
-/*   Updated: 2022/03/04 15:37:45 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/05 15:26:55 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,16 +77,16 @@ int	readline_loop(t_context *context)
 		cmd_line->pipes->cmds[0]->redir = malloc(sizeof(t_redirect));
 		cmd_line->pipes->cmds[0]->redir->next = NULL;
 		cmd_line->pipes->cmds[0]->redir->target = "infile";
-		cmd_line->pipes->cmds[0]->redir->type = REDIR_HEREDOC;
+		cmd_line->pipes->cmds[0]->redir->type = REDIR_IN;
 		cmd_line->pipes->cmds[0]->cmd = ft_split("cat", ' ');
 		cmd_line->pipes->cmds[1] = malloc(sizeof(t_cmd));
-		cmd_line->pipes->cmds[1]->type = PARENTHESIS;
+		cmd_line->pipes->cmds[1]->type = SINGLE_CMD;
 		cmd_line->pipes->cmds[1]->redir = NULL;
-		cmd_line->pipes->cmds[1]->cmd = ft_split("cat -e", ' ');
+		cmd_line->pipes->cmds[1]->cmd = ft_split("asdf fadfsa saf", ' ');
 		cmd_line->pipes->cmds[2] = malloc(sizeof(t_cmd));
 		cmd_line->pipes->cmds[2]->type = SINGLE_CMD;
 		cmd_line->pipes->cmds[2]->redir = NULL;
-		cmd_line->pipes->cmds[2]->cmd = ft_split("cat -e", ' ');
+		cmd_line->pipes->cmds[2]->cmd = ft_split("ls", ' ');
 
 		cmd_line->next = NULL;
 

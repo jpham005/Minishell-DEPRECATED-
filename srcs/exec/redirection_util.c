@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 12:23:12 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/27 12:23:46 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/05 15:24:55 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,10 @@
 
 void	dup_errs(t_err_info *err_info, char *target, int status)
 {
-	ft_strdup_err(err_info->err_target, target);
-	ft_strdup_err(err_info->err_str, strerror(status));
+	if (!err_info->err_target)
+		err_info->err_target = ft_strdup(target);
+	if (!err_info->err_str)
+		err_info->err_str = ft_strdup(strerror(status));
 }
 
 void	init_in_out(int in[2], int *out)

@@ -6,29 +6,19 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 14:38:02 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/28 18:16:35 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/05 15:23:37 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
 #include "libft.h"
 #include <stdlib.h>
-#include <sys/signal.h>
-
-void	heredoc_parent_handler(int sig)
-{
-	if (sig == SIGINT)
-	{
-		return ;
-	}
-}
 
 void	heredoc_child(int in[2], t_redirect *redir, t_context *context)
 {
 	char	*buf;
 	char	*temp;
 
-	signal(SIGINT, sig_int_handler_default);
 	if (!ft_dup2(context->std_fd[0], 0) || !ft_dup2(context->std_fd[1], 1))
 		exit(1);
 	while (1)
@@ -49,8 +39,7 @@ void	heredoc_child(int in[2], t_redirect *redir, t_context *context)
 	exit(0);
 }
 
-int	handle_redir_heredoc(int in[2], t_redirect *redir, \
-										t_err_info *info, t_context *context)
+int	handle_redir_heredoc(int in[2], t_redirect *redir, t_context *context)
 {
 	int		status;
 	pid_t	pid;
@@ -62,11 +51,7 @@ int	handle_redir_heredoc(int in[2], t_redirect *redir, \
 		heredoc_child(in, redir, context);
 	waitpid(pid, &status, 0);
 	if (ft_wexitstatus(status) == 1)
-	{
-		ft_strdup_err(info->err_str, "error while heredoc\n");
-		ft_strdup_err(info->err_target, redir->target);
 		return (0);
-	}
 	if (ft_wexitstatus(status) == 2)
 		return (-1);
 	return (1);

@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 01:06:49 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/26 20:45:27 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/05 15:26:33 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ void	exit_by_errno(int errno, char *cmd);
 int		ft_pipe(int pipefd[2]);
 int		ft_dup2(int fd1, int fd2);
 int		ft_strcmp(const char *s1, const char *s2);
-void	ft_strdup_err(char *s1, char *s2);
 void	ft_close(int fd);
 void	exit_with_msg(char *s1, char *s2, int status);
 int		ft_dup(int fd);

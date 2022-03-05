@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 11:36:44 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/27 21:49:12 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/05 15:27:50 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <stdlib.h>
-
+#include <stdio.h>
 static int	handle_redir_in(int in[2], t_redirect *redir, t_err_info *err_info)
 {
 	int		fd;
@@ -62,7 +62,7 @@ static int	handle_in(int in[2], t_redirect *r, t_err_info *inf, t_context *ctx)
 		{
 			if (!close_and_pipe(in))
 				return (0);
-			here = handle_redir_heredoc(in, r, inf, ctx);
+			here = handle_redir_heredoc(in, r, ctx);
 			if (here <= 0)
 				ret = here;
 		}
@@ -106,6 +106,7 @@ static int	print_err_redir(t_err_info *err_info, int ret)
 	ft_putstr_fd(err_info->err_target, 2);
 	ft_putstr_fd(": ", 2);
 	ft_putstr_fd(err_info->err_str, 2);
+	ft_putstr_fd("\n", 2);
 	return (ret);
 }
 
