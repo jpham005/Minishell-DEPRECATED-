@@ -6,7 +6,7 @@
 /*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 13:46:27 by jaham             #+#    #+#             */
-/*   Updated: 2022/03/05 02:18:17 by hyeonpar         ###   ########.fr       */
+/*   Updated: 2022/03/05 21:41:30 by hyeonpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,11 @@ t_cmd_line	*parse(t_context *context, const char *str, int *result)
 	t_token *a;
 
 	t = tokenizer(str);
+	if (!t)
+	{
+		cml = NULL;
+		return (cml);
+	}
 	a = convert_dptr_to_struct(t);
 	s = convert_token_to_dptr(a);
 

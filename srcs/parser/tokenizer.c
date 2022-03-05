@@ -6,11 +6,9 @@
 /*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 07:33:58 by hyeonpar          #+#    #+#             */
-/*   Updated: 2022/03/05 02:14:32 by hyeonpar         ###   ########.fr       */
+/*   Updated: 2022/03/05 21:40:45 by hyeonpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-// &&는 두 개 연속으로만 끊어주고, space 처리
 
 #include "libft.h"
 #include "parser.h"
@@ -102,6 +100,8 @@ static void		token_init(t_tokenizer *tool)
 	tool->qidx = 0;
 	tool->start = -1;
 	tool->prev = 0;
+	tool->par = 0;
+	tool->pidx = 0;
 	tool->quote = 0;
 }
 
@@ -126,12 +126,28 @@ int		get_end(const char *line, t_tokenizer *tool)
 		return (0);
 	if (line[i] == tool->quote && tool->qidx != i) // 현재 코트이고 코트 인덱스가 아니라면
 		tool->quote = 0;
+	if (tool->quote) // 현재 코트면 0리턴
+		return (0);
+	if (line[i] == '(' && tool->pidx != i)
+		tool->par++;
+	if (line[i] == ')')
+	{
+		tool->par--;
+		tool->pidx = i;
+		if (tool->par == 0) // 괄호였는데 끝난 상태면
+		{
+			tool->pidx = 0;
+			return (1);
+		}
+	}
+	if (tool->par) // 괄호 안이면 0리턴
+		return (0);
+	if (!tool->par && line[i + 1] == '(')
+		return (1);
 	if (!line[i + 1] || (!tool->quote && line[i] == '\0')) // 다음 널이거나, 현재 코트 아닌데 널이면 끝
 		return (1);
 	if (!tool->quote && line[i + 1] == '\0') // 현재 코트 아닌데 다음이 널이면 1리턴
 		return (1);
-	if (tool->quote) // 현재 코트면 0리턴
-		return (0);
 	if (ft_is_space(line[i])) // 스페이스면 다음이 스페이스면 0, 아니면 1리턴
 		return (!(ft_is_space(line[i + 1])));
 	if (ft_is_space(line[i + 1])) // 다음이 스페이스면 1리턴
@@ -143,9 +159,7 @@ int		get_end(const char *line, t_tokenizer *tool)
 		else
 			return (0);
 	}
-	if (ft_is_set(line[i], "()")) // 괄호면 무조건 끝
-		return (1);
-	return (ft_is_set(line[i + 1], "><|&()")); // 다음이 무조건 시작하는 문자면 끝내야됨
+	return (ft_is_set(line[i + 1], "><|&")); // 다음이 무조건 시작하는 문자면 끝내야됨
 }
 
 int		get_start(const char *line, t_tokenizer *tool)
@@ -153,10 +167,17 @@ int		get_start(const char *line, t_tokenizer *tool)
 	int	i;
 
 	i = tool->idx; // 현재 인덱스
-	if (!line || !line[i] || tool->quote) // ', " 있거나 널문자, 라인이 널이면 시작 아님
+	if (!line || !line[i] || tool->quote || tool->par) // ', ", ( 있거나 널문자, 라인이 널이면 시작 아님
 		return (0);
 	if ((tool->quote = get_quote(line, i))) // 현재 인덱스가 ', "이면(코트 문자 값 그대로 넣음)
 		tool->qidx = i; // 코트 인덱스 시작점(qidx) 갱신
+	if (line[i] == '(')
+	{
+		tool->par++;
+		tool->pidx = i;
+		if (tool->par == 1)
+			return (1);
+	}
 	if (ft_is_set(line[i], "><|&")) // 파이프나 <, >이면
 	{
 		if (tool->prev == line[i]) // 이전에도 있었으면 안됨
@@ -164,14 +185,12 @@ int		get_start(const char *line, t_tokenizer *tool)
 		tool->prev = line[i]; // 이전에 없었으면 이전 갱신하고 트루 리턴
 		return (1);
 	}
-	if (ft_is_set(line[i], "()")) // 괄호면 트루
-		return (1);
 	tool->prev = 0; // 이전에 파이프 리디렉션 괄호 아니면 0으로 초기화
 	if (!tool->idx) // 라인 첫 문자면
 		return (1);
 	if (ft_is_space(line[i])) // space면
 		return (!ft_is_space(line[i - 1])); // 전이 스페이스 아니면 1리턴
-	return (ft_is_space(line[i - 1]) || (ft_is_set(line[i - 1], "><|&()"))); // 이전 스페이스이거나 이전이 무조건끝나는문자들이면 1리턴
+	return (ft_is_space(line[i - 1]) || (ft_is_set(line[i - 1], "><|&"))); // 이전 스페이스이거나 이전이 무조건끝나는문자들이면 1리턴
 }
 
 // 위는 다 이 함수를 위한 것이라 static 처리하면 됨
@@ -198,5 +217,7 @@ char			**tokenizer(const char *line)
 		}
 		tool.idx++;
 	}
+	if (tool.par != 0)
+		return (NULL);
 	return (tokens);
 }

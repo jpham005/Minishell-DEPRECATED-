@@ -6,7 +6,7 @@
 /*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 14:52:28 by hyeonpar          #+#    #+#             */
-/*   Updated: 2022/03/05 15:34:32 by hyeonpar         ###   ########.fr       */
+/*   Updated: 2022/03/05 21:53:18 by hyeonpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,14 +99,13 @@ void    init_cmds_and_redir(t_cmd_line *res)
         i++;
     }
     i = 0;
-    while (i < res->pipes->num)
-    {
-        res->pipes->cmds[i]->redir = ft_malloc(sizeof(t_redirect), 1);
-        // res->pipes->cmds[i]->redir = NULL;
-        res->pipes->cmds[i]->redir->target = NULL;
-        res->pipes->cmds[i]->redir->next = NULL;
-        i++;
-    }
+    // while (i < res->pipes->num)
+    // {
+    //     res->pipes->cmds[i]->redir = ft_malloc(sizeof(t_redirect), 1);
+    //     res->pipes->cmds[i]->redir->target = NULL;
+    //     res->pipes->cmds[i]->redir->next = NULL;
+    //     i++;
+    // }
 }
 
 void    fill_cmds(t_cmd_line *res, char **str)

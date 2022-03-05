@@ -6,7 +6,7 @@
 /*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 16:33:14 by hyeonpar          #+#    #+#             */
-/*   Updated: 2022/03/05 03:38:08 by hyeonpar         ###   ########.fr       */
+/*   Updated: 2022/03/05 20:32:00 by hyeonpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,12 +87,15 @@ typedef struct	s_tokenizer
 	int		qidx;
 	int		start;
 	int		prev;
+    int     par;
+    int     pidx;
 	char	quote;
 }				t_tokenizer;
 
 char    **tokenizer(const char *line);
 int		ft_is_space(int c);
 t_token *init_token(char *token);
+t_token *init_empty_token(void);
 void	add_token(t_token *token, char *data);
 t_token	*convert_dptr_to_struct(char **tokens);
 char	**convert_token_to_dptr(t_token *head);
@@ -110,5 +113,6 @@ void	print_struct(t_cmd_line *cml);
 int     is_pipe(char *s);
 void    free_cmd_line(t_cmd_line *cml);
 void	free_token(t_token *token);
+char	*expand_asterisk_helper(char **list);
 
 #endif
