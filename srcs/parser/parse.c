@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/06 13:09:03 by jaham             #+#    #+#             */
-/*   Updated: 2022/03/06 18:32:37 by hyeonpar         ###   ########.fr       */
+/*   Updated: 2022/03/06 19:14:56 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,7 @@ t_cmd_line	*parse(t_context *context, const char *str)
 	if (!valid_par(s))
 		return (NULL);
 	expand_dollars(context, s);
-	expand_asterisks(s);
-
+	expand_asterisks(&s);
 	cml = token_to_cmd_line(s);
     // print_struct(cml);
 	free_token(a);

@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 17:23:31 by hyeonpar          #+#    #+#             */
-/*   Updated: 2022/03/06 17:21:18 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/06 19:14:55 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -245,15 +245,20 @@ int	is_asterisk(char *str)
 	return (1);
 }
 
-void	expand_asterisks(char **str)
+void	expand_asterisks(char ***str)
 {
-	int	i;
+	size_t	i;
 
 	i = 0;
-	while (str[i])
+	while ((*str)[i])
 	{
-		if (is_asterisk(str[i]))
-			str[i] = expand_asterisk(str[i]);
-		i++;
+		if (is_asterisk((*str)[i]))
+		{
+			(*str)[i] = expand_asterisk((*str)[i]);
+			(*str)[i][ft_strlen((*str)[i]) - 1] = 0;
+			split_str_i(str, &i);
+		}
+		else
+			i++;
 	}
 }
