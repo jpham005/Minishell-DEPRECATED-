@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 16:09:27 by jaham             #+#    #+#             */
-/*   Updated: 2022/03/06 17:25:05 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/06 19:51:14 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	exit_with_cmd_err(char *cmd, int stat)
 		exit(126);
 	}
 }
-#include <stdio.h>
+
 void	exec_cmd(char **cmd, t_context *context)
 {
 	char	*cmd_exec;

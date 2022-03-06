@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 14:52:28 by hyeonpar          #+#    #+#             */
-/*   Updated: 2022/03/06 19:11:51 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/06 20:12:15 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -224,9 +224,7 @@ int    fill_pipes(t_cmd_line *res, char **s)
 
 int	is_redir2(char *s)
 {
-	if (ft_strncmp(s, "<", 2) || ft_strncmp(s, ">", 2) || ft_strncmp(s, "<<", 3) || ft_strncmp(s, ">>", 3))
-		return (1);
-	return (0);
+	return (!ft_strncmp(s, "<", 2) || !ft_strncmp(s, ">", 2) || !ft_strncmp(s, "<<", 3) || !ft_strncmp(s, ">>", 3));
 }
 
 int    fill_redir(t_cmd_line *res, t_redir_type type, char *target, int j)
