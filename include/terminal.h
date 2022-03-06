@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   terminal.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 12:06:57 by jaham             #+#    #+#             */
-/*   Updated: 2022/03/06 13:41:45 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/06 23:44:29 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # define TOO_MANY_ARG_ERR_MESSAGE "Too many arg: "
 # define SIG_QUIT_MESSAGE "Quit: 3\n"
 # define MINISHELL_WITH_COLOR RED_BD"minishell "YELLOW_BT_BD"#"DEF_COL" "RED_BT
+# define SYNTAX_ERR_MESSAGE "syntax error\n"
 
 typedef struct termios	t_term;
 

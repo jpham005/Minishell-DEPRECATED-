@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 16:33:14 by hyeonpar          #+#    #+#             */
-/*   Updated: 2022/03/06 19:14:33 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/07 02:05:04 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,5 +67,7 @@ void		free_cmd_line_e(t_cmd_line *cml);
 t_cmd_line	*parse(t_context *context, const char *str);
 int 		is_par(char *str);
 void		split_str_i(char ***str, size_t *i);
+int			check_syntax_err(char **str, t_context *context);
+void		handle_syntax_err(t_context *context);
 
 #endif

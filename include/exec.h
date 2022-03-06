@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 20:45:13 by jaham             #+#    #+#             */
-/*   Updated: 2022/03/06 12:57:41 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/06 23:42:55 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 
 # define PERMISSION_ERR_MSG ": Permission denied\n"
 # define NOT_FOUND_ERR_MSG ": No such file or directory\n"
-# define CMD_NOT_FOUND_ERR_MSG ": command not found\n"
+# define CMD_NOT_FOUND_ERR_MSG "command not found\n"
 # define IS_DIR_ERR_MSG ": is a directory\n"
 
 typedef struct stat	t_stat;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 16:09:27 by jaham             #+#    #+#             */
-/*   Updated: 2022/03/06 19:51:14 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/07 02:01:10 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	*try_cmd(char **cmd, t_context *context)
 
 	if (!find_list_by_key(context->envp, "PATH"))
 		return (NULL);
-	path = ft_split(find_list_by_key(context->envp, "PATH")->value, ':');
+	path = ft_split(find_list_by_key(context->envp, "PATH")->value, ":");
 	i = 0;
 	while (path[i])
 	{

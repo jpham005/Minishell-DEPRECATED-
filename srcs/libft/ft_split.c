@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 15:40:21 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/17 15:26:30 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/07 02:00:46 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static size_t	get_size(const char *str, char sep)
+static size_t	get_size(const char *str, const char *sep)
 {
 	size_t	i;
 	size_t	temp;
@@ -22,10 +22,10 @@ static size_t	get_size(const char *str, char sep)
 	cnt = 0;
 	while (str[i])
 	{
-		while (str[i] == sep)
+		while (ft_strchr(sep, str[i]))
 			i++;
 		temp = i;
-		while (str[i] && (str[i] != sep))
+		while (str[i] && !ft_strchr(sep, str[i]))
 			i++;
 		if (i != temp)
 			cnt++;
@@ -45,7 +45,7 @@ static char	*get_string(const char *str, size_t i, size_t temp)
 	return (ret);
 }
 
-static char	**split_string(char **ret, const char *str, char sep)
+static char	**split_string(char **ret, const char *str, const char *sep)
 {
 	size_t	i;
 	size_t	j;
@@ -55,10 +55,10 @@ static char	**split_string(char **ret, const char *str, char sep)
 	j = 0;
 	while (str[i])
 	{
-		while (str[i] == sep)
+		while (ft_strchr(sep, str[i]))
 			i++;
 		temp = i;
-		while (str[i] && (str[i] != sep))
+		while (str[i] && !ft_strchr(sep, str[i]))
 			i++;
 		if (i != temp)
 			ret[j++] = get_string(str, i, temp);
@@ -67,7 +67,7 @@ static char	**split_string(char **ret, const char *str, char sep)
 	return (ret);
 }
 
-char	**ft_split(const char *str, char sep)
+char	**ft_split(const char *str, const char *sep)
 {
 	char	**ret;
 	size_t	ret_size;

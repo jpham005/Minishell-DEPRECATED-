@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_asterisks.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 17:23:31 by hyeonpar          #+#    #+#             */
-/*   Updated: 2022/03/06 19:14:55 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/07 02:02:33 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,7 +193,7 @@ char	*expand_asterisk(char *arg)
 	list = current_path_ls();
 	check_side(list, no_q);
 
-	str = ft_split(no_q, '*');
+	str = ft_split(no_q, "*");
 	check_str(list, str);
 	new = expand_asterisk_helper(list);
 	if (new)

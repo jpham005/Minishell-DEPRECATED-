@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 15:41:42 by jaham             #+#    #+#             */
-/*   Updated: 2022/03/06 15:41:14 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/07 02:01:04 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static int	move_to_arg(t_envp_list *envp, const char *arg)
 
 	cdpath = NULL;
 	if (find_list_by_key(envp, "CDPATH"))
-		cdpath = ft_split(find_list_by_key(envp, "CDPATH")->value, ':');
+		cdpath = ft_split(find_list_by_key(envp, "CDPATH")->value, ":");
 	curr_dir = ft_getcwd(NULL, 1);
 	path = try_cdpath(&cdpath, arg);
 	flag = (path != NULL);

@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 15:03:05 by jaham             #+#    #+#             */
-/*   Updated: 2022/03/06 04:02:22 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/07 02:02:24 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	check_valid_str(const char *str, t_context *context)
 
 	if (!*str)
 		return (0);
-	splited = ft_split(str, ' ');
+	splited = ft_split(str, " \t\n");
 	ret = 0;
 	i = 0;
 	while (splited[i])

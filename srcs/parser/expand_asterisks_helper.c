@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_asterisks_helper.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/06 17:52:30 by jaham             #+#    #+#             */
-/*   Updated: 2022/03/06 20:46:23 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/07 02:01:23 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	split_str_i(char ***str, size_t *i)
 	char	**new;
 
 	before_len = get_len_dptr(*str);
-	appending = ft_split((*str)[*i], ' ');
+	appending = ft_split((*str)[*i], " \t\n");
 	new = copy_to_new(*str, appending, i, before_len);
 	free_c_dptr(str);
 	*str = new;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   readline_loop.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 14:54:45 by jaham             #+#    #+#             */
-/*   Updated: 2022/03/06 15:34:48 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/07 02:15:44 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,13 @@ void	readline_loop(t_context *context)
 			safe_free((void **) &str);
 			continue ;
 		}
+		if (!check_syntax_err(&str, context))
+			continue ;
 		cmd_line = parse(context, str);
 		safe_free((void **) &str);
 		if (!cmd_line)
 		{
-			ft_putstr_fd("syntax error\n", 2);
-			context->exit_status = 258;
+			handle_syntax_err(context);
 			continue ;
 		}
 		executor(cmd_line, context, NULL);

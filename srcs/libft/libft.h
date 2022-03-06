@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 01:06:49 by jaham             #+#    #+#             */
-/*   Updated: 2022/03/06 03:55:42 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/07 02:00:55 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	*ft_strdup(const char *str);
 char	*ft_substr(const char *str, size_t start, size_t len);
 void	ft_memcpy(void *dest, const void *src, size_t n);
 char	*ft_strjoin(const char *s1, const char *s2);
-char	**ft_split(const char *str, char sep);
+char	**ft_split(const char *str, const char *sep);
 char	*ft_strchr(const char *str, int c);
 char	*ft_getcwd(char *buf, size_t size);
 void	free_c_dptr(char ***ptr);
@@ -55,5 +55,6 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
 char	*ft_strnstr(const char *haystack, const char *needle, size_t len);
 int		ft_isdigit(int c);
 char	*ft_itoa(int n);
+char	*ft_strtrim(char const *s1, char const *set);
 
 #endif
