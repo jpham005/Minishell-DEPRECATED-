@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hyeonpar <hyeonpar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/06 13:09:03 by jaham             #+#    #+#             */
-/*   Updated: 2022/03/06 20:08:56 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/07 01:46:21 by hyeonpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,33 @@ int is_pipe_or_and(char *s)
 {
 	return (!ft_strncmp(s, "|", 2) || !ft_strncmp(s, "||", 3) || !ft_strncmp(s, "&&", 3));
 }
+
+int	is_par_err_char(char c)
+{
+	return ((c == '&') || (c == '|') || (c == ')') || (c == '!'));
+}
+
+int	valid_par2(char **list)
+{
+	int i;
+	int j;
+
+	i = 0;
+	while (list[i])
+	{
+		if (is_par(list[i]))
+		{
+			j = 1;
+			while (ft_is_space(list[i][j]))
+				j++;
+			if (is_par_err_char(list[i][j]))
+				return (0);
+		}
+		i++;
+	}
+	return (1);
+}
+
 
 int	valid_par(char **list)
 {
@@ -42,7 +69,7 @@ int	valid_par(char **list)
 		}
 		i++;
 	}
-	return (1);
+	return (valid_par2(list));
 }
 
 t_cmd_line	*parse(t_context *context, const char *str)
@@ -54,10 +81,7 @@ t_cmd_line	*parse(t_context *context, const char *str)
 
 	t = tokenizer(str);
 	if (!t)
-	{
-		free_c_dptr(&t);
 		return (NULL);
-	}
 	a = convert_dptr_to_struct(t);
 	free_c_dptr(&t);
 	s = convert_token_to_dptr(a);

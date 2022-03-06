@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_to_cmd_line.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hyeonpar <hyeonpar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 14:52:28 by hyeonpar          #+#    #+#             */
-/*   Updated: 2022/03/06 20:12:15 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/07 00:45:02 by hyeonpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 
 t_pipe_type check_pipe_type(char *s)
 {
-    if (ft_strncmp(s, "&&", 2) == 0)
+    if (ft_strncmp(s, "&&", 3) == 0)
         return AND;
-    if (ft_strncmp(s, "||", 2) == 0)
+    if (ft_strncmp(s, "||", 3) == 0)
         return OR;
     else
         return PIPE;
@@ -27,10 +27,7 @@ int is_pipe(char *s)
 {
     if (s == NULL)
         return (0);
-    if (
-        (ft_strncmp(s, "&&", 2) == 0)
-        || (ft_strncmp(s, "||", 2) == 0)
-    )
+    if (!(ft_strncmp(s, "&&", 3)) || !(ft_strncmp(s, "||", 3)))
         return (1);
     return (0);
 }

@@ -6,7 +6,7 @@
 #    By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/16 20:45:33 by jaham             #+#    #+#              #
-#    Updated: 2022/03/07 02:03:34 by jaham            ###   ########.fr        #
+#    Updated: 2022/03/07 02:23:33 by jaham            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,7 +51,8 @@ LIBFT_DIR := $(SRCS_DIR)/libft
 LIBFT := $(LIBFT_DIR)/libft.a
 
 CC := cc
-CFLAGS := -g -Wall -Wextra -Werror
+# CFLAGS := -g -Wall -Wextra -Werror
+CFLAGS := -g -Wall -Wextra -Werror -fsanitize=address
 NAME := minishell
 SRCS := $(BUILT_IN_SRCS) $(ENVP_SRCS) $(UTILS_SRCS) $(TERMINAL_SRCS) \
 		$(PARSER_SRCS) $(EXEC_SRCS) $(MAIN_SRCS)
