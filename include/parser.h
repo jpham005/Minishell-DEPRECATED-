@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 16:33:14 by hyeonpar          #+#    #+#             */
-/*   Updated: 2022/03/07 02:05:04 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/07 03:52:40 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,15 @@ void		free_redir(t_redirect *redir);
 char		*expand_asterisk_helper(char **list);
 void		free_cmd_line_e(t_cmd_line *cml);
 t_cmd_line	*parse(t_context *context, const char *str);
-int 		is_par(char *str);
+int			is_par(char *str);
 void		split_str_i(char ***str, size_t *i);
 int			check_syntax_err(char **str, t_context *context);
 void		handle_syntax_err(t_context *context);
+void		del_q(char *str);
+void		check_dollar(int *dollar_flag, char *str);
+int			is_env_var(char c);
+int			count_dollar(char *s);
+char		*is_envp(t_context *context, char *str, int start, int end);
+void		ft_charjoin(char **new, char **s1, char c);
 
 #endif

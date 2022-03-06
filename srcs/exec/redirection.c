@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 11:36:44 by jaham             #+#    #+#             */
-/*   Updated: 2022/03/06 12:58:16 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/07 02:42:06 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <stdlib.h>
-#include <stdio.h>
+
 static int	handle_redir_in(int in[2], t_redirect *redir, t_err_info *err_info)
 {
 	int		fd;

@@ -6,7 +6,7 @@
 #    By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/16 20:45:33 by jaham             #+#    #+#              #
-#    Updated: 2022/03/07 02:23:33 by jaham            ###   ########.fr        #
+#    Updated: 2022/03/07 04:00:00 by jaham            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,8 @@ UTILS_SRCS := exit_manage.c print_intro.c clear_cmd_line.c
 UTILS_SRCS := $(addprefix $(UTILS_DIR)/, $(UTILS_SRCS))
 PARSER_SRCS := expand_asterisks.c par2.c util_struct.c tokenizer.c \
 		expand_dollars.c token_to_cmd_line.c free.c parse.c \
-		expand_asterisks_helper.c precheck_syntax_err.c
+		expand_asterisks_helper.c precheck_syntax_err.c \
+		expand_dollars_helper.c expand_dollars_helper2.c
 PARSER_SRCS := $(addprefix $(PARSER_DIR)/, $(PARSER_SRCS))
 TERMINAL_SRCS := check_default_state.c set_state.c signal_handler.c init.c \
 				readline_loop.c check_valid_str.c signal_handler_exec.c
@@ -51,8 +52,7 @@ LIBFT_DIR := $(SRCS_DIR)/libft
 LIBFT := $(LIBFT_DIR)/libft.a
 
 CC := cc
-# CFLAGS := -g -Wall -Wextra -Werror
-CFLAGS := -g -Wall -Wextra -Werror -fsanitize=address
+CFLAGS := -Wall -Wextra -Werror -g
 NAME := minishell
 SRCS := $(BUILT_IN_SRCS) $(ENVP_SRCS) $(UTILS_SRCS) $(TERMINAL_SRCS) \
 		$(PARSER_SRCS) $(EXEC_SRCS) $(MAIN_SRCS)

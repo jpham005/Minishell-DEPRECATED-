@@ -3,19 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyeonpar <hyeonpar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/06 13:09:03 by jaham             #+#    #+#             */
-/*   Updated: 2022/03/07 01:46:21 by hyeonpar         ###   ########.fr       */
+/*   Updated: 2022/03/07 04:20:36 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "parser.h"
 
-int is_pipe_or_and(char *s)
+int	is_pipe_or_and(char *s)
 {
-	return (!ft_strncmp(s, "|", 2) || !ft_strncmp(s, "||", 3) || !ft_strncmp(s, "&&", 3));
+	return (
+		!ft_strncmp(s, "|", 2)
+		|| !ft_strncmp(s, "||", 3)
+		|| !ft_strncmp(s, "&&", 3)
+	);
 }
 
 int	is_par_err_char(char c)
@@ -25,8 +29,8 @@ int	is_par_err_char(char c)
 
 int	valid_par2(char **list)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	while (list[i])
@@ -44,11 +48,10 @@ int	valid_par2(char **list)
 	return (1);
 }
 
-
 int	valid_par(char **list)
 {
-	int i;
-	int par_idx;
+	int	i;
+	int	par_idx;
 
 	i = 0;
 	par_idx = -2;
@@ -74,10 +77,10 @@ int	valid_par(char **list)
 
 t_cmd_line	*parse(t_context *context, const char *str)
 {
-	t_cmd_line *cml;
-	char **t;
-	char **s;
-	t_token *a;
+	t_cmd_line	*cml;
+	char		**t;
+	char		**s;
+	t_token		*a;
 
 	t = tokenizer(str);
 	if (!t)
@@ -94,7 +97,6 @@ t_cmd_line	*parse(t_context *context, const char *str)
 	expand_dollars(context, s);
 	expand_asterisks(&s);
 	cml = token_to_cmd_line(s);
-    // print_struct(cml);
 	free_c_dptr(&s);
 	return (cml);
 }

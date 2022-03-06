@@ -1,35 +1,42 @@
-#include "parser.h"
-#include "libft.h"
-// init
-t_token *init_token(char *token)
-{
-	t_token *res;
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   util_struct.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/03/07 02:42:28 by jaham             #+#    #+#             */
+/*   Updated: 2022/03/07 03:12:42 by jaham            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-	res = ft_malloc(sizeof(t_token), 1);
-//printf("token res %p\n", res);
+#include "libft.h"
+#include "parser.h"
+
+t_token	*init_token(char *token)
+{
+	t_token	*res;
+
+	res = ft_calloc(sizeof(t_token), 1);
 	res->data = ft_strdup(token);
 	res->next = NULL;
-
 	return (res);
 }
 
-// cmd에 붙여야함
 t_redirect	*init_redirect(t_redir_type type, char *target)
 {
-	t_redirect *red;
+	t_redirect	*red;
 
-	red = ft_malloc(sizeof(t_redirect), 1);
-//printf("token red %p\n", red);
+	red = ft_calloc(sizeof(t_redirect), 1);
 	red->type = type;
 	red->target = ft_strdup(target);
 	red->next = NULL;
-
 	return (red);
 }
 
 void	add_pipe(t_cmd_line *res, int pipe_num)
 {
-	t_cmd_line *new;
+	t_cmd_line	*new;
 
 	new = init_cmd_line();
 	new->pipes->len = pipe_num;
@@ -38,34 +45,23 @@ void	add_pipe(t_cmd_line *res, int pipe_num)
 	res->next = new;
 }
 
-// 여기서 하위 구조체까지 전부 말록해서 접근 가능하게 해둘 것임
-t_cmd_line	*init_cmd_line(void) // 
+t_cmd_line	*init_cmd_line(void)
 {
-	t_cmd_line *cml;
+	t_cmd_line	*cml;
 
-	cml = ft_malloc(sizeof(t_cmd_line), 1);
-//printf("token cml %p\n", cml);
+	cml = ft_calloc(sizeof(t_cmd_line), 1);
 	cml->next = NULL;
-	cml->pipes = ft_malloc(sizeof(t_pipe), 1);
-//printf("token pipes %p\n", cml->pipes);
+	cml->pipes = ft_calloc(sizeof(t_pipe), 1);
 	cml->pipes->len = 0;
 	cml->pipes->type = PIPE;
 	cml->pipes->cmds = NULL;
-	// cml->pipes->cmds = ft_malloc(sizeof(t_cmd), 1);
-	// cml->pipes->cmds->cmd = NULL;
-	// cml->pipes->cmds->type = SINGLE_CMD;
-	// cml->pipes->cmds->redir = ft_malloc(sizeof(t_redirect), 1);
-	// cml->pipes->cmds->redir = NULL;
 	return (cml);
 }
 
-// =====================================================
-// add(with next)
-
 void	add_token(t_token *token, char *data)
 {
-	t_token *new;
-	t_token *cp;
+	t_token	*new;
+	t_token	*cp;
 
 	cp = token;
 	if (token->data == NULL)
@@ -78,46 +74,3 @@ void	add_token(t_token *token, char *data)
 	new = init_token(data);
 	cp->next = new;
 }
-
-void	print_struct(t_cmd_line *cml)
-{
-	t_redirect *temp;
-	size_t	i;
-	int j;
-
-	while (cml)
-	{
-		// printf("pipe type: %d\n", cml->pipes->type);
-		// printf("pipe num: %zu\n", cml->pipes->len);
-		i = 0;
-		while (i < cml->pipes->len)
-		{
-			j = 0;
-			while (cml->pipes->cmds[i]->cmd[j])
-			{
-				// printf("cmds[%zu]->cmd[%d]: %s\n", i, j, cml->pipes->cmds[i]->cmd[j]);
-				j++;
-			}
-			i++;
-		}
-		i = 0;
-		while (i < cml->pipes->len)
-		{
-			temp = NULL;
-			while (cml->pipes->cmds[i]->redir)
-			{
-				temp = cml->pipes->cmds[i]->redir;
-				// printf("%zu redir: %p\n", i, cml->pipes->cmds[i]->redir);
-				// printf("%zu type: %d\n", i, cml->pipes->cmds[i]->redir->type);
-				// printf("%zu target: %p\n", i, cml->pipes->cmds[i]->redir->target);
-				cml->pipes->cmds[i]->redir = cml->pipes->cmds[i]->redir->next;
-			}
-			cml->pipes->cmds[i]->redir = temp;
-			i++;
-		}
-		cml = cml->next;
-		// printf("==============\n");
-	}
-}
-
-// echo a>b>c>d || echo a>b>vc>d (관계연산자 다음부터 리디렉션 저장 안됨, 파이프 다음에 이전 파이프 cmds 누적) 

@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 06:20:29 by hyeonpar          #+#    #+#             */
-/*   Updated: 2022/03/06 03:46:39 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/07 03:12:42 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@
 
 t_token	*convert_dptr_to_struct(char **tokens)
 {
-	t_token *res;
-	int i;
-	int first;
+	t_token	*res;
+	int		i;
+	int		first;
 
 	i = 0;
 	first = 1;
@@ -55,8 +55,7 @@ char	**convert_token_to_dptr(t_token *head)
 		len++;
 		cp = cp->next;
 	}
-	ret = ft_malloc(sizeof(char *), len + 1);
-//printf("par2 ret %p\n", ret);
+	ret = ft_calloc(sizeof(char *), len + 1);
 	i = 0;
 	while (i < len)
 	{
@@ -65,6 +64,5 @@ char	**convert_token_to_dptr(t_token *head)
 		head = head->next;
 	}
 	ret[i] = NULL;
-
 	return (ret);
 }

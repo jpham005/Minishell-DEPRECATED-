@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 01:44:52 by jaham             #+#    #+#             */
-/*   Updated: 2022/03/07 02:20:57 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/07 04:21:21 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,39 @@ static int	check_pipe_err(char *str)
 	);
 }
 
+static int	check_parenthesis_err(char *str)
+{
+	size_t	i;
+	int		parenthesis;
+
+	i = 0;
+	while (str[i] && str[i] == '\n' && str[i] == '\t' && str[i] == ' ')
+		i++;
+	if (!str[i])
+		return (0);
+	i = 0;
+	parenthesis = 0;
+	while (str[i])
+	{
+		if (str[i] == '(')
+			parenthesis++;
+		else if (str[i] == ')')
+			parenthesis--;
+		i++;
+	}
+	return (!parenthesis);
+}
+
 int	check_syntax_err(char **str, t_context *context)
 {
 	char	*trimed_str;
 
 	trimed_str = ft_strtrim(*str, " \t\n");
-	if (!check_logical_err(trimed_str) || !check_pipe_err(trimed_str))
+	if (
+		!check_logical_err(trimed_str)
+		|| !check_pipe_err(trimed_str)
+		|| !check_parenthesis_err(trimed_str)
+	)
 	{
 		safe_free((void **) str);
 		safe_free((void **) &trimed_str);

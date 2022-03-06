@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/05 00:33:02 by hyeonpar          #+#    #+#             */
-/*   Updated: 2022/03/06 13:57:45 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/07 04:19:51 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 void	free_token(t_token *token)
 {
-	t_token *temp;
+	t_token	*temp;
 
 	while (token)
 	{
@@ -25,10 +25,10 @@ void	free_token(t_token *token)
 		safe_free((void **) &temp);
 	}
 }
-#include <stdio.h>
+
 void	free_redir(t_redirect *redir)
 {
-	t_redirect *temp;
+	t_redirect	*temp;
 
 	while (redir)
 	{
@@ -41,8 +41,8 @@ void	free_redir(t_redirect *redir)
 
 void	free_cmd_line(t_cmd_line *cml)
 {
-	t_cmd_line *temp;
-	size_t i;
+	t_cmd_line	*temp;
+	size_t		i;
 
 	while (cml)
 	{
@@ -55,7 +55,6 @@ void	free_cmd_line(t_cmd_line *cml)
 			i++;
 		}
 		safe_free((void **) &(cml->pipes->cmds));
-
 		temp = cml;
 		cml = cml->next;
 		safe_free((void **) &temp->pipes);
@@ -65,8 +64,8 @@ void	free_cmd_line(t_cmd_line *cml)
 
 void	free_cmd_line_e(t_cmd_line *cml)
 {
-	t_cmd_line *temp;
-	size_t i;
+	t_cmd_line	*temp;
+	size_t		i;
 
 	while (cml)
 	{

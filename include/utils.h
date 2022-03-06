@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 20:46:28 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/27 21:47:44 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/07 02:30:45 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define UTILS_H
 
 # include "cmd_line.h"
+# include "terminal.h"
 
 # define PRT_INTRO_ERR_MESSAGE "Print Intro Error\n"
 # define SET_TERM_ERR_MESSAGE "Setting Terminal Error\n"
@@ -28,7 +29,7 @@
 # define PRINT_INTRO_ERR 1 << 3
 
 void	write_error(const char *str);
-int		exit_with_status(int status);
+int		exit_with_status(int status, t_context *context);
 int		print_intro(void);
 void	clear_cmd_line(t_cmd_line **head);
 

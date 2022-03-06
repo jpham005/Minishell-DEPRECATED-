@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 14:54:45 by jaham             #+#    #+#             */
-/*   Updated: 2022/03/07 02:23:38 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/07 03:14:30 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include "exec.h"
 #include "libft.h"
 #include "parser.h"
-#include "terminal.h"
 #include "utils.h"
 #include <stdlib.h>
 
@@ -27,7 +26,7 @@ void	readline_loop(t_context *context)
 	{
 		str = ft_readline(context, NULL);
 		if (!str)
-			exit(exit_with_status(END_TERM));
+			exit(exit_with_status(END_TERM, context));
 		if (!check_valid_str(str, context))
 		{
 			safe_free((void **) &str);

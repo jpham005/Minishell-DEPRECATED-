@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_manage.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 13:56:34 by jaham             #+#    #+#             */
-/*   Updated: 2022/03/06 13:40:48 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/07 02:29:19 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static void	print_exit(void)
 	ft_putstr_fd("exit\n", 1);
 }
 
-int	exit_with_status(int status)
+int	exit_with_status(int status, t_context *context)
 {
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
@@ -36,7 +36,7 @@ int	exit_with_status(int status)
 	{
 		print_exit();
 		write(1, DEF_COL, 6);
-		return (0);
+		return (context->exit_status);
 	}
 	if (status & ARG_ERR)
 		write_error(ARG_ERR_MESSAGE);
