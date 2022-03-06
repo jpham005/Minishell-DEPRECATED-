@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/05 17:01:21 by jaham             #+#    #+#             */
-/*   Updated: 2022/03/05 17:10:36 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/06 14:39:06 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 void	set_sig_handler_parent(void)
 {
 	signal(SIGINT, sig_int_handler_default);
-	signal(SIGQUIT, SIG_IGN);
+	signal(SIGQUIT, sig_quit_handler);
 }
 
 void	set_sig_handler_child(void)

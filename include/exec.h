@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 20:45:13 by jaham             #+#    #+#             */
-/*   Updated: 2022/03/05 15:23:37 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/06 12:57:41 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,5 +77,6 @@ pid_t			exec_fork_out(t_cmd *cmd, t_context *context, t_in_out *in_out);
 pid_t			exec_fork(t_cmd *cmd, t_context *context, t_in_out *in_out);
 int				handle_redir_heredoc(int in[2], t_redirect *r, t_context *ctx);
 int				exec_pipes(t_pipe *pipes, t_context *context, t_in_out *in_out);
+void			free_err_info(t_err_info *info);
 
 #endif

@@ -42,7 +42,7 @@ void	add_pipe(t_cmd_line *res, int pipe_num)
 	t_cmd_line *new;
 
 	new = init_cmd_line();
-	new->pipes->num = pipe_num;
+	new->pipes->len = pipe_num;
 	while (res->next)
 		res = res->next;
 	res->next = new;
@@ -58,7 +58,7 @@ t_cmd_line	*init_cmd_line(void) //
 	cml->next = NULL;
 	cml->pipes = ft_malloc(sizeof(t_pipe), 1);
 //printf("token pipes %p\n", cml->pipes);
-	cml->pipes->num = 0;
+	cml->pipes->len = 0;
 	cml->pipes->type = PIPE;
 	cml->pipes->cmds = NULL;
 	// cml->pipes->cmds = ft_malloc(sizeof(t_cmd), 1);
@@ -97,36 +97,36 @@ void	print_struct(t_cmd_line *cml)
 
 	while (cml)
 	{
-		printf("pipe type: %d\n", cml->pipes->type);
-		printf("pipe num: %zu\n", cml->pipes->num);
+		// printf("pipe type: %d\n", cml->pipes->type);
+		// printf("pipe num: %zu\n", cml->pipes->len);
 		i = 0;
-		while (i < cml->pipes->num)
+		while (i < cml->pipes->len)
 		{
 			j = 0;
 			while (cml->pipes->cmds[i]->cmd[j])
 			{
-				printf("cmds[%zu]->cmd[%d]: %s\n", i, j, cml->pipes->cmds[i]->cmd[j]);
+				// printf("cmds[%zu]->cmd[%d]: %s\n", i, j, cml->pipes->cmds[i]->cmd[j]);
 				j++;
 			}
 			i++;
 		}
 		i = 0;
-		while (i < cml->pipes->num)
+		while (i < cml->pipes->len)
 		{
 			temp = NULL;
 			while (cml->pipes->cmds[i]->redir)
 			{
 				temp = cml->pipes->cmds[i]->redir;
-				printf("%zu redir: %p\n", i, cml->pipes->cmds[i]->redir);
-				printf("%zu type: %d\n", i, cml->pipes->cmds[i]->redir->type);
-				printf("%zu target: %p\n", i, cml->pipes->cmds[i]->redir->target);
+				// printf("%zu redir: %p\n", i, cml->pipes->cmds[i]->redir);
+				// printf("%zu type: %d\n", i, cml->pipes->cmds[i]->redir->type);
+				// printf("%zu target: %p\n", i, cml->pipes->cmds[i]->redir->target);
 				cml->pipes->cmds[i]->redir = cml->pipes->cmds[i]->redir->next;
 			}
 			cml->pipes->cmds[i]->redir = temp;
 			i++;
 		}
 		cml = cml->next;
-		printf("==============\n");
+		// printf("==============\n");
 	}
 }
 

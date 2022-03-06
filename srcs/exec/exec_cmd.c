@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 16:09:27 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/28 20:27:42 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/06 13:47:39 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ char	*try_cmd(char **cmd, t_context *context)
 	char	**path;
 	size_t	i;
 
+	if (!find_list_by_key(context->envp, "PATH"))
+		return (NULL);
 	path = ft_split(find_list_by_key(context->envp, "PATH")->value, ':');
 	i = 0;
 	while (path[i])

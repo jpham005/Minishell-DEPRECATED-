@@ -1,33 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strnstr.c                                       :+:      :+:    :+:   */
+/*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/24 01:03:48 by hyeonpar          #+#    #+#             */
-/*   Updated: 2022/03/06 13:29:15 by jaham            ###   ########.fr       */
+/*   Created: 2022/03/06 13:09:03 by jaham             #+#    #+#             */
+/*   Updated: 2022/03/06 13:10:11 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "parser.h"
 
-char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
+t_cmd_line	*parse(t_context *context, const char *str)
 {
-	const size_t	needle_len = ft_strlen(needle);
+	t_cmd_line *cml;
+	char **t;
+	char **s;
+	t_token *a;
 
-	if (*needle)
-	{
-		if (len == 0)
-			return (NULL);
-		while (len-- && ft_strncmp(haystack, needle, needle_len) != 0)
-		{
-			if (len < needle_len)
-				return (NULL);
-			if (*haystack == '\0')
-				return (NULL);
-			haystack++;
-		}
-	}
-	return ((char *)haystack);
+	t = tokenizer(str);
+	if (!t)
+		return (NULL);
+	a = convert_dptr_to_struct(t);
+	s = convert_token_to_dptr(a);
+
+	expand_dollars(context, s);
+	expand_asterisks(s);
+
+	cml = token_to_cmd_line(s);
+    print_struct(cml);
+	free_token(a);
+	free_c_dptr(&s);
+	free_c_dptr(&t);
+	return (cml);
 }

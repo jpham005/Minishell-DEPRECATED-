@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/05 00:33:02 by hyeonpar          #+#    #+#             */
-/*   Updated: 2022/03/06 04:05:04 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/06 13:57:45 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	free_token(t_token *token)
 		safe_free((void **) &temp);
 	}
 }
-
+#include <stdio.h>
 void	free_redir(t_redirect *redir)
 {
 	t_redirect *temp;
@@ -34,8 +34,7 @@ void	free_redir(t_redirect *redir)
 	{
 		temp = redir;
 		redir = redir->next;
-		if (temp->target != NULL)
-			safe_free((void **) &temp->target);
+		safe_free((void **) &temp->target);
 		safe_free((void **) &temp);
 	}
 }
@@ -48,7 +47,7 @@ void	free_cmd_line(t_cmd_line *cml)
 	while (cml)
 	{
 		i = 0;
-		while (i < cml->pipes->num)
+		while (i < cml->pipes->len)
 		{
 			free_redir(cml->pipes->cmds[i]->redir);
 			free_c_dptr(&cml->pipes->cmds[i]->cmd);
@@ -72,19 +71,17 @@ void	free_cmd_line_e(t_cmd_line *cml)
 	while (cml)
 	{
 		i = 0;
-		while (i < cml->pipes->num)
+		while (i < cml->pipes->len)
 		{
-			// 임시 처리, leak 잡아야 함 (cmds 항상 발생, cmd, redir)
-			if (i != cml->pipes->num - 1)
+			if (i != cml->pipes->len - 1)
 			{
-				free_c_dptr(&cml->pipes->cmds[i]->cmd);
+				if (cml->pipes->cmds[i]->cmd)
+					free_c_dptr(&cml->pipes->cmds[i]->cmd);
 				free_redir(cml->pipes->cmds[i]->redir);
 			}
-			//
 			i++;
 		}
-		safe_free((void **) cml->pipes->cmds); //
-
+		safe_free((void **) cml->pipes->cmds);
 		temp = cml;
 		cml = cml->next;
 		safe_free((void **) &temp->pipes);

@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 13:46:27 by jaham             #+#    #+#             */
-/*   Updated: 2022/03/06 04:01:26 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/06 13:41:37 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "terminal.h"
 #include "utils.h"
-#include <signal.h>
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -27,8 +26,5 @@ int	main(int argc, char **argv, char **envp)
 	if (!print_intro())
 		exit_with_status(PRINT_INTRO_ERR);
 	readline_loop(&context);
-	clear_envp_list(&(context.envp));
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
 	return (context.exit_status);
 }

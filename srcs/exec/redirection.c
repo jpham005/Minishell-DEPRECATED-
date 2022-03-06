@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 11:36:44 by jaham             #+#    #+#             */
-/*   Updated: 2022/03/05 15:27:50 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/06 12:58:16 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ static int	print_err_redir(t_err_info *err_info, int ret)
 	ft_putstr_fd(": ", 2);
 	ft_putstr_fd(err_info->err_str, 2);
 	ft_putstr_fd("\n", 2);
+	free_err_info(err_info);
 	return (ret);
 }
 
@@ -133,7 +134,6 @@ int	handle_redirection(t_redirect *redir, t_context *context, t_in_out *in_out)
 	if (ret == 0 && err_info.err_target)
 		return (print_err_redir(&err_info, ret));
 	set_in_out(in, out, in_out);
-	safe_free((void **) &err_info.err_str);
-	safe_free((void **) &err_info.err_target);
+	free_err_info(&err_info);
 	return (ret);
 }

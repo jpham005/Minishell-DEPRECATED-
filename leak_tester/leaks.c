@@ -1,33 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strnstr.c                                       :+:      :+:    :+:   */
+/*   leaks.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/24 01:03:48 by hyeonpar          #+#    #+#             */
-/*   Updated: 2022/03/06 13:29:15 by jaham            ###   ########.fr       */
+/*   Created: 2022/03/06 12:50:17 by jaham             #+#    #+#             */
+/*   Updated: 2022/03/06 13:30:35 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <unistd.h>
+#include <stdlib.h>
 
-char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
+int	main(void)
 {
-	const size_t	needle_len = ft_strlen(needle);
-
-	if (*needle)
+	while (1)
 	{
-		if (len == 0)
-			return (NULL);
-		while (len-- && ft_strncmp(haystack, needle, needle_len) != 0)
-		{
-			if (len < needle_len)
-				return (NULL);
-			if (*haystack == '\0')
-				return (NULL);
-			haystack++;
-		}
+		system("leaks minishell");
+		sleep(1);
 	}
-	return ((char *)haystack);
 }

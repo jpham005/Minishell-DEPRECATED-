@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   terminal.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 12:06:57 by jaham             #+#    #+#             */
-/*   Updated: 2022/03/06 04:02:30 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/06 13:41:45 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int		check_arg(int argc, const char **argv);
 int		check_tty(int stdin, int stdout, int stderr);
 void	init_shell(t_context *context, const char **envp);
 char	*ft_readline(t_context *context, char *str);
-int		readline_loop(t_context *context);
+void	readline_loop(t_context *context);
 int		check_valid_str(const char *str, t_context *context);
 
 #endif

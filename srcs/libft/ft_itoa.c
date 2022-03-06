@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/05 13:35:56 by hyeonpar          #+#    #+#             */
-/*   Updated: 2022/03/03 07:12:28 by hyeonpar         ###   ########.fr       */
+/*   Updated: 2022/03/06 13:27:56 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static	char	*ft_strrev(char *str)
+static char	*ft_strrev(char *str)
 {
 	size_t	i;
 	size_t	len;
@@ -32,7 +32,7 @@ static	char	*ft_strrev(char *str)
 	return (str);
 }
 
-static	size_t	get_width(int n)
+static size_t	get_width(int n)
 {
 	size_t	width;
 
@@ -45,7 +45,7 @@ static	size_t	get_width(int n)
 	return (width);
 }
 
-char			*ft_itoa(int n)
+char	*ft_itoa(int n)
 {
 	char			*num;
 	int				rem;
@@ -55,9 +55,11 @@ char			*ft_itoa(int n)
 
 	if (n == -2147483648)
 		return (ft_strdup("-2147483648"));
-	if (!(num = ft_calloc(width + 1, sizeof(char))))
+	num = ft_calloc(width + 1, sizeof(char));
+	if (!num)
 		return (NULL);
-	n = (neg) ? -n : n;
+	if (neg)
+		n = -n;
 	i = 0;
 	while (i < width)
 	{

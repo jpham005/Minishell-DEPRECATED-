@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 14:38:02 by jaham             #+#    #+#             */
-/*   Updated: 2022/03/05 20:46:08 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/06 13:17:51 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ void	heredoc_child(int in[2], t_redirect *redir, t_context *context)
 			break ;
 		if (is_heredoc_str(buf, redir->target))
 			break ;
-		temp = buf;
-		buf = ft_strjoin(buf, "\n");
-		safe_free((void **) &temp);
+		temp = ft_strjoin(buf, "\n");
+		safe_free((void **) &buf);
+		buf = temp;
 		if (ft_putstr_fd(buf, in[1]) == -1)
 			exit(1);
 		safe_free((void **) &buf);

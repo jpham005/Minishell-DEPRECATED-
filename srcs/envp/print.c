@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 14:21:18 by jaham             #+#    #+#             */
-/*   Updated: 2022/03/04 14:41:34 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/06 12:53:48 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ static void	print_envp_export(t_envp_list *head)
 		printf("declare -x %s\n", temp[i]);
 		i++;
 	}
+	free_c_dptr(&temp);
 }
 
 static void	print_envp_env(t_envp_list *head)

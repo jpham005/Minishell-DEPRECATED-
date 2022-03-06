@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_to_cmd_line.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 14:52:28 by hyeonpar          #+#    #+#             */
-/*   Updated: 2022/03/06 04:04:52 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/06 14:19:00 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void    count_pipe(t_cmd_line *res, char **s)
         {
             if (first)
             {
-                res->pipes->num = pipe_num + 1;
+                res->pipes->len = pipe_num + 1;
                 first--;
             }
             else
@@ -72,7 +72,7 @@ void    count_pipe(t_cmd_line *res, char **s)
         i++;
     }
     if (first)
-        res->pipes->num = pipe_num + 1;
+        res->pipes->len = pipe_num + 1;
     else
         add_pipe(res, pipe_num + 1);
 }
@@ -93,16 +93,16 @@ void    init_cmds_and_redir(t_cmd_line *res)
     size_t i;
 
     i = 0;
-    res->pipes->cmds = ft_malloc(sizeof(t_cmd *), res->pipes->num);
+    res->pipes->cmds = ft_malloc(sizeof(t_cmd *), res->pipes->len);
 //printf("ttcl dcmds %p\n", res->pipes->cmds);
-    while (i < res->pipes->num)
+    while (i < res->pipes->len)
     {
         res->pipes->cmds[i] = ft_malloc(sizeof(t_cmd), 1);
 //printf("ttcl cmds %p\n", res->pipes->cmds[i]);
         i++;
     }
     i = 0;
-    while (i < res->pipes->num)
+    while (i < res->pipes->len)
     {
         res->pipes->cmds[i]->redir = ft_malloc(sizeof(t_redirect), 1);
 //printf("ttcl redir%p\n", res->pipes->cmds[i]->redir);
@@ -128,6 +128,11 @@ int    fill_cmds(t_cmd_line *res, char **str)
         {
             res->pipes->cmds[j]->cmd = convert_token_to_dptr(temp);
             res->pipes->cmds[j]->type = SINGLE_CMD;
+			if (!temp->data)
+			{
+				free_token(temp);
+				return (0);
+			}
             free_token(temp);
             temp = init_empty_token();
             j++;
@@ -135,10 +140,8 @@ int    fill_cmds(t_cmd_line *res, char **str)
         else
             add_token(temp, str[i]);
     }
-    // temp가 init 상태(파이프 뒤 없음)이면 0리턴
     if (!temp->data)
     {
-        // cmd 말록 안 된 상태
         free_token(temp);
         return (0);
     }
@@ -232,7 +235,7 @@ void    fill_cmd_redir(t_cmd_line *res)
     while (cp)
     {
         j = -1;
-        while (++j < cp->pipes->num)
+        while (++j < cp->pipes->len)
         {
             temp = init_empty_token();
             i = 0;
@@ -314,17 +317,17 @@ int delete_quote_1(char **str)
 		len = 0;
 		while (str[i][++j])
 		{
-            printf("j : %d\n", j);
+            // printf("j : %d\n", j);
 			if (quote == 0 && (str[i][j] == '\'' || str[i][j] == '\"'))
 			{
 				quote = str[i][j];
-                printf("%c\n", quote);
+                // printf("%c\n", quote);
 				continue;
 			}
 			else if ((quote == '\'' && str[i][j] == '\'') || (quote == '\"' && str[i][j] == '\"'))
 			{
 				quote = 0;
-                printf("%c\n", quote);
+                // printf("%c\n", quote);
 				continue;
 			}
 			len++;
@@ -342,14 +345,13 @@ t_cmd_line  *token_to_cmd_line(char **s)
 
     if (!delete_quote_1(s))
     {
-        printf("quote error\n");
+        // printf("quote error\n");
         return (NULL);
     }
     res = init_cmd_line();
     count_pipe(res, s);
     if (!fill_pipes(res, s))
     {
-        printf("fill pipes error\n");
         free_cmd_line_e(res);
         return (NULL);
     }
