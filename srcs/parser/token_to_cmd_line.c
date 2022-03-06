@@ -3,23 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   token_to_cmd_line.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 14:52:28 by hyeonpar          #+#    #+#             */
-/*   Updated: 2022/03/06 16:15:51 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/06 18:21:56 by hyeonpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// 구조체 안의 구조체를 처리하려고 하다 보니 잘 되지 않음.
-// 포인터와 구조체 사용에 여전히 익숙하지 않은 듯.
-// res->pipes로 이어지는 내용물에 어떻게 접근해야 할 지, 담는 방식 적절한지
-// 한 번 더 확인 필요할 듯함.
-
-// cmd -> 리디렉션, 파이프(관계연산자) 나오기 전까지 뒤 전부 인자로 cmd에 담음
-// 인자, 파일은 전부 아스터리스크(괄호 flag면 확장 x). 달러(괄호 없거나 대괄호 flag만 허용) 확장 가능해야 함
-// 달러는 해당하는 환경변수가 없으면 아무것도 없는 것으로 치환한다
-// 파일 뒤에 아스터리스크가 오면 에러처리 ambiguous redirect
-// quote flag 살아있으면 입력 더 받는다
 #include "parser.h"
 #include "libft.h"
 
@@ -114,6 +104,8 @@ void    init_cmds_and_redir(t_cmd_line *res)
 
 int is_par(char *str)
 {
+    if (!ft_strlen(str))
+        return (0);
     if (str[0] == '(' && str[ft_strlen(str) - 1] == ')')
         return (1);
     return (0);

@@ -3,15 +3,47 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/06 13:09:03 by jaham             #+#    #+#             */
-/*   Updated: 2022/03/06 15:33:51 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/06 18:32:37 by hyeonpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "parser.h"
+
+int is_pipe_or_and(char *s)
+{
+	return (!ft_strncmp(s, "|", 2) || !ft_strncmp(s, "||", 3) || !ft_strncmp(s, "&&", 3));
+}
+
+int	valid_par(char **list)
+{
+	int i;
+	int par_idx;
+
+	i = 0;
+	par_idx = -2;
+	while (list[i])
+	{
+		if (i - 1 == par_idx)
+		{
+			if (!is_pipe_or_and(list[i]))
+				return (0);
+		}
+		if (is_par(list[i]))
+			par_idx = i;
+		if (is_par(list[i + 1]))
+		{
+			par_idx = i + 1;
+			if (!is_pipe_or_and(list[i]))
+				return (0);
+		}
+		i++;
+	}
+	return (1);
+}
 
 t_cmd_line	*parse(t_context *context, const char *str)
 {
@@ -25,7 +57,8 @@ t_cmd_line	*parse(t_context *context, const char *str)
 		return (NULL);
 	a = convert_dptr_to_struct(t);
 	s = convert_token_to_dptr(a);
-
+	if (!valid_par(s))
+		return (NULL);
 	expand_dollars(context, s);
 	expand_asterisks(s);
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 16:33:14 by hyeonpar          #+#    #+#             */
-/*   Updated: 2022/03/06 13:29:51 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/06 18:00:11 by hyeonpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,5 +65,6 @@ void		free_redir(t_redirect *redir);
 char		*expand_asterisk_helper(char **list);
 void		free_cmd_line_e(t_cmd_line *cml);
 t_cmd_line	*parse(t_context *context, const char *str);
+int 		is_par(char *str);
 
 #endif
