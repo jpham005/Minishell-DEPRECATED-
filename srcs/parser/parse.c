@@ -6,7 +6,7 @@
 /*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/06 13:09:03 by jaham             #+#    #+#             */
-/*   Updated: 2022/03/06 18:32:37 by hyeonpar         ###   ########.fr       */
+/*   Updated: 2022/03/06 19:22:03 by hyeonpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,18 +54,23 @@ t_cmd_line	*parse(t_context *context, const char *str)
 
 	t = tokenizer(str);
 	if (!t)
+	{
+		free_c_dptr(&t);
 		return (NULL);
+	}
 	a = convert_dptr_to_struct(t);
+	free_c_dptr(&t);
 	s = convert_token_to_dptr(a);
+	free_token(a);
 	if (!valid_par(s))
+	{
+		free_c_dptr(&s);
 		return (NULL);
+	}
 	expand_dollars(context, s);
 	expand_asterisks(s);
-
 	cml = token_to_cmd_line(s);
     // print_struct(cml);
-	free_token(a);
 	free_c_dptr(&s);
-	free_c_dptr(&t);
 	return (cml);
 }

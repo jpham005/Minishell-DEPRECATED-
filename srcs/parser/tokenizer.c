@@ -6,7 +6,7 @@
 /*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 07:33:58 by hyeonpar          #+#    #+#             */
-/*   Updated: 2022/03/06 03:15:18 by hyeonpar         ###   ########.fr       */
+/*   Updated: 2022/03/06 19:20:49 by hyeonpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,11 +188,11 @@ int		get_start(const char *line, t_tokenizer *tool)
 		return (1);
 	}
 	tool->prev = 0; // 이전에 파이프 리디렉션 괄호 아니면 0으로 초기화
-	if (!tool->idx) // 라인 첫 문자면
+	if (!i) // 라인 첫 문자면
 		return (1);
 	if (ft_is_space(line[i])) // space면
 		return (!ft_is_space(line[i - 1])); // 전이 스페이스 아니면 1리턴
-	return (ft_is_space(line[i - 1]) || (ft_is_set(line[i - 1], "><|&"))); // 이전 스페이스이거나 이전이 무조건끝나는문자들이면 1리턴
+	return (ft_is_space(line[i - 1]) || (ft_is_set(line[i - 1], "><|&")) || (i && line[i - 1] == ')' && !tool->par)); // 이전 스페이스이거나 이전이 무조건끝나는문자들이면 1리턴
 }
 
 // 위는 다 이 함수를 위한 것이라 static 처리하면 됨
