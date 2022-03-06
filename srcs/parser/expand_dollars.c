@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 16:37:13 by jaham             #+#    #+#             */
-/*   Updated: 2022/03/06 16:35:32 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/06 16:38:46 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,31 +94,29 @@ int		count_dollar(char *s)
 
 char	*is_envp(t_context *context, char *str, int start, int end)
 {	
-	int i;
-	int len;
-	char *s;
-	char *ret;
-	t_context *temp;
+	int			i;
+	int			len;
+	char		*s;
+	char		*ret;
+	t_envp_list *cp;
 
-	temp = context;
+	cp = context->envp;
 	i = 0;
 	len = end - start;
 	ret = NULL;
 	s = ft_malloc(sizeof(char), len + 1);
-//printf("isenvp s: %p\n", s);
 	while (i < len)
 		s[i++] = str[start++];
 	s[i] = '\0';
-	while (context->envp)
+	while (cp)
 	{
-		if (ft_strcmp(context->envp->key, s) == 0)
+		if (ft_strcmp(cp->key, s) == 0)
 		{
-			ret = ft_strdup(context->envp->value);
+			ret = ft_strdup(cp->value);
 			break;
 		}
-		context->envp = context->envp->next;
+		cp = cp->next;
 	}
-	context = temp;
 	safe_free((void **) &s);
 	return (ret);
 }

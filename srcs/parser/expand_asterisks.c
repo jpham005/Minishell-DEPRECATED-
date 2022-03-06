@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 17:23:31 by hyeonpar          #+#    #+#             */
-/*   Updated: 2022/03/06 16:03:58 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/06 17:21:18 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ char	*expand_asterisk_helper(char **list)
 {
 	char	*tmp;
 	char	*tmp2;
+	char	*tmp3;
 	int		i;
 
 	i = -1;
@@ -29,7 +30,14 @@ char	*expand_asterisk_helper(char **list)
 		if (ft_strncmp(list[i], " ", 1) != 0)
 		{
 			tmp = ft_strjoin(list[i], " ");
-			tmp2 = ft_strjoin(tmp2, tmp);
+			if (tmp2)
+			{
+				tmp3 = ft_strjoin(tmp2, tmp);
+				safe_free((void **) &tmp2);
+				tmp2 = tmp3;
+			}
+			else
+				tmp2 = ft_strjoin(tmp2, tmp);
 			safe_free((void **) &tmp); //
 		}
 	}
@@ -115,7 +123,9 @@ char	**current_path_ls(void)
 		if (dirp == NULL)
 			break;
 		if (dirp->d_name[0] != '.')
+		{
 			arr[i++] = ft_strdup(dirp->d_name);
+		}
 	}
 	res = (char **)ft_calloc(sizeof(char *), i + 1);
 	*(res + i) = NULL;
@@ -191,9 +201,9 @@ char	*expand_asterisk(char *arg)
 		free(arg);
 		arg = new;
 	}
-	safe_free((void **) str);
-	safe_free((void **) list);
-
+	free_c_dptr(&str);
+	free_c_dptr(&list);
+	safe_free((void **) &no_q);
 	return (arg);
 }
 
