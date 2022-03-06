@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 16:09:27 by jaham             #+#    #+#             */
-/*   Updated: 2022/03/06 13:47:39 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/06 16:34:35 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	exit_with_cmd_err(char *cmd, int stat)
 		exit(126);
 	}
 }
-
+#include <stdio.h>
 void	exec_cmd(char **cmd, t_context *context)
 {
 	char	*cmd_exec;
@@ -95,6 +95,11 @@ void	exec_cmd(char **cmd, t_context *context)
 	if (!cmd_exec)
 		exit_with_msg(cmd[0], CMD_NOT_FOUND_ERR_MSG, 127);
 	else
+	{
+	// printf("%s\n", cmd[1]);
+	// free(cmd[1]);
+	// cmd[1] = NULL;
 		execve(cmd_exec, cmd, convert_envp_to_dptr(context->envp));
+	}
 	exit_with_msg(cmd[0], strerror(errno), 126);
 }

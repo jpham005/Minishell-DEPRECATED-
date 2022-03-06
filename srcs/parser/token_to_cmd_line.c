@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 14:52:28 by hyeonpar          #+#    #+#             */
-/*   Updated: 2022/03/06 14:19:00 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/06 16:15:51 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,38 @@ void    init_cmds_and_redir(t_cmd_line *res)
     }
 }
 
+int is_par(char *str)
+{
+    if (str[0] == '(' && str[ft_strlen(str) - 1] == ')')
+        return (1);
+    return (0);
+}
+
+void    remove_par(char **str, int idx, t_cmd_line *res, int cmds_num)
+{
+    int i;
+    int j;
+    int end;
+    char *ret;
+
+    i = -1;
+    j = 0;
+    end = ft_strlen(str[idx]) - 1;
+    ret = ft_malloc(sizeof(char), end);
+    while (str[idx][++i])
+    {
+        if (i == 0 || i == end)
+            continue;
+        ret[j] = str[idx][i];
+        j++;
+    }
+    ret[j] = '\0';
+    safe_free((void **) &str[idx]);
+    str[idx] = ft_strdup(ret);
+    safe_free((void **) &ret);
+    res->pipes->cmds[cmds_num]->type = PARENTHESIS;
+}
+
 int    fill_cmds(t_cmd_line *res, char **str)
 {
     t_token *temp;
@@ -124,15 +156,19 @@ int    fill_cmds(t_cmd_line *res, char **str)
     init_cmds_and_redir(res);
     while (str[++i])
     {
+        if (is_par(str[i]))
+            remove_par(str, i, res, j);
         if (ft_strncmp(str[i], "|", 2) == 0)
         {
             res->pipes->cmds[j]->cmd = convert_token_to_dptr(temp);
-            res->pipes->cmds[j]->type = SINGLE_CMD;
-			if (!temp->data)
-			{
-				free_token(temp);
-				return (0);
-			}
+            if (res->pipes->cmds[j]->type != PARENTHESIS)
+                res->pipes->cmds[j]->type = SINGLE_CMD;
+            if (!temp->data)
+            {
+                // cmd 말록 안 된 상태
+                free_token(temp);
+                return (0);
+            }
             free_token(temp);
             temp = init_empty_token();
             j++;
@@ -140,14 +176,17 @@ int    fill_cmds(t_cmd_line *res, char **str)
         else
             add_token(temp, str[i]);
     }
+    // temp가 init 상태(파이프 뒤 없음)이면 0리턴
     if (!temp->data)
     {
+        // cmd 말록 안 된 상태
         free_token(temp);
         return (0);
     }
     res->pipes->cmds[j]->cmd = convert_token_to_dptr(temp);
-    res->pipes->cmds[j]->type = SINGLE_CMD;
     free_token(temp);
+	if (res->pipes->cmds[j]->type != PARENTHESIS)
+		res->pipes->cmds[j]->type = SINGLE_CMD;
     return (1);
 }
 
@@ -191,11 +230,20 @@ int    fill_pipes(t_cmd_line *res, char **s)
     return (1);
 }
 
-void    fill_redir(t_cmd_line *res, t_redir_type type, char *target, int j)
+int	is_redir2(char *s)
+{
+	if (ft_strncmp(s, "<", 2) || ft_strncmp(s, ">", 2) || ft_strncmp(s, "<<", 3) || ft_strncmp(s, ">>", 3))
+		return (1);
+	return (0);
+}
+
+int    fill_redir(t_cmd_line *res, t_redir_type type, char *target, int j)
 {
     t_redirect  *new;
     t_redirect  *temp;
 
+    if (target == NULL || is_redir2(target))
+		return (1);
     if (res->pipes->cmds[j]->redir->target == NULL)
     {
         res->pipes->cmds[j]->redir->type = type;
@@ -211,6 +259,7 @@ void    fill_redir(t_cmd_line *res, t_redir_type type, char *target, int j)
         res->pipes->cmds[j]->redir->next = new;
         res->pipes->cmds[j]->redir = temp;
     }
+	return (0);
 }
 
 int	is_redir(char *s, int *i)
@@ -223,13 +272,14 @@ int	is_redir(char *s, int *i)
 	return (0);
 }
 
-void    fill_cmd_redir(t_cmd_line *res)
+int	fill_cmd_redir(t_cmd_line *res)
 {
     t_token *temp;
     t_cmd_line *cp;
     int i;
     size_t j;
     int cnt;
+	int	err;
 
     cp = res;
     while (cp)
@@ -244,14 +294,16 @@ void    fill_cmd_redir(t_cmd_line *res)
             {
                 if (is_redir(cp->pipes->cmds[j]->cmd[i], &cnt))
                 {
-                    if (ft_strncmp(cp->pipes->cmds[j]->cmd[i], "<", 2) == 0)
-                        fill_redir(cp, REDIR_OUT, cp->pipes->cmds[j]->cmd[++i], j);
-                    else if (ft_strncmp(cp->pipes->cmds[j]->cmd[i], ">", 2) == 0)
-                        fill_redir(cp, REDIR_IN, cp->pipes->cmds[j]->cmd[++i], j);
+                    if (ft_strncmp(cp->pipes->cmds[j]->cmd[i], ">", 2) == 0)
+                        err = fill_redir(cp, REDIR_OUT, cp->pipes->cmds[j]->cmd[++i], j);
+                    else if (ft_strncmp(cp->pipes->cmds[j]->cmd[i], "<", 2) == 0)
+                        err = fill_redir(cp, REDIR_IN, cp->pipes->cmds[j]->cmd[++i], j);
                     else if (ft_strncmp(cp->pipes->cmds[j]->cmd[i], "<<", 3) == 0)
-                        fill_redir(cp, REDIR_HEREDOC, cp->pipes->cmds[j]->cmd[++i], j);
+                        err = fill_redir(cp, REDIR_HEREDOC, cp->pipes->cmds[j]->cmd[++i], j);
                     else if (ft_strncmp(cp->pipes->cmds[j]->cmd[i], ">>", 3) == 0)
-                        fill_redir(cp, REDIR_APPEND, cp->pipes->cmds[j]->cmd[++i], j);
+                        err = fill_redir(cp, REDIR_APPEND, cp->pipes->cmds[j]->cmd[++i], j);
+					if (err)
+						return (0);
                 }
                 else
                     add_token(temp, cp->pipes->cmds[j]->cmd[i]);
@@ -269,6 +321,7 @@ void    fill_cmd_redir(t_cmd_line *res)
         }
         cp = cp->next;
     }
+	return (1);
 }
 
 void	delete_quote_2(char **str, int len, int i)
@@ -355,7 +408,10 @@ t_cmd_line  *token_to_cmd_line(char **s)
         free_cmd_line_e(res);
         return (NULL);
     }
-    fill_cmd_redir(res);
-
+    if (!fill_cmd_redir(res))
+    {
+        free_cmd_line_e(res);
+        return (NULL);
+    }
     return (res);
 }

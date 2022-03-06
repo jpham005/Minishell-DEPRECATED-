@@ -1,13 +1,5 @@
 #include "parser.h"
 #include "libft.h"
-
-int	is_redir2(char *s)
-{
-	if (ft_strncmp(s, "<", 2) || ft_strncmp(s, ">", 2) || ft_strncmp(s, "<<", 3) || ft_strncmp(s, ">>", 3))
-		return (1);
-	return (0);
-}
-
 // init
 t_token *init_token(char *token)
 {
@@ -31,8 +23,6 @@ t_redirect	*init_redirect(t_redir_type type, char *target)
 	red->type = type;
 	red->target = ft_strdup(target);
 	red->next = NULL;
-	if (target == NULL || is_redir2(target))
-		; // 에러 처리
 
 	return (red);
 }

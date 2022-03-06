@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 15:41:42 by jaham             #+#    #+#             */
-/*   Updated: 2022/03/06 03:50:22 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/06 15:41:14 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static int	move_to_arg(t_envp_list *envp, const char *arg)
 	if (chdir(path) == -1)
 	{
 		print_cd_error(path, strerror(errno));
-		safe_free((void **) &curr_dir);
+		free_both_cd(&curr_dir, &path);
 		return (1);
 	}
 	if (flag)

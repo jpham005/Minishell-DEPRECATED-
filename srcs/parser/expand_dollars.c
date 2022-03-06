@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_dollars.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 16:37:13 by jaham             #+#    #+#             */
-/*   Updated: 2022/03/06 03:46:32 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/06 16:35:32 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,9 @@ char	*is_envp(t_context *context, char *str, int start, int end)
 	int len;
 	char *s;
 	char *ret;
+	t_context *temp;
 
+	temp = context;
 	i = 0;
 	len = end - start;
 	ret = NULL;
@@ -116,6 +118,7 @@ char	*is_envp(t_context *context, char *str, int start, int end)
 		}
 		context->envp = context->envp->next;
 	}
+	context = temp;
 	safe_free((void **) &s);
 	return (ret);
 }

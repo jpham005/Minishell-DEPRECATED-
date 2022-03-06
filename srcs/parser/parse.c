@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/06 13:09:03 by jaham             #+#    #+#             */
-/*   Updated: 2022/03/06 13:10:11 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/06 15:33:51 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ t_cmd_line	*parse(t_context *context, const char *str)
 	expand_asterisks(s);
 
 	cml = token_to_cmd_line(s);
-    print_struct(cml);
+    // print_struct(cml);
 	free_token(a);
 	free_c_dptr(&s);
 	free_c_dptr(&t);

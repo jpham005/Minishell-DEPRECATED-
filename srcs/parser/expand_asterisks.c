@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_asterisks.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 17:23:31 by hyeonpar          #+#    #+#             */
-/*   Updated: 2022/03/06 04:03:12 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/06 16:03:58 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,20 +137,19 @@ char	*del_quote(char *arg)
 	quote = 0;
 	while (arg[++i] != '\0')
 	{
-		if (quote == 0 && (arg[i] =='\'' || arg[i] =='\"')) // quote 안이 아닌 상태에서 quote를 발견하면 추가하고 넘어감
+		if (quote == 0 && (arg[i] =='\'' || arg[i] =='\"'))
 		{
 			quote = arg[i];
 			continue;
 		}
-		else if (quote != 0 && quote == arg[i]) // quote 안에서 quote를 발견하면 quote 0 만들고 넘어감
+		else if (quote != 0 && quote == arg[i])
 		{
 			quote = 0;
 			continue;
 		}
-		len++; // 나머지 경우는 len++
+		len++;
 	}
 	no_q = ft_malloc(sizeof(char), len + 1);
-//printf("no_q : %p\n", no_q);
 	i = -1;
 	len = 0;
 	quote = 0;
@@ -173,19 +172,19 @@ char	*del_quote(char *arg)
 	return (no_q);
 }
 
-char	*expand_asterisk(char *arg) // arg는 아스터리스크가 확장될 수 있는(유효한) 문자열덩어리
+char	*expand_asterisk(char *arg)
 {
-	char	**str; // asterlisk로 나눈 문자열(list에 있나 체크해야됨)
+	char	**str;
 	char	*no_q;
 	char	**list;
 	char	*new;
 
-	no_q = del_quote(arg); // quote 빼고 문자열의 길이가 얼마나 되는지 구하고,길이만큼 새로운 문자열 말록하고, 거기에 코트 빼고 다 넣어
+	no_q = del_quote(arg);
 	list = current_path_ls();
-	check_side(list, no_q); // 양 끝이 조건 충족하는지 검사, 충족 안 하면 스페이스만 넣어버림
+	check_side(list, no_q);
 
 	str = ft_split(no_q, '*');
-	check_str(list, str); // 사이에 str 있는지 검사
+	check_str(list, str);
 	new = expand_asterisk_helper(list);
 	if (new)
 	{
@@ -244,7 +243,7 @@ void	expand_asterisks(char **str)
 	while (str[i])
 	{
 		if (is_asterisk(str[i]))
-			str[i] = expand_asterisk(str[i]); // *가 포함된 문자열을 확장
+			str[i] = expand_asterisk(str[i]);
 		i++;
 	}
 }
