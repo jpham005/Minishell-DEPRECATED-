@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/06 17:52:30 by jaham             #+#    #+#             */
-/*   Updated: 2022/03/06 19:19:16 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/06 20:46:23 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,6 @@ void	split_str_i(char ***str, size_t *i)
 	new = copy_to_new(*str, appending, i, before_len);
 	free_c_dptr(str);
 	*str = new;
-	*i = before_len + get_len_dptr(appending) - 1;
+	*i = get_len_dptr(appending);
 	free_c_dptr(&appending);
 }
