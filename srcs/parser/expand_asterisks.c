@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_asterisks.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 17:23:31 by hyeonpar          #+#    #+#             */
-/*   Updated: 2022/03/07 04:19:46 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/07 14:29:18 by hyeonpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,119 +67,10 @@ void	check_str_helper(char **list, char **str, int *i)
 		else
 		{
 			safe_free((void **) &list[*i]);
-			list[*i] = ft_strdup(" ");
-			(*i)++;
+			list[(*i)++] = ft_strdup(" ");
 			break ;
 		}
 	}
-}
-
-void	check_str(char **list, char **str)
-{
-	int		i;
-
-	i = 0;
-	if (str[0] == NULL)
-		return ;
-	while (list[i] != NULL)
-		check_str_helper(list, str, &i);
-}
-
-void	check_side(char **list, char *arg)
-{
-	int	i;
-
-	i = -1;
-	while (list[++i] != NULL)
-	{
-		if (
-			((arg[0] == '*') || ((arg[0] != '*') && (list[i][0] == arg[0])))
-			&& ((arg[ft_strlen(arg) - 1] == '*') \
-			|| ((arg[ft_strlen(arg) - 1] != '*') \
-			&& (list[i][ft_strlen(list[i]) - 1] == arg[ft_strlen(arg) - 1])))
-			)
-			continue ;
-		else
-		{
-			safe_free((void **) &list[i]);
-			list[i] = ft_strdup(" ");
-		}
-	}
-}
-
-char	**current_path_ls(void)
-{
-	DIR				*dp;
-	struct dirent	*dirp;
-	int				i;
-	char			*arr[256];
-	char			**res;
-
-	dp = opendir(".");
-	i = 0;
-	while (1)
-	{
-		dirp = readdir(dp);
-		if (dirp == NULL)
-			break ;
-		if (dirp->d_name[0] != '.')
-		{
-			arr[i++] = ft_strdup(dirp->d_name);
-		}
-	}
-	res = (char **)ft_calloc(sizeof(char *), i + 1);
-	*(res + i) = NULL;
-	while (--i > -1)
-		*(res + i) = arr[i];
-	closedir(dp);
-	return (res);
-}
-
-char	*del_quote(char *arg)
-{
-	int		i;
-	int		len;
-	char	quote;
-	char	*no_q;
-
-	i = -1;
-	len = 0;
-	quote = 0;
-	while (arg[++i] != '\0')
-	{
-		if (quote == 0 && (arg[i] == '\'' || arg[i] == '\"'))
-		{
-			quote = arg[i];
-			continue ;
-		}
-		else if (quote != 0 && quote == arg[i])
-		{
-			quote = 0;
-			continue ;
-		}
-		len++;
-	}
-	no_q = ft_calloc(sizeof(char), len + 1);
-	i = -1;
-	len = 0;
-	quote = 0;
-	while (arg[++i] != '\0')
-	{
-		if (quote == 0 && (arg[i] == '\'' || arg[i] == '\"'))
-		{
-			quote = arg[i];
-			continue ;
-		}
-		else if (quote != 0 && quote == arg[i])
-		{
-			quote = 0;
-			continue ;
-		}
-		no_q[len] = arg[i];
-		len++;
-	}
-	no_q[len] = '\0';
-	return (no_q);
 }
 
 char	*expand_asterisk(char *arg)
@@ -204,20 +95,6 @@ char	*expand_asterisk(char *arg)
 	free_c_dptr(&list);
 	safe_free((void **) &no_q);
 	return (arg);
-}
-
-int	find_char(char *str, char s)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == s)
-			return (i);
-		i++;
-	}
-	return (-1);
 }
 
 int	is_asterisk(char *str)

@@ -3,15 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   expand_asterisks_helper.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/06 17:52:30 by jaham             #+#    #+#             */
-/*   Updated: 2022/03/07 02:01:23 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/07 14:29:55 by hyeonpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "parser.h"
+
+void	check_str(char **list, char **str)
+{
+	int		i;
+
+	i = 0;
+	if (str[0] == NULL)
+		return ;
+	while (list[i] != NULL)
+		check_str_helper(list, str, &i);
+}
 
 static size_t	get_len_dptr(char **str)
 {

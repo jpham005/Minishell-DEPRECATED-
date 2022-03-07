@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_dollars.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 16:37:13 by jaham             #+#    #+#             */
-/*   Updated: 2022/03/07 12:43:10 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/07 13:56:03 by hyeonpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ static void	get_new(char **ex_val, char **new, char **temp_s, int *i)
 		safe_free((void **) ex_val);
 		*temp_s = *new;
 	}
+	else
+		*new = *temp_s;
 	(*i)--;
 }
 
