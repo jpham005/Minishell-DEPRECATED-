@@ -6,7 +6,7 @@
 /*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 16:33:14 by hyeonpar          #+#    #+#             */
-/*   Updated: 2022/03/07 14:03:56 by hyeonpar         ###   ########.fr       */
+/*   Updated: 2022/03/07 14:50:24 by hyeonpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,11 +69,13 @@ t_cmd_line	*parse(t_context *context, const char *str);
 int			is_par(char *str);
 void		split_str_i(char ***str, size_t *i);
 int			check_syntax_err(char **str, t_context *context);
-void		del_q(char *str);
 void		check_dollar(int *dollar_flag, char *str);
 int			is_env_var(char c);
 int			count_dollar(char *s);
 char		*is_envp(t_context *context, char *str, int start, int end);
 void		ft_charjoin(char **new, char **s1, char c);
+char		*del_quote(char *arg);
+void		check_side(char **list, char *arg);
+int			find_char(char *str, char s);
 
 #endif

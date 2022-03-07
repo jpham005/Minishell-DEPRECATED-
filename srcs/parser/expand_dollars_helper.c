@@ -3,27 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   expand_dollars_helper.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 02:50:13 by jaham             #+#    #+#             */
-/*   Updated: 2022/03/07 03:19:53 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/07 14:49:10 by hyeonpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "parser.h"
-
-void	del_q(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i] != '\0')
-	{
-		str[i] = str[i + 1];
-		i++;
-	}
-}
 
 static int	is_valid_dollar(char *str, int end)
 {

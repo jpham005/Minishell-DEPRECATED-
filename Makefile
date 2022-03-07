@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jaham <jaham@student.42.fr>                +#+  +:+       +#+         #
+#    By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/16 20:45:33 by jaham             #+#    #+#              #
-#    Updated: 2022/03/07 12:37:12 by jaham            ###   ########.fr        #
+#    Updated: 2022/03/07 14:51:49 by hyeonpar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,8 @@ UTILS_SRCS := $(addprefix $(UTILS_DIR)/, $(UTILS_SRCS))
 PARSER_SRCS := expand_asterisks.c par2.c util_struct.c tokenizer.c \
 		expand_dollars.c token_to_cmd_line.c free.c parse.c \
 		expand_asterisks_helper.c precheck_syntax_err.c \
-		expand_dollars_helper.c expand_dollars_helper2.c
+		expand_dollars_helper.c expand_dollars_helper2.c \
+		expand_asterisks2.c
 PARSER_SRCS := $(addprefix $(PARSER_DIR)/, $(PARSER_SRCS))
 TERMINAL_SRCS := check_default_state.c set_state.c signal_handler.c init.c \
 				readline_loop.c check_valid_str.c signal_handler_exec.c
