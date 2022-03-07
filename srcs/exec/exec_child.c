@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 12:51:36 by jaham             #+#    #+#             */
-/*   Updated: 2022/03/05 16:55:05 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/07 11:58:58 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static void	child(t_cmd *cmd, t_context *context, \
 	}
 	ft_close(pipeline[0]);
 	ft_close(pipeline[1]);
-	built_in_type = is_built_in(cmd->cmd[0]);
+	built_in_type = is_built_in(cmd->cmd);
 	if (built_in_type != SH_NOT_BUILT_IN)
 		exit(exec_built_in(cmd->cmd, context, built_in_type));
 	if (cmd->type == SINGLE_CMD)
@@ -51,7 +51,7 @@ pid_t	exec_fork(t_cmd *cmd, t_context *context, t_in_out *in_out)
 
 	if (!ft_pipe(pipeline))
 		return (-1);
-	set_sig_handler_parent();
+	set_sig_handler_parent(cmd->cmd);
 	pid = fork();
 	if (pid == -1)
 		return (pid);
@@ -81,7 +81,7 @@ static void	child_out(t_cmd *cmd, t_context *context, t_in_out *in_out)
 			exit(1);
 		ft_close(in_out->in);
 	}
-	built_in_type = is_built_in(cmd->cmd[0]);
+	built_in_type = is_built_in(cmd->cmd);
 	if (built_in_type != SH_NOT_BUILT_IN)
 		exit(exec_built_in(cmd->cmd, context, built_in_type));
 	if (cmd->type == SINGLE_CMD)
@@ -93,7 +93,7 @@ pid_t	exec_fork_out(t_cmd *cmd, t_context *context, t_in_out *in_out)
 {
 	pid_t	pid;
 
-	set_sig_handler_parent();
+	set_sig_handler_parent(cmd->cmd);
 	pid = fork();
 	if (pid == -1)
 		return (pid);

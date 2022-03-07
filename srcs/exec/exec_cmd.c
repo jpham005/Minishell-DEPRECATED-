@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 16:09:27 by jaham             #+#    #+#             */
-/*   Updated: 2022/03/07 03:16:55 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/07 12:03:39 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,8 @@ void	exec_cmd(char **cmd, t_context *context)
 	char	*cmd_exec;
 	int		stat;
 
+	if (!cmd)
+		exit(0);
 	if (ft_strchr(cmd[0], '/'))
 	{
 		stat = check_cmd(cmd[0]);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 16:33:14 by hyeonpar          #+#    #+#             */
-/*   Updated: 2022/03/07 03:52:40 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/07 12:46:21 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include "cmd_line.h"
 # include "terminal.h"
 # include <dirent.h>
-
+#include <stdio.h>
 typedef enum e_error
 {
 	SUCCESS = 0,
@@ -68,7 +68,6 @@ t_cmd_line	*parse(t_context *context, const char *str);
 int			is_par(char *str);
 void		split_str_i(char ***str, size_t *i);
 int			check_syntax_err(char **str, t_context *context);
-void		handle_syntax_err(t_context *context);
 void		del_q(char *str);
 void		check_dollar(int *dollar_flag, char *str);
 int			is_env_var(char c);

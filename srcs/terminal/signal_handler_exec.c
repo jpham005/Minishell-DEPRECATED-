@@ -6,17 +6,26 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/05 17:01:21 by jaham             #+#    #+#             */
-/*   Updated: 2022/03/06 14:39:06 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/07 11:54:25 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include "terminal.h"
 #include <signal.h>
 
-void	set_sig_handler_parent(void)
+void	set_sig_handler_parent(char **cmd)
 {
-	signal(SIGINT, sig_int_handler_default);
-	signal(SIGQUIT, sig_quit_handler);
+	if (cmd && !ft_strncmp(cmd[0] + ft_strlen(cmd[0]) - 11, "./minishell", 12))
+	{
+		signal(SIGINT, SIG_IGN);
+		signal(SIGQUIT, SIG_IGN);
+	}
+	else
+	{
+		signal(SIGINT, sig_int_handler_default);
+		signal(SIGQUIT, sig_quit_handler);
+	}
 }
 
 void	set_sig_handler_child(void)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 20:46:28 by jaham             #+#    #+#             */
-/*   Updated: 2022/03/07 02:30:45 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/07 11:10:54 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # define ARG_ERR_MESSAGE "Arg Error\n"
 # define DEFAULT_FD_ERR_MESSAGE "Default fd Error\n"
 
-# define ASCII_ART_PATH "imgs/"
+# define ASCII_ART_PATH "/goinfre/jaham/Minishell/imgs/"
 
 # define END_TERM 1 << 0
 # define ARG_ERR 1 << 1

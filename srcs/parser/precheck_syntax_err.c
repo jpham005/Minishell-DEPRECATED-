@@ -3,22 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   precheck_syntax_err.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 01:44:52 by jaham             #+#    #+#             */
-/*   Updated: 2022/03/07 04:21:21 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/07 12:23:42 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "parser.h"
-
-void	handle_syntax_err(t_context *context)
-{
-	ft_putstr_fd("minishell: ", 2);
-	ft_putstr_fd(SYNTAX_ERR_MESSAGE, 2);
-	context->exit_status = 258;
-}
 
 static int	check_logical_err(char *str)
 {
@@ -32,6 +25,24 @@ static int	check_logical_err(char *str)
 
 static int	check_pipe_err(char *str)
 {
+	char	**splited;
+	size_t	i;
+
+	splited = ft_split(str, " \t\n");
+	i = 0;
+	while (splited[i + 1])
+	{
+		if (
+			splited[i][ft_strlen(splited[i]) - 1] == '|'
+			&& splited[i + 1][0] == '|'
+		)
+		{
+			free_c_dptr(&splited);
+			return (0);
+		}
+		i++;
+	}
+	free_c_dptr(&splited);
 	return (
 		str[0] != '|'
 		&& str[ft_strlen(str) - 1] != '|'
@@ -45,11 +56,6 @@ static int	check_parenthesis_err(char *str)
 	int		parenthesis;
 
 	i = 0;
-	while (str[i] && str[i] == '\n' && str[i] == '\t' && str[i] == ' ')
-		i++;
-	if (!str[i])
-		return (0);
-	i = 0;
 	parenthesis = 0;
 	while (str[i])
 	{
@@ -62,6 +68,14 @@ static int	check_parenthesis_err(char *str)
 	return (!parenthesis);
 }
 
+static int	check_redir_err(char *str)
+{
+	return (
+		str[ft_strlen(str) - 1] != '<'
+		&& str[ft_strlen(str) - 1] != '>'
+	);
+}
+
 int	check_syntax_err(char **str, t_context *context)
 {
 	char	*trimed_str;
@@ -71,6 +85,7 @@ int	check_syntax_err(char **str, t_context *context)
 		!check_logical_err(trimed_str)
 		|| !check_pipe_err(trimed_str)
 		|| !check_parenthesis_err(trimed_str)
+		|| !check_redir_err(trimed_str)
 	)
 	{
 		safe_free((void **) str);

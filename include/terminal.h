@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   terminal.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 12:06:57 by jaham             #+#    #+#             */
-/*   Updated: 2022/03/06 23:44:29 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/07 11:54:40 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	reset_terminal(t_context *context);
 void	sig_int_handler_readline(int sig);
 void	sig_int_handler_default(int sig);
 void	set_sig_handler_child(void);
-void	set_sig_handler_parent(void);
+void	set_sig_handler_parent(char **cmd);
 void	heredoc_handler(int sig);
 void	sig_quit_handler(int sig);
 int		check_arg(int argc, const char **argv);
@@ -52,5 +52,6 @@ void	init_shell(t_context *context, const char **envp);
 char	*ft_readline(t_context *context, char *str);
 void	readline_loop(t_context *context);
 int		check_valid_str(const char *str, t_context *context);
+void	handle_syntax_err(t_context *context);
 
 #endif

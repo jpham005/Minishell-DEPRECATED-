@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_to_cmd_line.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 14:52:28 by hyeonpar          #+#    #+#             */
-/*   Updated: 2022/03/07 04:26:25 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/07 12:50:48 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -334,8 +334,11 @@ void	delete_quote_2(char **str, int len, int i)
 		s[len++] = str[i][j];
 	}
 	s[len] = '\0';
+	printf("before %d\n", i);
+	printf("%s\n", str[i]);
 	safe_free((void **) &str[i]);
 	str[i] = ft_strdup(s);
+	printf("after\n");
 	safe_free((void **) &s);
 }
 

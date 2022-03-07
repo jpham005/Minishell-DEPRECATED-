@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 11:24:03 by jaham             #+#    #+#             */
-/*   Updated: 2022/03/06 14:41:15 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/07 12:10:23 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,10 @@ static int	exec_single_cmd(t_cmd *cmd, t_context *context, t_in_out *in_out)
 	int	built_in_type;
 	int	*pid;
 
-	set_sig_handler_parent();
+	set_sig_handler_parent(cmd->cmd);
 	if (!care_in_out(cmd, context, in_out))
 		return (1);
-	built_in_type = is_built_in(cmd->cmd[0]);
+	built_in_type = is_built_in(cmd->cmd);
 	if (built_in_type != SH_NOT_BUILT_IN)
 		return (exec_built_in(cmd->cmd, context, built_in_type));
 	pid = ft_malloc(sizeof(int), 1);
