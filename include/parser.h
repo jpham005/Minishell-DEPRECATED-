@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 16:33:14 by hyeonpar          #+#    #+#             */
-/*   Updated: 2022/03/07 17:12:45 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/07 18:14:15 by hyeonpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ char		*del_quote(char *arg);
 void		check_side(char **list, char *arg);
 int			find_char(char *str, char s);
 void		expand_estat(char **ex_val, char **new, char **t_s, t_context *ctx);
-int			is_no_expand(char *str, int i, int j, int *dollar_flag);
+int			is_no_expand(char *str, t_index *idx, int *dollar_flag);
 void		get_expand_val(int *i, char *str, t_context *ctx, char **ex_val);
 void		get_new(char **ex_val, char **new, char **temp_s, int *i);
 void		remove_par(char **str, int idx, t_cmd_line *res, int cmds_num);
