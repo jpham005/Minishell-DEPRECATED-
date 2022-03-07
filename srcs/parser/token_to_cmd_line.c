@@ -6,72 +6,77 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 14:52:28 by hyeonpar          #+#    #+#             */
-/*   Updated: 2022/03/07 17:22:40 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/07 17:55:24 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 #include "libft.h"
 
-t_token	*init_empty_token(void)
+static int	fill_handle_redir(t_cmd_line *cp, t_helper *helper)
 {
-	t_token	*temp;
+	if (is_redir(cp->pipes->cmds[helper->j]->cmd[helper->i], &helper->cnt))
+	{
+		if (ft_strncmp(cp->pipes->cmds[helper->j]->cmd[helper->i], ">", 2) == 0)
+			helper->err = \
+				fill_r(cp, 2, cp->pipes->cmds[helper->j]->cmd[++(helper->i)], \
+																	helper->j);
+		else if
+		(ft_strncmp(cp->pipes->cmds[helper->j]->cmd[helper->i], "<", 2) == 0)
+			helper->err = \
+				fill_r(cp, 0, cp->pipes->cmds[helper->j]->cmd[++(helper->i)], \
+																	helper->j);
+		else if
+		(ft_strncmp(cp->pipes->cmds[helper->j]->cmd[helper->i], "<<", 3) == 0)
+			helper->err = \
+				fill_r(cp, 1, cp->pipes->cmds[helper->j]->cmd[++(helper->i)], \
+																	helper->j);
+		else if
+		(ft_strncmp(cp->pipes->cmds[helper->j]->cmd[helper->i], ">>", 3) == 0)
+			helper->err = \
+				fill_r(cp, 3, cp->pipes->cmds[helper->j]->cmd[++(helper->i)], \
+																	helper->j);
+		if (helper->err)
+			return (0);
+	}
+	return (1);
+}
 
-	temp = ft_calloc(sizeof(t_token), 1);
-	temp->data = NULL;
-	temp->next = NULL;
-	return (temp);
+static int	fill_cmd_redir_while(t_cmd_line *cp, \
+												t_helper *helper, t_token *temp)
+{
+	while (cp->pipes->cmds[helper->j]->cmd[helper->i])
+	{
+		if (!fill_handle_redir(cp, helper))
+			return (0);
+		else
+			add_token(temp, cp->pipes->cmds[helper->j]->cmd[helper->i]);
+		if (cp->pipes->cmds[helper->j]->cmd[helper->i] != NULL)
+			(helper->i)++;
+	}
+	return (1);
 }
 
 int	fill_cmd_redir(t_cmd_line *res)
 {
 	t_token		*temp;
 	t_cmd_line	*cp;
-	int			i;
-	size_t		j;
-	int			cnt;
-	int			err;
+	t_helper	helper;
 
 	cp = res;
 	while (cp)
 	{
-		j = -1;
-		while (++j < cp->pipes->len)
+		helper.j = -1;
+		while (++(helper.j) < (int) cp->pipes->len)
 		{
 			temp = init_empty_token();
-			i = 0;
-			cnt = 0;
-			while (cp->pipes->cmds[j]->cmd[i])
-			{
-				if (is_redir(cp->pipes->cmds[j]->cmd[i], &cnt))
-				{
-					if
-					(ft_strncmp(cp->pipes->cmds[j]->cmd[i], ">", 2) == 0)
-						err = fill_r(cp, 2, cp->pipes->cmds[j]->cmd[++i], j);
-					else if
-					(ft_strncmp(cp->pipes->cmds[j]->cmd[i], "<", 2) == 0)
-						err = fill_r(cp, 0, cp->pipes->cmds[j]->cmd[++i], j);
-					else if
-					(ft_strncmp(cp->pipes->cmds[j]->cmd[i], "<<", 3) == 0)
-						err = fill_r(cp, 1, cp->pipes->cmds[j]->cmd[++i], j);
-					else if
-					(ft_strncmp(cp->pipes->cmds[j]->cmd[i], ">>", 3) == 0)
-						err = fill_r(cp, 3, cp->pipes->cmds[j]->cmd[++i], j);
-					if (err)
-						return (0);
-				}
-				else
-					add_token(temp, cp->pipes->cmds[j]->cmd[i]);
-				if (cp->pipes->cmds[j]->cmd[i] != NULL)
-					i++;
-			}
-			if (cnt == 0)
-			{
-				free_redir(cp->pipes->cmds[j]->redir);
-				cp->pipes->cmds[j]->redir = NULL;
-			}
-			free_c_dptr(&cp->pipes->cmds[j]->cmd);
-			cp->pipes->cmds[j]->cmd = convert_token_to_dptr(temp);
+			helper.i = 0;
+			helper.cnt = 0;
+			if (!fill_cmd_redir_while(cp, &helper, temp))
+				return (0);
+			handle_zero_cnt(cp, helper.cnt, &helper);
+			free_c_dptr(&cp->pipes->cmds[helper.j]->cmd);
+			cp->pipes->cmds[helper.j]->cmd = convert_token_to_dptr(temp);
 			free_token(temp);
 		}
 		cp = cp->next;

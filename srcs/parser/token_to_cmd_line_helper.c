@@ -1,35 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal_handler_exec.c                              :+:      :+:    :+:   */
+/*   token_to_cmd_line_helper.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/05 17:01:21 by jaham             #+#    #+#             */
-/*   Updated: 2022/03/07 18:00:03 by jaham            ###   ########.fr       */
+/*   Created: 2022/03/07 17:50:53 by jaham             #+#    #+#             */
+/*   Updated: 2022/03/07 17:55:32 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "terminal.h"
-#include <signal.h>
+#include "parser.h"
 
-void	set_sig_handler_parent(char **cmd)
+t_token	*init_empty_token(void)
 {
-	if (cmd && !ft_strncmp(cmd[0] + ft_strlen(cmd[0]) - 10, "/minishell", 11))
-	{
-		signal(SIGINT, SIG_IGN);
-		signal(SIGQUIT, SIG_IGN);
-	}
-	else
-	{
-		signal(SIGINT, sig_int_handler_default);
-		signal(SIGQUIT, sig_quit_handler);
-	}
+	t_token	*temp;
+
+	temp = ft_calloc(sizeof(t_token), 1);
+	temp->data = NULL;
+	temp->next = NULL;
+	return (temp);
 }
 
-void	set_sig_handler_child(void)
+void	handle_zero_cnt(t_cmd_line *cp, int cnt, t_helper *idx)
 {
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
+	if (cnt == 0)
+	{
+		free_redir(cp->pipes->cmds[idx->j]->redir);
+		cp->pipes->cmds[idx->j]->redir = NULL;
+	}
 }

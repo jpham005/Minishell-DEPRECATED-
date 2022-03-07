@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 16:33:14 by hyeonpar          #+#    #+#             */
-/*   Updated: 2022/03/07 17:12:45 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/07 17:55:40 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,14 @@ typedef struct s_index
 	int	i;
 	int	j;
 }	t_index;
+
+typedef struct s_helper
+{
+	int	i;
+	int	j;
+	int	cnt;
+	int	err;
+}	t_helper;
 
 char		**tokenizer(const char *line);
 int			ft_is_space(int c);
@@ -102,5 +110,7 @@ int			is_redir2(char *s);
 int			ft_is_set(char c, char *set);
 char		get_quote(const	char *line, int idx);
 int			delete_quote_1(char **str);
+void		handle_zero_cnt(t_cmd_line *cp, int cnt, t_helper *idx);
+t_token		*init_empty_token(void);
 
 #endif
