@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 16:33:14 by hyeonpar          #+#    #+#             */
-/*   Updated: 2022/03/07 14:50:24 by hyeonpar         ###   ########.fr       */
+/*   Updated: 2022/03/07 17:12:45 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 # include "cmd_line.h"
 # include "terminal.h"
 # include <dirent.h>
-# include <stdio.h>
 
 typedef enum e_error
 {
@@ -40,6 +39,12 @@ typedef struct s_tokenizer
 	int		pidx;
 	char	quote;
 }	t_tokenizer;
+
+typedef struct s_index
+{
+	int	i;
+	int	j;
+}	t_index;
 
 char		**tokenizer(const char *line);
 int			ft_is_space(int c);
@@ -77,5 +82,25 @@ void		ft_charjoin(char **new, char **s1, char c);
 char		*del_quote(char *arg);
 void		check_side(char **list, char *arg);
 int			find_char(char *str, char s);
+void		expand_estat(char **ex_val, char **new, char **t_s, t_context *ctx);
+int			is_no_expand(char *str, int i, int j, int *dollar_flag);
+void		get_expand_val(int *i, char *str, t_context *ctx, char **ex_val);
+void		get_new(char **ex_val, char **new, char **temp_s, int *i);
+void		remove_par(char **str, int idx, t_cmd_line *res, int cmds_num);
+int			get_start(const char *line, t_tokenizer *tool);
+int			get_end(const char *line, t_tokenizer *tool);
+void		ft_realloc_doublestr(char ***strs_ref, char *item);
+int			ft_free_str(char **str);
+int			is_redir(char *s, int *i);
+int			fill_r(t_cmd_line *res, t_redir_type type, char *target, int j);
+void		count_pipe(t_cmd_line *res, char **s);
+int			fill_pipes(t_cmd_line *res, char **s);
+void		check_str_helper(char **list, char **str, int *i);
+int			fill_cmds(t_cmd_line *res, char **str);
+void		init_cmds_and_redir(t_cmd_line *res);
+int			is_redir2(char *s);
+int			ft_is_set(char c, char *set);
+char		get_quote(const	char *line, int idx);
+int			delete_quote_1(char **str);
 
 #endif

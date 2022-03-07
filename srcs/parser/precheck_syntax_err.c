@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 01:44:52 by jaham             #+#    #+#             */
-/*   Updated: 2022/03/07 12:23:42 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/07 17:08:35 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ static int	check_parenthesis_err(char *str)
 			parenthesis++;
 		else if (str[i] == ')')
 			parenthesis--;
+		if (parenthesis < 0)
+			return (0);
 		i++;
 	}
 	return (!parenthesis);

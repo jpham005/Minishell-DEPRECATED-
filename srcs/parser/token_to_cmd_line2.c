@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_to_cmd_line2.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 14:54:15 by hyeonpar          #+#    #+#             */
-/*   Updated: 2022/03/07 15:23:52 by hyeonpar         ###   ########.fr       */
+/*   Updated: 2022/03/07 16:43:40 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,43 +23,43 @@ t_pipe_type	check_pipe_type(char *s)
 		return (PIPE);
 }
 
-void	fill_cmds_helper(t_cmd_line *res, char **str)
+static void	fill_pipes_while(t_index *idx, char ***str, char **s)
 {
-	if (!fill_cmds(res, str))
-	{
-		free_c_dptr(&str);
-		return (0);
-	}
-	free_c_dptr(&str);
-	if (res->next)
-		res = res->next;
+	int	start;
+	int	temp;
+
+	idx->j = 0;
+	start = idx->i;
+	while (s[idx->i] && !(is_pipe(s[idx->i])))
+		(idx->i)++;
+	temp = idx->i - start + 1;
+	*str = ft_calloc(sizeof(char *), temp);
+	while (--temp)
+		(*str)[(idx->j)++] = ft_strdup(s[start++]);
+	(*str)[idx->j] = NULL;
 }
 
 int	fill_pipes(t_cmd_line *res, char **s)
 {
-	int		i;
-	int		j;
-	int		start;
-	int		temp;
+	t_index	idx;
 	char	**str;
 
-	i = 0;
-	while (s[i])
+	idx.i = 0;
+	while (s[idx.i])
 	{
-		j = 0;
-		start = i;
-		while (s[i] && !(is_pipe(s[i])))
-			i++;
-		temp = i - start + 1;
-		str = ft_calloc(sizeof(char *), temp);
-		while (--temp)
-			str[j++] = ft_strdup(s[start++]);
-		str[j] = NULL;
-		fill_cmds_helper(res, str);
-		if (is_pipe(s[i]) && !s[i + 1])
+		fill_pipes_while(&idx, &str, s);
+		if (!fill_cmds(res, str))
+		{
+			free_c_dptr(&str);
 			return (0);
-		if (is_pipe(s[i]))
-			res->pipes->type = check_pipe_type(s[i++]);
+		}
+		free_c_dptr(&str);
+		if (res->next)
+			res = res->next;
+		if (is_pipe(s[idx.i]) && !s[idx.i + 1])
+			return (0);
+		if (is_pipe(s[idx.i]))
+			res->pipes->type = check_pipe_type(s[(idx.i)++]);
 	}
 	return (1);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_to_cmd_line.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 14:52:28 by hyeonpar          #+#    #+#             */
-/*   Updated: 2022/03/07 15:48:04 by hyeonpar         ###   ########.fr       */
+/*   Updated: 2022/03/07 17:22:40 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,72 +75,6 @@ int	fill_cmd_redir(t_cmd_line *res)
 			free_token(temp);
 		}
 		cp = cp->next;
-	}
-	return (1);
-}
-
-void	delete_quote_2(char **str, int len, int i)
-{
-	char	*s;
-	int		j;
-	char	quote;
-
-	s = ft_calloc(sizeof(char), len + 1);
-	j = -1;
-	quote = 0;
-	len = 0;
-	while (str[i][++j])
-	{
-		if (quote == 0 && (str[i][j] == '\'' || str[i][j] == '\"'))
-		{
-			quote = str[i][j];
-			continue ;
-		}
-		else if ((quote == '\'' && str[i][j] == '\'') ||
-		(quote == '\"' && str[i][j] == '\"'))
-		{
-			quote = 0;
-			continue ;
-		}
-		s[len++] = str[i][j];
-	}
-	s[len] = '\0';
-	safe_free((void **) &str[i]);
-	str[i] = ft_strdup(s);
-	safe_free((void **) &s);
-}
-
-int	delete_quote_1(char **str)
-{
-	int	i;
-	int	j;
-	int	quote;
-	int	len;
-
-	i = -1;
-	while (str[++i])
-	{
-		j = -1;
-		quote = 0;
-		len = 0;
-		while (str[i][++j])
-		{
-			if (quote == 0 && (str[i][j] == '\'' || str[i][j] == '\"'))
-			{
-				quote = str[i][j];
-				continue ;
-			}
-			else if ((quote == '\'' && str[i][j] == '\'') ||
-			(quote == '\"' && str[i][j] == '\"'))
-			{
-				quote = 0;
-				continue ;
-			}
-			len++;
-		}
-		if (quote)
-			return (0);
-		delete_quote_2(str, len, i);
 	}
 	return (1);
 }

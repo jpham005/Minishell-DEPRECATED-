@@ -3,82 +3,77 @@
 /*                                                        :::      ::::::::   */
 /*   token_to_cmd_line3.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 15:00:32 by hyeonpar          #+#    #+#             */
-/*   Updated: 2022/03/07 15:37:03 by hyeonpar         ###   ########.fr       */
+/*   Updated: 2022/03/07 16:59:01 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 #include "libft.h"
 
-int	is_redir2(char *s)
+static void	fill_cmds_check_cmd_type(t_cmd_line *res, int j)
 {
-	return (
-		!ft_strncmp(s, "<", 2)
-		|| !ft_strncmp(s, ">", 2)
-		|| !ft_strncmp(s, "<<", 3)
-		|| !ft_strncmp(s, ">>", 3)
-	);
+	if (res->pipes->cmds[j]->type != PARENTHESIS)
+		res->pipes->cmds[j]->type = SINGLE_CMD;
 }
 
-int	is_par(char *str)
+static int	cmds_is_p(t_cmd_line *res, t_index *idx, t_token **temp)
 {
-	if (!ft_strlen(str))
+	res->pipes->cmds[idx->j]->cmd = convert_token_to_dptr(*temp);
+	fill_cmds_check_cmd_type(res, idx->j);
+	if (!(*temp)->data)
+	{
+		free_token(*temp);
+		*temp = NULL;
 		return (0);
-	if (str[0] == '(' && str[ft_strlen(str) - 1] == ')')
-		return (1);
-	return (0);
+	}
+	free_token(*temp);
+	*temp = init_empty_token();
+	(idx->j)++;
+	return (1);
 }
 
-int	is_pipe(char *s)
+static void	init_idx_fill_cmds(t_index *idx)
 {
-	if (s == NULL)
-		return (0);
-	if (!(ft_strncmp(s, "&&", 3)) || !(ft_strncmp(s, "||", 3)))
-		return (1);
-	return (0);
+	idx->i = -1;
+	idx->j = 0;
+}
+
+static int	fill_cmds_last(t_cmd_line *res, t_token **temp, t_index *idx)
+{
+	res->pipes->cmds[idx->j]->cmd = convert_token_to_dptr(*temp);
+	free_token(*temp);
+	*temp = NULL;
+	fill_cmds_check_cmd_type(res, idx->j);
+	return (1);
 }
 
 int	fill_cmds(t_cmd_line *res, char **str)
 {
 	t_token	*temp;
-	int		i;
-	int		j;
+	t_index	idx;
 
-	i = -1;
-	j = 0;
+	init_idx_fill_cmds(&idx);
 	temp = init_empty_token();
 	init_cmds_and_redir(res);
-	while (str[++i])
+	while (str[++(idx.i)])
 	{
-		if (is_par(str[i]))
-			remove_par(str, i, res, j);
-		if (ft_strncmp(str[i], "|", 2) == 0)
+		if (is_par(str[idx.i]))
+			remove_par(str, idx.i, res, idx.j);
+		if (ft_strncmp(str[idx.i], "|", 2) == 0)
 		{
-			res->pipes->cmds[j]->cmd = convert_token_to_dptr(temp);
-			if (res->pipes->cmds[j]->type != PARENTHESIS)
-				res->pipes->cmds[j]->type = SINGLE_CMD;
-			if (!temp->data)
-			{
-				free_token(temp);
+			if (!cmds_is_p(res, &idx, &temp))
 				return (0);
-			}
-			free_token(temp);
-			temp = init_empty_token();
 		}
 		else
-			add_token(temp, str[i]);
+			add_token(temp, str[idx.i]);
 	}
 	if (!temp->data)
 	{
 		free_token(temp);
 		return (0);
 	}
-	res->pipes->cmds[j]->cmd = convert_token_to_dptr(temp);
-	free_token(temp);
-	if (res->pipes->cmds[j]->type != PARENTHESIS)
-		res->pipes->cmds[j]->type = SINGLE_CMD;
-	return (1);
+	return (fill_cmds_last(res, &temp, &idx));
 }
