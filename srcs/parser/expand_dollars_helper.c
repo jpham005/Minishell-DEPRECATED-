@@ -6,7 +6,7 @@
 /*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 02:50:13 by jaham             #+#    #+#             */
-/*   Updated: 2022/03/07 14:49:10 by hyeonpar         ###   ########.fr       */
+/*   Updated: 2022/03/07 18:09:19 by hyeonpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,16 @@
 
 static int	is_valid_dollar(char *str, int end)
 {
-	int	i;
 	int	quote;
+	int i;
 
 	i = 0;
 	quote = 0;
-	while (i < end)
+	while (i <= end)
 	{
 		if (str[i] == '\"' || str[i] == '\'')
-		{
-			if (!quote)
+ 		{
+			if (quote == 0)
 				quote = str[i];
 			else if (quote == str[i])
 				quote = 0;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_dollars_helper3.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 15:59:02 by jaham             #+#    #+#             */
-/*   Updated: 2022/03/07 15:59:57 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/07 18:14:15 by hyeonpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@ void	expand_estat(char **ex_val, char **new, char **t_s, t_context *ctx)
 	*t_s = *new;
 }
 
-int	is_no_expand(char *str, int i, int j, int *dollar_flag)
+int	is_no_expand(char *str, t_index *idx, int *dollar_flag)
 {
 	return (
-		(str[i] != '$')
-		|| ((str[i] == '$') && (!dollar_flag[j++]))
-		|| ((str[i] == '$') \
-						&& ((!is_env_var(str[i + 1]) || str[i + 1] == '\0')))
+		(str[idx->i] != '$')
+		|| ((str[idx->i] == '$') && (!dollar_flag[(idx->j)++]))
+		|| ((str[idx->i] == '$') \
+		&& ((!is_env_var(str[idx->i + 1]) || str[idx->i + 1] == '\0')))
 	);
 }
 
