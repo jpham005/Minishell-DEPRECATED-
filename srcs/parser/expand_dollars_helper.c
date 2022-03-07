@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_dollars_helper.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 02:50:13 by jaham             #+#    #+#             */
-/*   Updated: 2022/03/07 18:09:19 by hyeonpar         ###   ########.fr       */
+/*   Updated: 2022/03/07 18:19:27 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,14 @@
 static int	is_valid_dollar(char *str, int end)
 {
 	int	quote;
-	int i;
+	int	i;
 
 	i = 0;
 	quote = 0;
 	while (i <= end)
 	{
 		if (str[i] == '\"' || str[i] == '\'')
- 		{
+		{
 			if (quote == 0)
 				quote = str[i];
 			else if (quote == str[i])

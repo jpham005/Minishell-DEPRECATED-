@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 01:44:52 by jaham             #+#    #+#             */
-/*   Updated: 2022/03/07 17:08:35 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/07 18:24:30 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,30 @@ static int	check_parenthesis_err(char *str)
 
 static int	check_redir_err(char *str)
 {
+	char	**splited;
+	size_t	i;
+
+	splited = ft_split(str, " \t\n");
+	i = 0;
+	while (splited[i + 1])
+	{
+		if (
+			(splited[i][ft_strlen(splited[i]) - 1] == '<' \
+							|| splited[i][ft_strlen(splited[i]) - 1] == '>')
+			&& (splited[i + 1][0] == '>' || splited[i + 1][0] == '<')
+		)
+		{
+			free_c_dptr(&splited);
+			return (0);
+		}
+		i++;
+	}
+	free_c_dptr(&splited);
 	return (
 		str[ft_strlen(str) - 1] != '<'
 		&& str[ft_strlen(str) - 1] != '>'
+		&& !ft_strnstr(str, ">>>", ft_strlen(str))
+		&& !ft_strnstr(str, "<<<", ft_strlen(str))
 	);
 }
 
