@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 14:38:02 by jaham             #+#    #+#             */
-/*   Updated: 2022/03/06 13:17:51 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/09 13:48:58 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	handle_redir_heredoc(int in[2], t_redirect *redir, t_context *context)
 
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, SIG_IGN);
-	pid = fork();
+	pid = ft_fork();
 	if (pid == -1)
 		return (0);
 	if (!pid)

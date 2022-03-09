@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 12:51:36 by jaham             #+#    #+#             */
-/*   Updated: 2022/03/07 11:58:58 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/09 13:48:48 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ pid_t	exec_fork(t_cmd *cmd, t_context *context, t_in_out *in_out)
 	if (!ft_pipe(pipeline))
 		return (-1);
 	set_sig_handler_parent(cmd->cmd);
-	pid = fork();
+	pid = ft_fork();
 	if (pid == -1)
 		return (pid);
 	if (!pid)
@@ -94,7 +94,7 @@ pid_t	exec_fork_out(t_cmd *cmd, t_context *context, t_in_out *in_out)
 	pid_t	pid;
 
 	set_sig_handler_parent(cmd->cmd);
-	pid = fork();
+	pid = ft_fork();
 	if (pid == -1)
 		return (pid);
 	if (!pid)

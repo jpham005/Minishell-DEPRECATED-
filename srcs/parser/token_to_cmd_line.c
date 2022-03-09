@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 14:52:28 by hyeonpar          #+#    #+#             */
-/*   Updated: 2022/03/07 17:55:24 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/09 13:25:56 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,26 +60,24 @@ static int	fill_cmd_redir_while(t_cmd_line *cp, \
 int	fill_cmd_redir(t_cmd_line *res)
 {
 	t_token		*temp;
-	t_cmd_line	*cp;
 	t_helper	helper;
 
-	cp = res;
-	while (cp)
+	while (res)
 	{
 		helper.j = -1;
-		while (++(helper.j) < (int) cp->pipes->len)
+		while (++(helper.j) < (int) res->pipes->len)
 		{
 			temp = init_empty_token();
 			helper.i = 0;
 			helper.cnt = 0;
-			if (!fill_cmd_redir_while(cp, &helper, temp))
+			if (!fill_cmd_redir_while(res, &helper, temp))
 				return (0);
-			handle_zero_cnt(cp, helper.cnt, &helper);
-			free_c_dptr(&cp->pipes->cmds[helper.j]->cmd);
-			cp->pipes->cmds[helper.j]->cmd = convert_token_to_dptr(temp);
+			handle_zero_cnt(res, helper.cnt, &helper);
+			free_c_dptr(&res->pipes->cmds[helper.j]->cmd);
+			res->pipes->cmds[helper.j]->cmd = convert_token_to_dptr(temp);
 			free_token(temp);
 		}
-		cp = cp->next;
+		res = res->next;
 	}
 	return (1);
 }
