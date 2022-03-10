@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_to_cmd_line4.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 15:38:00 by hyeonpar          #+#    #+#             */
-/*   Updated: 2022/03/07 15:45:07 by hyeonpar         ###   ########.fr       */
+/*   Updated: 2022/03/10 21:33:26 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,8 @@ int	fill_r(t_cmd_line *res, t_redir_type type, char *target, int j)
 
 int	is_redir(char *s, int *i)
 {
+	if (!s)
+		return (0);
 	if (
 		!ft_strncmp(s, "<", 2)
 		|| !ft_strncmp(s, ">", 2)

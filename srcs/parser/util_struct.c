@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   util_struct.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 02:42:28 by jaham             #+#    #+#             */
-/*   Updated: 2022/03/07 03:12:42 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/10 21:16:02 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ void	add_token(t_token *token, char *data)
 	t_token	*cp;
 
 	cp = token;
+	if (!data)
+		return ;
 	if (token->data == NULL)
 	{
 		token->data = ft_strdup(data);

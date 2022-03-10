@@ -6,7 +6,7 @@
 #    By: jaham <jaham@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/16 20:45:33 by jaham             #+#    #+#              #
-#    Updated: 2022/03/09 12:42:32 by jaham            ###   ########.fr        #
+#    Updated: 2022/03/10 19:42:42 by jaham            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ PARSER_DIR := $(SRCS_DIR)/parser
 
 INCLUDE := include
 INCLUDE_FILES := built_in.h color.h envp.h terminal.h utils.h exec.h parser.h \
-				cmd_line.h
+				cmd_line.h intro_img.h
 INCLUDE_FILES := $(addprefix $(INCLUDE)/, $(INCLUDE_FILES))
 
 READLINE_DIR := $(shell brew --prefix readline)

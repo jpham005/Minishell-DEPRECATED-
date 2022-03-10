@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 14:52:28 by hyeonpar          #+#    #+#             */
-/*   Updated: 2022/03/09 13:25:56 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/10 21:30:42 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 static int	fill_handle_redir(t_cmd_line *cp, t_helper *helper)
 {
-	if (is_redir(cp->pipes->cmds[helper->j]->cmd[helper->i], &helper->cnt))
+	while (is_redir(cp->pipes->cmds[helper->j]->cmd[helper->i], &helper->cnt))
 	{
 		if (ft_strncmp(cp->pipes->cmds[helper->j]->cmd[helper->i], ">", 2) == 0)
 			helper->err = \
@@ -36,10 +36,10 @@ static int	fill_handle_redir(t_cmd_line *cp, t_helper *helper)
 			helper->err = \
 				fill_r(cp, 3, cp->pipes->cmds[helper->j]->cmd[++(helper->i)], \
 																	helper->j);
-		if (helper->err)
-			return (0);
+		if (helper->err == 0)
+			helper->i++;
 	}
-	return (1);
+	return (helper->err <= 0);
 }
 
 static int	fill_cmd_redir_while(t_cmd_line *cp, \
@@ -52,7 +52,7 @@ static int	fill_cmd_redir_while(t_cmd_line *cp, \
 		else
 			add_token(temp, cp->pipes->cmds[helper->j]->cmd[helper->i]);
 		if (cp->pipes->cmds[helper->j]->cmd[helper->i] != NULL)
-			(helper->i)++;
+			(helper->i) += 1;
 	}
 	return (1);
 }
@@ -62,6 +62,7 @@ int	fill_cmd_redir(t_cmd_line *res)
 	t_token		*temp;
 	t_helper	helper;
 
+	helper.err = -1;
 	while (res)
 	{
 		helper.j = -1;
