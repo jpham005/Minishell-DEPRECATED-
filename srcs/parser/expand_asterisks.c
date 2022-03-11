@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_asterisks.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 17:23:31 by hyeonpar          #+#    #+#             */
-/*   Updated: 2022/03/07 14:29:18 by hyeonpar         ###   ########.fr       */
+/*   Updated: 2022/03/11 20:23:55 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char	*expand_asterisk_helper(char **list)
 	return (tmp2);
 }
 
-void	check_str_helper(char **list, char **str, int *i)
+void	check_str_helper(char **list, char **str, int *i, int *expanded)
 {
 	char	*tmp;
 	int		j;
@@ -57,10 +57,10 @@ void	check_str_helper(char **list, char **str, int *i)
 		if (tmp != NULL)
 		{
 			if (str[j + 1] != NULL)
-				j++;
+				set_values_str_helper(expanded, &j);
 			else
 			{
-				(*i)++;
+				set_values_str_helper(expanded, i);
 				break ;
 			}
 		}
@@ -73,7 +73,7 @@ void	check_str_helper(char **list, char **str, int *i)
 	}
 }
 
-char	*expand_asterisk(char *arg)
+char	*expand_asterisk(char *arg, int *expanded)
 {
 	char	**str;
 	char	*no_q;
@@ -84,7 +84,7 @@ char	*expand_asterisk(char *arg)
 	list = current_path_ls();
 	check_side(list, no_q);
 	str = ft_split(no_q, "*");
-	check_str(list, str);
+	check_str(list, str, expanded);
 	new = expand_asterisk_helper(list);
 	if (new)
 	{
@@ -125,14 +125,20 @@ int	is_asterisk(char *str)
 void	expand_asterisks(char ***str)
 {
 	size_t	i;
+	int		expanded;
 
 	i = 0;
+	expanded = 0;
 	while ((*str)[i])
 	{
 		if (is_asterisk((*str)[i]))
 		{
-			(*str)[i] = expand_asterisk((*str)[i]);
-			(*str)[i][ft_strlen((*str)[i]) - 1] = 0;
+			(*str)[i] = expand_asterisk((*str)[i], &expanded);
+			if (!expanded)
+			{
+				i++;
+				continue ;
+			}
 			split_str_i(str, &i);
 		}
 		else

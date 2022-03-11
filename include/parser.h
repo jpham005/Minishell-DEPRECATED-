@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 16:33:14 by hyeonpar          #+#    #+#             */
-/*   Updated: 2022/03/07 18:18:31 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/11 20:24:24 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ typedef struct s_helper
 	int	err;
 }	t_helper;
 
+void		set_values_str_helper(int *expanded, int *j);
 char		**tokenizer(const char *line);
 int			ft_is_space(int c);
 t_token		*init_token(char *token);
@@ -62,9 +63,9 @@ void		add_token(t_token *token, char *data);
 t_token		*convert_dptr_to_struct(char **tokens);
 char		**convert_token_to_dptr(t_token *head);
 void		expand_asterisks(char ***str);
-char		*expand_asterisk(char *arg);
+char		*expand_asterisk(char *arg, int *expanded);
 void		expand_dollars(t_context *context, char **str);
-void		check_str(char **list, char **str);
+void		check_str(char **list, char **str, int *expanded);
 char		**current_path_ls(void);
 int			is_asterisk(char *str);
 t_cmd_line	*init_cmd_line(void);
@@ -103,7 +104,7 @@ int			is_redir(char *s, int *i);
 int			fill_r(t_cmd_line *res, t_redir_type type, char *target, int j);
 void		count_pipe(t_cmd_line *res, char **s);
 int			fill_pipes(t_cmd_line *res, char **s);
-void		check_str_helper(char **list, char **str, int *i);
+void		check_str_helper(char **list, char **str, int *i, int *expanded);
 int			fill_cmds(t_cmd_line *res, char **str);
 void		init_cmds_and_redir(t_cmd_line *res);
 int			is_redir2(char *s);

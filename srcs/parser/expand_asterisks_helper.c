@@ -3,17 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   expand_asterisks_helper.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/06 17:52:30 by jaham             #+#    #+#             */
-/*   Updated: 2022/03/07 14:29:55 by hyeonpar         ###   ########.fr       */
+/*   Updated: 2022/03/11 20:22:29 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "parser.h"
 
-void	check_str(char **list, char **str)
+void	set_values_str_helper(int *expanded, int *j)
+{
+	*expanded = 1;
+	(*j)++;
+}
+
+void	check_str(char **list, char **str, int *expanded)
 {
 	int		i;
 
@@ -21,7 +27,7 @@ void	check_str(char **list, char **str)
 	if (str[0] == NULL)
 		return ;
 	while (list[i] != NULL)
-		check_str_helper(list, str, &i);
+		check_str_helper(list, str, &i, expanded);
 }
 
 static size_t	get_len_dptr(char **str)
