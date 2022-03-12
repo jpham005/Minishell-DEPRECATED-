@@ -8,7 +8,7 @@ SRCS = ft_strlen.c ft_strncmp.c ft_putstr_fd.c safe_free.c ft_malloc.c \
 	ft_isdigit.c ft_itoa.c ft_strtrim.c
 OBJS = $(SRCS:.c=.o)
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror
 AR = ar
 ARFLAGS = rcs
 RM = rm
