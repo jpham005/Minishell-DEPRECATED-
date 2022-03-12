@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/06 13:09:03 by jaham             #+#    #+#             */
-/*   Updated: 2022/03/07 12:47:16 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/12 17:18:45 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ t_cmd_line	*parse(t_context *context, const char *str)
 		free_c_dptr(&s);
 		return (NULL);
 	}
-	expand_dollars(context, s);
+	expand_dollars(context, &s);
 	expand_asterisks(&s);
 	cml = token_to_cmd_line(s);
 	free_c_dptr(&s);

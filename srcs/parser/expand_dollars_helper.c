@@ -6,14 +6,14 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 02:50:13 by jaham             #+#    #+#             */
-/*   Updated: 2022/03/07 18:19:27 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/12 16:38:56 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "parser.h"
 
-static int	is_valid_dollar(char *str, int end)
+static int	is_valid_dollar(char *str, int end, t_context *context)
 {
 	int	quote;
 	int	i;
@@ -33,10 +33,12 @@ static int	is_valid_dollar(char *str, int end)
 	}
 	if (quote == '\'')
 		return (0);
+	if (!find_list_by_key(context->envp, ft_strchr(str, '$') + 1))
+		return (-1);
 	return (1);
 }
 
-void	check_dollar(int *dollar_flag, char *str)
+void	check_dollar(int *dollar_flag, char *str, t_context *context)
 {
 	int	i;
 	int	j;
@@ -46,7 +48,7 @@ void	check_dollar(int *dollar_flag, char *str)
 	while (str[++i])
 	{
 		if (str[i] == '$')
-			dollar_flag[j++] = is_valid_dollar(str, i);
+			dollar_flag[j++] = is_valid_dollar(str, i, context);
 	}
 }
 
