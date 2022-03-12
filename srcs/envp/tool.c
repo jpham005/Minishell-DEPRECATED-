@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tool.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 17:48:09 by jaham             #+#    #+#             */
-/*   Updated: 2022/02/17 15:33:35 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/12 08:50:29 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,6 @@ t_envp_list	*find_list_by_key(t_envp_list *head, const char *key)
 {
 	while (head && ft_strncmp(head->key, key, ft_strlen(key) + 1))
 		head = head->next;
-	if (!head)
-		return (NULL);
 	return (head);
 }
 
