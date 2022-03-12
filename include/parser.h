@@ -6,7 +6,7 @@
 /*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 16:33:14 by hyeonpar          #+#    #+#             */
-/*   Updated: 2022/03/11 20:24:24 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/12 17:19:52 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ t_token		*convert_dptr_to_struct(char **tokens);
 char		**convert_token_to_dptr(t_token *head);
 void		expand_asterisks(char ***str);
 char		*expand_asterisk(char *arg, int *expanded);
-void		expand_dollars(t_context *context, char **str);
+void		expand_dollars(t_context *context, char ***str);
 void		check_str(char **list, char **str, int *expanded);
 char		**current_path_ls(void);
 int			is_asterisk(char *str);
@@ -83,7 +83,7 @@ t_cmd_line	*parse(t_context *context, const char *str);
 int			is_par(char *str);
 void		split_str_i(char ***str, size_t *i);
 int			check_syntax_err(char **str, t_context *context);
-void		check_dollar(int *dollar_flag, char *str);
+void		check_dollar(int *dollar_flag, char *str, t_context *context);
 int			is_env_var(char c);
 int			count_dollar(char *s);
 char		*is_envp(t_context *context, char *str, int start, int end);
