@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hyeonpar <hyeonpar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 16:33:14 by hyeonpar          #+#    #+#             */
-/*   Updated: 2022/03/12 17:19:52 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/14 04:49:49 by hyeonpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,5 +113,6 @@ char		get_quote(const	char *line, int idx);
 int			delete_quote_1(char **str);
 void		handle_zero_cnt(t_cmd_line *cp, int cnt, t_helper *idx);
 t_token		*init_empty_token(void);
+void		pass_dollar(char *str, t_index *idx);
 
 #endif
