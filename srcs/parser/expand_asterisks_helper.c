@@ -25,7 +25,10 @@ void	check_str(char **list, char **str, int *expanded)
 
 	i = 0;
 	if (str[0] == NULL)
+	{
+		*expanded = 1;
 		return ;
+	}
 	while (list[i] != NULL)
 		check_str_helper(list, str, &i, expanded);
 }
