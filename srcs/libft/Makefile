@@ -1,3 +1,15 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2022/03/14 20:31:22 by hyeonpar          #+#    #+#              #
+#    Updated: 2022/03/14 20:32:03 by hyeonpar         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 SRCS = ft_strlen.c ft_strncmp.c ft_putstr_fd.c safe_free.c ft_malloc.c \
 	ft_strdup.c ft_substr.c ft_memcpy.c ft_strjoin.c free_c_dptr.c ft_split.c \
 	ft_strchr.c ft_isalpha.c ft_isnum.c ft_fork.c perror_exit.c ft_isnumstr.c \
@@ -8,7 +20,7 @@ SRCS = ft_strlen.c ft_strncmp.c ft_putstr_fd.c safe_free.c ft_malloc.c \
 	ft_isdigit.c ft_itoa.c ft_strtrim.c
 OBJS = $(SRCS:.c=.o)
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror
 AR = ar
 ARFLAGS = rcs
 RM = rm

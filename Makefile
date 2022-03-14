@@ -6,7 +6,7 @@
 #    By: jaham <jaham@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/16 20:45:33 by jaham             #+#    #+#              #
-#    Updated: 2022/03/12 17:49:11 by jaham            ###   ########.fr        #
+#    Updated: 2022/03/12 20:06:15 by jaham            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,7 +47,7 @@ TERMINAL_SRCS := check_default_state.c set_state.c signal_handler.c init.c \
 TERMINAL_SRCS := $(addprefix $(TERMINAL_DIR)/, $(TERMINAL_SRCS))
 EXEC_SRCS := exec_built_in.c execute.c redirection.c exec_cmd.c wait_all.c \
 			exec_child.c exec_parenthesis.c redirection_util.c \
-			redirection_heredoc.c free_err_info.c
+			redirection_heredoc.c free_err_info.c split_string_with_sep.c
 EXEC_SRCS := $(addprefix $(EXEC_DIR)/, $(EXEC_SRCS))
 MAIN_SRCS := main.c
 MAIN_SRCS := $(addprefix $(SRCS_DIR)/, $(MAIN_SRCS))

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_dollars_helper3.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyeonpar <hyeonpar@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: hyeonpar <hyeonpar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 15:59:02 by jaham             #+#    #+#             */
-/*   Updated: 2022/03/07 18:14:15 by hyeonpar         ###   ########.fr       */
+/*   Updated: 2022/03/14 04:57:48 by hyeonpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	is_no_expand(char *str, t_index *idx, int *dollar_flag)
 		(str[idx->i] != '$')
 		|| ((str[idx->i] == '$') && (!dollar_flag[(idx->j)++]))
 		|| ((str[idx->i] == '$') \
-		&& ((!is_env_var(str[idx->i + 1]) || str[idx->i + 1] == '\0')))
+		&& (!is_env_var(str[idx->i + 1])))
 	);
 }
 
@@ -54,4 +54,11 @@ void	get_new(char **ex_val, char **new, char **temp_s, int *i)
 	else
 		*new = *temp_s;
 	(*i)--;
+}
+
+void	pass_dollar(char *str, t_index *idx)
+{
+	while (is_env_var(str[idx->i + 1]))
+		idx->i += 1;
+	idx->j += 1;
 }

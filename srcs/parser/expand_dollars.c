@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_dollars.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hyeonpar <hyeonpar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 16:37:13 by jaham             #+#    #+#             */
-/*   Updated: 2022/03/12 17:48:14 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/14 04:59:49 by hyeonpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ void	change_dollar(t_context *ctx, int *dollar_flag, char *str, char **new)
 			expand_estat(&expand_value, new, &temp_s, ctx);
 			increase_idx(&idx);
 		}
-		else if (dollar_flag[idx.j] == -1)
-			return ;
+		else if (str[idx.i] == '$' && dollar_flag[idx.j] == -1)
+			pass_dollar(str, &idx);
 		else if (is_no_expand(str, &idx, dollar_flag))
 			ft_charjoin(new, &temp_s, str[idx.i]);
 		else

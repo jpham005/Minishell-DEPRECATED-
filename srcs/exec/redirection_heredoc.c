@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection_heredoc.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaham <jaham@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: jaham <jaham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 14:38:02 by jaham             #+#    #+#             */
-/*   Updated: 2022/03/12 12:16:57 by jaham            ###   ########.fr       */
+/*   Updated: 2022/03/12 20:04:25 by jaham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ static void	expand_dollar(char **split_buf, size_t i, t_context *context)
 	is_dollar = 0;
 	while (split_buf[i][is_dollar] != '$')
 		is_dollar++;
+	if (split_buf[i][is_dollar + 1] == '\0')
+		return ;
 	key = ft_strdup(split_buf[i] + is_dollar + 1);
 	key_list = find_list_by_key(context->envp, key);
 	safe_free((void **) &key);
@@ -45,14 +47,13 @@ static void	copy_to_buf(char **buf, char **split_buf, size_t new_len)
 	size_t	i;
 	size_t	curr_len;
 
-	*buf = ft_malloc(sizeof(char), new_len);
+	*buf = ft_malloc(sizeof(char), new_len + 1);
 	i = 0;
 	curr_len = 0;
 	while (split_buf[i])
 	{
 		ft_memcpy(*buf + curr_len, split_buf[i], ft_strlen(split_buf[i]));
 		curr_len += ft_strlen(split_buf[i]);
-		(*buf)[curr_len++] = ' ';
 		i++;
 	}
 	(*buf)[new_len] = '\0';
@@ -64,7 +65,7 @@ static void	expand_buf(char **buf, t_context *context)
 	size_t	new_len;
 	size_t	i;
 
-	split_buf = ft_split(*buf, " \t\n");
+	split_buf = split_string_with_sep(*buf, " \t\n\"\'");
 	free(*buf);
 	new_len = 0;
 	i = 0;
@@ -72,7 +73,7 @@ static void	expand_buf(char **buf, t_context *context)
 	{
 		if (ft_strchr(split_buf[i], '$'))
 			expand_dollar(split_buf, i, context);
-		new_len += ft_strlen(split_buf[i]) + 1;
+		new_len += ft_strlen(split_buf[i]);
 		i++;
 	}
 	copy_to_buf(buf, split_buf, new_len);
